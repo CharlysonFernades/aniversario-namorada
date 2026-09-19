@@ -16,7 +16,7 @@ Todas as alterações relevantes do projeto devem ser registradas neste arquivo.
 - A seção de história passou a usar um container próprio para mídia narrativa.
 - A grade de memórias deixou de depender de conteúdo fixo no HTML e passou a ser gerada a partir de content.js.
 - Criado js/photos.js para separar a lógica de mídia da navegação geral.
-- Ajustada a ordem dos scripts para que o conteúdo de fotos seja renderizado antes da inicialização das revelações.
+- Ajustada a ordem dos scripts e a inicialização de js/photos.js para que o conteúdo dinâmico seja renderizado antes da inicialização das revelações.
 
 ### Mantido
 - Identidade visual da v0.2.1.
