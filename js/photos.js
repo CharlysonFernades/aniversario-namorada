@@ -192,6 +192,7 @@
     const caption=document.createElement("p");
     caption.textContent=item.caption||"";
     card.append(number,media,title,caption);
+    if(visible)card.classList.add("is-visible");
     return card;
   }
 
