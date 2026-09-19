@@ -1,3 +1,39 @@
+## [0.5.0] — 2026-09-19
+
+### Etapa 5 — Player de música
+- Implementado mini-player fixo inferior e painel bottom sheet com backdrop.
+- Implementados play/pause, anterior/próxima, progresso, duração, volume e playlist.
+- Implementada uma única instância de HTMLAudioElement.
+- Reprodução somente após interação válida; sem autoplay.
+- Estado de reprodução preservado durante a navegação.
+- Capas independentes dos MP3, com fallback quando ausentes/indisponíveis.
+- Destaque da faixa atual, estados ARIA, foco visível e suporte a prefers-reduced-motion.
+- Layout mobile com safe-area e suporte à orientação horizontal.
+- Identidade rosa-bebê/rosa escuro com detalhes discretos, sem logo ou identidade do Spotify.
+- Timings da Etapa 2 e carrossel de memórias preservados.
+
+### Arquivos alterados
+- css/style.css
+- js/content.js
+- js/music-player.js
+- docs/GUIA-DE-EDICAO.md
+- docs/CHANGELOG.md
+- assets/fotos/musicas/.gitkeep
+
+### Validação
+- Sintaxe JS validada estaticamente.
+- Quatro MP3 existentes confirmados no repositório.
+- Quatro caminhos de capa cadastrados; capas reais ainda não presentes, com fallback implementado.
+- Uma única instância de áudio confirmada no código.
+- Controles, limites, seleção, progresso, volume, erro, reduced-motion e persistência por navegação revisados estaticamente.
+- Sem package.json/suíte npm; npm test não é aplicável.
+- Sem navegador/DevTools/servidor local neste ambiente; reprodução real, console e validação visual mobile/desktop dependem do teste no navegador.
+
+### Limitações
+- Capas reais ainda não foram adicionadas.
+- GitHub confirmou os MP3, mas esta ferramenta não reproduz áudio.
+- Nenhum status de CI foi retornado para o HEAD auditado.
+
 # Changelog
 
 ## [0.3.3] — 2026-09-19
