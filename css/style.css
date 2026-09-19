@@ -43,3 +43,99 @@
 .memory-carousel .memory-card{max-width:none}
 .memory-carousel__controls{margin-top:1rem;gap:1rem}
 }
+
+
+/* Refinamento visual do carrossel de memórias: contraste dos controles, contador e transição suave. */
+.memory-carousel__viewport{
+  transition:opacity 240ms ease,transform 320ms cubic-bezier(.2,.7,.2,1);
+  will-change:opacity,transform;
+}
+.memory-carousel__viewport.is-changing{
+  opacity:0;
+  transform:translateX(18px) scale(.985);
+}
+.memory-carousel__controls{
+  gap:1.1rem;
+}
+.memory-carousel__controls .photo-control{
+  width:2.75rem;
+  height:2.75rem;
+  border-color:rgba(255,215,230,.45);
+  color:#ffe9f1;
+  background:rgba(255,255,255,.025);
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
+}
+.memory-carousel__controls .photo-control:hover:not(:disabled){
+  background:rgba(255,215,230,.12);
+  border-color:#ffd7e6;
+  color:#fff;
+  transform:translateY(-1px);
+}
+.memory-carousel__controls .photo-control:last-of-type{
+  border-color:#ffd7e6;
+  background:#ffd7e6;
+  color:#351321;
+  box-shadow:0 8px 26px rgba(255,143,184,.2);
+}
+.memory-carousel__controls .photo-control:last-of-type:hover:not(:disabled){
+  background:#ffe5ee;
+  border-color:#ffe5ee;
+  color:#351321;
+}
+.memory-carousel__controls .photo-control:disabled{
+  opacity:.28;
+}
+.memory-carousel__controls .photo-status{
+  position:relative;
+  min-width:3.9rem;
+  padding:.34rem .7rem;
+  border:1px solid rgba(255,215,230,.24);
+  border-radius:999px;
+  background:rgba(22,13,24,.42);
+  color:#fff0f5;
+  font-size:.74rem;
+  letter-spacing:.08em;
+  line-height:1;
+}
+.memory-carousel__controls .photo-status::before,
+.memory-carousel__controls .photo-status::after{
+  content:"";
+  position:absolute;
+  top:50%;
+  width:1.8rem;
+  height:1px;
+  background:rgba(255,215,230,.42);
+}
+.memory-carousel__controls .photo-status::before{
+  right:100%;
+  margin-right:.65rem;
+}
+.memory-carousel__controls .photo-status::after{
+  left:100%;
+  margin-left:.65rem;
+}
+@media(max-width:760px){
+  .memory-carousel__controls{
+    gap:.85rem;
+  }
+  .memory-carousel__controls .photo-control{
+    width:2.6rem;
+    height:2.6rem;
+  }
+  .memory-carousel__controls .photo-status::before,
+  .memory-carousel__controls .photo-status::after{
+    width:1.2rem;
+  }
+  .memory-carousel__controls .photo-status::before{
+    margin-right:.5rem;
+  }
+  .memory-carousel__controls .photo-status::after{
+    margin-left:.5rem;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .memory-carousel__viewport{
+    transition:none;
+    will-change:auto;
+  }
+}
