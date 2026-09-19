@@ -19,7 +19,7 @@
 ### Validação
 - Alterações limitadas ao comportamento/transição do carrossel e ao estilo dos controles/contador.
 - Não foram alterados content.js ou animations.js.
-- Validação estrutural realizada; teste visual real em navegador ainda depende da validação no dispositivo.
+- Validação estrutural realizada e teste visual real confirmado pelo usuário após a publicação no GitHub Pages.
 
 
 ## [0.3.2] — 2026-09-19
