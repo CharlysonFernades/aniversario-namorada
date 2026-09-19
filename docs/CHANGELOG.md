@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.3.3] — 2026-09-19
+
+### Refinamento visual do carrossel de memórias
+- Destacado o botão de próxima memória com rosa-bebê para melhorar a percepção de ação.
+- Refinado o botão anterior para manter contraste e coerência visual sem competir com a ação principal.
+- Transformado o contador em um elemento visual próprio, com cápsula, linhas laterais e maior contraste.
+- Adicionada transição suave entre memórias, com fade e deslocamento horizontal discreto.
+- Mantido suporte a prefers-reduced-motion sem aplicar a transição animada quando a redução de movimento estiver ativa.
+
+### Mantido
+- Uma memória por vez.
+- Navegação anterior/próxima, contador e swipe.
+- Estrutura de conteúdo em js/content.js.
+- Timings da Etapa 2: 1050ms, 140ms, 280ms, 420ms e 560ms.
+- HTML5, CSS3 e Vanilla JS, sem dependências externas.
+
+### Validação
+- Alterações limitadas ao comportamento/transição do carrossel e ao estilo dos controles/contador.
+- Não foram alterados content.js ou animations.js.
+- Validação estrutural realizada; teste visual real em navegador ainda depende da validação no dispositivo.
+
+
 ## [0.3.2] — 2026-09-19
 
 ### Correção visual
