@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.3.2] — 2026-09-19
+
+### Correção visual
+- A seção de memórias passou de uma grade de três cards simultâneos para uma apresentação de uma memória em destaque por vez.
+- Adicionados controles anterior/próxima e contador de posição específicos para as memórias.
+- Mantido o swipe horizontal no viewport das memórias, com limites na primeira e na última memória.
+- Mantida a área própria do indicador numérico acima da foto.
+
+### Mantido
+- Conteúdo das memórias continua centralizado em js/content.js.
+- js/photos.js continua responsável pela renderização e navegação das fotos.
+- Imagens continuam usando loading="lazy" e decoding="async" quando configuradas.
+- Identidade visual, arquitetura de conteúdo e sistema de reveals da Etapa 2 foram preservados.
+- Não foram adicionadas bibliotecas, frameworks ou dependências externas.
+
+### Validação
+- Revisão estática da lógica de navegação, limites, swipe, acessibilidade dos controles e estrutura de renderização.
+- Confirmado que animations.js e os timings dos reveals não foram alterados.
+- Não foi realizada validação visual em navegador neste ambiente.
+
 ## [0.3.1] — 2026-09-19
 
 ### Correção visual
