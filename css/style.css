@@ -157,3 +157,5 @@
 .music-player__mini-main:focus-visible{outline:2px solid #9d4569;outline-offset:3px;border-radius:12px}
 .music-player__backdrop{z-index:0}
 .music-player__sheet{z-index:1}
+
+.music-player__control:disabled{opacity:.35;cursor:default;transform:none}
