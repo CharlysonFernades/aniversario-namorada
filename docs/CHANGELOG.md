@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.3.1] — 2026-09-19
+
+### Correção visual
+- Corrigido o posicionamento do indicador numérico das memórias para que ele permaneça em sua própria área acima da foto.
+- Removido o deslocamento vertical negativo da mídia das memórias que fazia a foto subir sobre a área do indicador.
+- Mantidos a proporção/altura da foto, a arquitetura dinâmica de fotos, o carousel/swipe narrativo e os timings dos reveals.
+
+### Validação
+- Revisão estática confirmou que a correção ficou restrita ao layout da mídia dos cards de memória.
+- Não houve alteração em `js/content.js`, `js/photos.js` ou `js/animations.js`.
+- Timings dos reveals mantidos em 1050ms com delays de 140ms, 280ms, 420ms e 560ms.
+
+### Limitações
+- Não foi possível executar navegador/DevTools ou servidor local neste ambiente; a validação de dimensões reais em mobile e desktop depende do teste visual no dispositivo.
+
 Todas as alterações relevantes do projeto devem ser registradas neste arquivo.
 
 ## [0.3.0] — 2026-09-19
