@@ -105,23 +105,94 @@
   function renderMemories(){
     const grid=document.querySelector('[data-photo-narrative="memories"]');
     if(!grid||!memoryItems.length)return;
+
     grid.replaceChildren();
-    memoryItems.forEach((item,index)=>{
-      const card=document.createElement("article");
-      card.className="memory-card reveal";
-      card.setAttribute("data-reveal","");
-      const number=document.createElement("span");
-      number.className="memory-card__number";
-      number.textContent=String(index+1).padStart(2,"0");
-      const media=item.image?createImage(item):createPlaceholder("FOTO / MEMÓRIA","A imagem será adicionada posteriormente.");
-      const title=document.createElement("h3");
-      title.textContent=item.title||"[MOMENTO]";
-      const caption=document.createElement("p");
-      caption.textContent=item.caption||"";
-      card.append(number,media,title,caption);
-      if(index>0)card.classList.add("reveal--delay-"+Math.min(index,4));
-      grid.appendChild(card);
-    });
+    grid.classList.add("memory-carousel");
+
+    let current=0;
+
+    const viewport=document.createElement("div");
+    viewport.className="memory-carousel__viewport";
+    viewport.setAttribute("aria-live","polite");
+
+    const card=createMemoryCard(memoryItems[0]);
+    viewport.appendChild(card);
+
+    const controls=document.createElement("div");
+    controls.className="memory-carousel__controls";
+
+    const previous=document.createElement("button");
+    previous.type="button";
+    previous.className="photo-control";
+    previous.setAttribute("aria-label","Memória anterior");
+    previous.textContent="←";
+
+    const status=document.createElement("span");
+    status.className="photo-status";
+    status.setAttribute("aria-live","polite");
+    status.textContent=String(current+1)+" / "+String(memoryItems.length);
+
+    const next=document.createElement("button");
+    next.type="button";
+    next.className="photo-control";
+    next.setAttribute("aria-label","Próxima memória");
+    next.textContent="→";
+
+    controls.append(previous,status,next);
+    grid.append(viewport,controls);
+
+    function updateControls(){
+      previous.disabled=current===0;
+      next.disabled=current===memoryItems.length-1;
+      status.textContent=String(current+1)+" / "+String(memoryItems.length);
+    }
+
+    function show(index){
+      const nextIndex=Math.max(0,Math.min(index,memoryItems.length-1));
+      if(nextIndex===current){
+        updateControls();
+        return;
+      }
+      current=nextIndex;
+      viewport.replaceChildren(createMemoryCard(memoryItems[current]));
+      updateControls();
+    }
+
+    previous.addEventListener("click",()=>show(current-1));
+    next.addEventListener("click",()=>show(current+1));
+
+    let touchStartX=0;
+    let touchStartY=0;
+    viewport.addEventListener("touchstart",event=>{
+      const touch=event.changedTouches[0];
+      touchStartX=touch.clientX;
+      touchStartY=touch.clientY;
+    },{passive:true});
+    viewport.addEventListener("touchend",event=>{
+      const touch=event.changedTouches[0];
+      const deltaX=touch.clientX-touchStartX;
+      const deltaY=touch.clientY-touchStartY;
+      if(Math.abs(deltaX)<48||Math.abs(deltaX)<=Math.abs(deltaY))return;
+      show(current+(deltaX<0?1:-1));
+    },{passive:true});
+
+    updateControls();
+  }
+
+  function createMemoryCard(item){
+    const card=document.createElement("article");
+    card.className="memory-card reveal";
+    card.setAttribute("data-reveal","");
+    const number=document.createElement("span");
+    number.className="memory-card__number";
+    number.textContent=String(memoryItems.indexOf(item)+1).padStart(2,"0");
+    const media=item.image?createImage(item):createPlaceholder("FOTO / MEMÓRIA","A imagem será adicionada posteriormente.");
+    const title=document.createElement("h3");
+    title.textContent=item.title||"[MOMENTO]";
+    const caption=document.createElement("p");
+    caption.textContent=item.caption||"";
+    card.append(number,media,title,caption);
+    return card;
   }
 
   function init(){renderStoryGallery();renderMemories();}
