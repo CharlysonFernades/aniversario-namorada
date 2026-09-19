@@ -115,7 +115,7 @@
     viewport.className="memory-carousel__viewport";
     viewport.setAttribute("aria-live","polite");
 
-    const card=createMemoryCard(memoryItems[0]);
+    const card=createMemoryCard(memoryItems[0],0,false);
     viewport.appendChild(card);
 
     const controls=document.createElement("div");
@@ -154,7 +154,7 @@
         return;
       }
       current=nextIndex;
-      viewport.replaceChildren(createMemoryCard(memoryItems[current]));
+      viewport.replaceChildren(createMemoryCard(memoryItems[current],current,true));
       updateControls();
     }
 
@@ -179,13 +179,13 @@
     updateControls();
   }
 
-  function createMemoryCard(item){
+  function createMemoryCard(item,index,visible){
     const card=document.createElement("article");
     card.className="memory-card reveal";
     card.setAttribute("data-reveal","");
     const number=document.createElement("span");
     number.className="memory-card__number";
-    number.textContent=String(memoryItems.indexOf(item)+1).padStart(2,"0");
+    number.textContent=String(index+1).padStart(2,"0");
     const media=item.image?createImage(item):createPlaceholder("FOTO / MEMÓRIA","A imagem será adicionada posteriormente.");
     const title=document.createElement("h3");
     title.textContent=item.title||"[MOMENTO]";
