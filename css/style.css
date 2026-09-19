@@ -14,7 +14,7 @@
 .photo-control:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .photo-status{color:var(--muted);font-size:.72rem;letter-spacing:.12em}
 .memory-card{overflow:hidden}
-.memory-card .photo-frame{min-height:190px;margin:-1.5rem -1.5rem 1.25rem;width:calc(100% + 3rem);height:190px;border-bottom:1px solid var(--line)}
+.memory-card .photo-frame{min-height:190px;margin:0 -1.5rem 1.25rem;width:calc(100% + 3rem);height:190px;border-bottom:1px solid var(--line)}
 .memory-card .photo-frame img{min-height:190px}
 .memory-card .photo-frame--placeholder{height:190px}
 .memory-card__number{margin-bottom:1rem}
