@@ -2,6 +2,23 @@
 
 Todas as alterações relevantes do projeto devem ser registradas neste arquivo.
 
+## [0.2.1] — 2026-09-19
+
+### Refinamento
+- Aumentada moderadamente a duração dos reveals de 700ms para 1050ms.
+- Aumentados levemente os delays entre elementos, mantendo progressão discreta.
+- Mantida a mesma curva de easing e a mesma distância de entrada para preservar o comportamento visual.
+- Mantido o tratamento de prefers-reduced-motion.
+
+### Validação
+- Refinamento limitado exclusivamente ao tempo e ritmo das transições.
+- Estrutura HTML, navegação, conteúdo, layout e identidade visual não foram redesenhados.
+- CSS revisado para confirmar que apenas duração/delays dos reveals foram alterados.
+
+### Limitações
+- Não foi possível executar servidor local nem inspeção de DevTools neste ambiente.
+- O teste visual em dispositivo foi realizado pelo usuário e confirmou o funcionamento correto da etapa 2 antes deste refinamento.
+
 ## [0.2.0] — 2026-09-19
 
 ### Adicionado
