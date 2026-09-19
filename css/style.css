@@ -151,3 +151,9 @@
 @media(max-width:760px){.music-player__mini{width:calc(100% - 1rem);margin-bottom:calc(.5rem + env(safe-area-inset-bottom));padding:.55rem .65rem}.music-player__mini-cover{width:2.55rem;height:2.55rem}.music-player__heart{display:none}.music-player__sheet{padding:.5rem 0 0}.music-player__sheet-inner{max-height:94svh;padding:1rem;border-radius:24px 24px 0 0;padding-bottom:calc(1rem + env(safe-area-inset-bottom))}.music-player__now{grid-template-columns:1fr;gap:1rem}.music-player__large-cover{width:min(68vw,300px);margin-inline:auto}.music-player__meta{text-align:center}.music-player__meta h2{font-size:clamp(1.8rem,9vw,2.6rem)}.music-player__volume{max-width:none}.music-player__track{grid-template-columns:1.7rem 2.4rem 1fr auto;min-height:3.5rem}}
 @media(orientation:landscape) and (max-height:560px){.music-player__sheet-inner{max-height:96svh;padding:.8rem 1rem}.music-player__now{grid-template-columns:130px 1fr;gap:1rem}.music-player__large-cover{width:130px}.music-player__meta h2{font-size:1.8rem}.music-player__progress{margin-top:.8rem}.music-player__controls{margin:.65rem 0}}
 @media(prefers-reduced-motion:reduce){.music-player__mini,.music-player__sheet-inner{transition:none}.music-player__mini:hover{transform:none}}
+
+/* Correção estrutural do mini-player: controles não ficam aninhados em outro botão. */
+.music-player__mini-main{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:.8rem;min-width:0;padding:0;border:0;background:transparent;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.music-player__mini-main:focus-visible{outline:2px solid #9d4569;outline-offset:3px;border-radius:12px}
+.music-player__backdrop{z-index:0}
+.music-player__sheet{z-index:1}
