@@ -1,3 +1,18 @@
+## [0.5.1] — 2026-09-19
+
+### Refinamento da Etapa 5 — Player de música
+- Reduzido o painel expandido no mobile para aproximadamente 68svh, mantendo o conteúdo rolável dentro do bottom-sheet.
+- Ampliada a área de abertura do mini-player: a box principal agora abre o painel, enquanto o play/pause mantém sua ação própria.
+- Removidas completamente as setas de expansão/fechamento do player.
+- Mantidos reprodução, playlist, controles, acessibilidade, reduced-motion e demais comportamentos existentes.
+
+### Validação
+- Revisão estática dos pontos de abertura do mini-player e dos elementos de expansão.
+- Sintaxe de js/music-player.js validada após a alteração.
+- CSS revisado para confirmar a regra mobile de 68svh e preservação do layout desktop.
+- Não há suíte npm/package.json; npm test permanece não aplicável.
+- Validação visual/interativa real em navegador ainda depende do teste no GitHub Pages/dispositivo, pois este ambiente não possui navegador/DevTools.
+
 ## [0.5.0] — 2026-09-19
 
 ### Etapa 5 — Player de música
