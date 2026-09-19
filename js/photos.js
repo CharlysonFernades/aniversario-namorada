@@ -110,6 +110,7 @@
     grid.classList.add("memory-carousel");
 
     let current=0;
+    let transitionToken=0;
 
     const viewport=document.createElement("div");
     viewport.className="memory-carousel__viewport";
@@ -153,9 +154,24 @@
         updateControls();
         return;
       }
+
       current=nextIndex;
-      viewport.replaceChildren(createMemoryCard(memoryItems[current],current,true));
       updateControls();
+
+      const prefersReducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const token=++transitionToken;
+
+      if(prefersReducedMotion){
+        viewport.replaceChildren(createMemoryCard(memoryItems[current],current,true));
+        return;
+      }
+
+      viewport.classList.add("is-changing");
+      window.setTimeout(()=>{
+        if(token!==transitionToken)return;
+        viewport.replaceChildren(createMemoryCard(memoryItems[current],current,true));
+        window.requestAnimationFrame(()=>viewport.classList.remove("is-changing"));
+      },180);
     }
 
     previous.addEventListener("click",()=>show(current-1));
