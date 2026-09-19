@@ -45,6 +45,23 @@ Cada foto narrativa pode usar:
 - Preserve caminhos relativos para manter compatibilidade com GitHub Pages.
 - Prefira arquivos já otimizados antes de adicioná-los ao projeto.
 
+## Player de música — Etapa 5
+
+### Arquivos
+- Áudios: `assets/musicas/`
+- Capas: `assets/fotos/musicas/`
+
+Os MP3 permanecem independentes das capas. O player usa uma única instância de áudio.
+
+### Cadastro em content.js
+As músicas ficam na coleção `musicas`. Cada item usa `titulo`, `artista`, `arquivo`, `capa` e `altCapa`. Para adicionar, remova ou troque uma música, altere essa coleção e os arquivos correspondentes em `assets`. Não é necessário editar o HTML do player.
+
+### Uso
+O mini-player permanece fixo na parte inferior. Tocar nele abre o painel; play/pause, anterior/próxima, progresso, volume e playlist são controlados pelo próprio player. Fechar/minimizar não interrompe a música e navegar entre as seções não recria o player. Não há autoplay.
+
+### Capas ausentes
+Capa vazia ou indisponível gera placeholder visual sem impedir a reprodução do áudio.
+
 ## Álbum futuro
 A coleção photos.album existe somente para manter a separação arquitetural. Não adicionar botão, tela, modal ou navegação de álbum nesta etapa.
 
