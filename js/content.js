@@ -17,7 +17,7 @@ window.siteContent={
   ],
   photos:{
     narrative:{
-      story:[],
+      story:[image:"imagem23.webp",alt:"NOSSA PRIMEIRA FOTO JUNTOS.",title:"O começo de tudo.",caption:"Aqui fora onde nós tiramos a nossa primeira foto juntos, mal esperando o futuro incrível que nos aguardava."],
       memories:[
         {image:"",alt:"[ALT DA FOTO 01]",title:"[MOMENTO 01]",caption:"[LEGENDA CURTA]"},
         {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
