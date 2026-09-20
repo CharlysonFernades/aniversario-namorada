@@ -159,3 +159,34 @@
 .music-player__sheet{z-index:1}
 
 .music-player__control:disabled{opacity:.35;cursor:default;transform:none}
+
+/* Etapa: proporção natural das imagens das memórias. */
+.memory-card .photo-frame{
+  height:auto;
+  min-height:0;
+}
+.memory-card .photo-frame img{
+  display:block;
+  width:100%;
+  height:auto;
+  min-height:0;
+  object-fit:initial;
+}
+.memory-card .photo-frame--placeholder{
+  height:190px;
+  min-height:190px;
+}
+@media(max-width:760px){
+  .memory-card .photo-frame{
+    height:auto;
+    min-height:0;
+  }
+  .memory-card .photo-frame img{
+    height:auto;
+    min-height:0;
+  }
+  .memory-card .photo-frame--placeholder{
+    height:190px;
+    min-height:190px;
+  }
+}
