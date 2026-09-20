@@ -18,11 +18,11 @@ window.siteContent={
   photos:{
     narrative:{
       story:[
-        {image:"imagem23.webp",alt:"NOSSA PRIMEIRA FOTO JUNTOS.",title:"O começo de tudo.",caption:"Aqui fora onde nós tiramos a nossa primeira foto juntos, mal esperando o futuro incrível que nos aguardava."
+        {image:"assets/fotos/imagem23.webp",alt:"NOSSA PRIMEIRA FOTO JUNTOS.",title:"O começo de tudo.",caption:"Aqui fora onde nós tiramos a nossa primeira foto juntos, mal esperando o futuro incrível que nos aguardava."
         }
       ],
       memories:[
-        {image:"foto01.jpg",alt:"Você deitada no meu ombro.",title:"VOCÊ APOIADA NO MEU OMBRO",caption:"Aqui você já demonstrava um amor e confiança por nós."},
+        {image:"assets/fotos/foto01.jpg",alt:"Você deitada no meu ombro.",title:"VOCÊ APOIADA NO MEU OMBRO",caption:"Aqui você já demonstrava um amor e confiança por nós."},
         {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
         {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
         {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
