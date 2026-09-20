@@ -1,3 +1,18 @@
+## [0.5.2] — 2026-09-20
+
+### Correção da proporção das imagens das Memórias
+- Removida a altura fixa aplicada às imagens reais do carrossel de Memórias.
+- Imagens reais agora mantêm a largura disponível e acompanham automaticamente sua proporção natural, sem corte ou deformação.
+- Placeholders sem imagem mantêm uma altura visual mínima de 190px, evitando o colapso da área de mídia.
+- Nenhuma alteração foi feita no conteúdo das Memórias, nos controles do carrossel, no sistema de reveals ou no player de música.
+
+### Validação
+- Estrutura de js/photos.js revisada: imagens reais continuam sendo renderizadas apenas quando item.image existe; placeholders continuam usando photo-frame--placeholder.
+- Alteração de layout concentrada em css/style.css.
+- Timings dos reveals permanecem 1050ms, 140ms, 280ms, 420ms e 560ms.
+- Não há suíte npm/package.json; npm test permanece não aplicável.
+- Este ambiente não possui navegador/servidor local/DevTools para validação visual real; testes finais de desktop e mobile dependem da execução no navegador.
+
 ## [0.5.1] — 2026-09-19
 
 ### Refinamento da Etapa 5 — Player de música
