@@ -22,7 +22,26 @@ window.siteContent={
         }
       ],
       memories:[
-        {image:"",alt:"[ALT DA FOTO 01]",title:"[MOMENTO 01]",caption:"[LEGENDA CURTA]"},
+        {image:"foto01.jpg",alt:"Você deitada no meu ombro.",title:"VOCÊ APOIADA NO MEU OMBRO",caption:"Aqui você já demonstrava um amor e confiança por nós."},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
+        {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
         {image:"",alt:"[ALT DA FOTO 02]",title:"[MOMENTO 02]",caption:"[LEGENDA CURTA]"},
         {image:"",alt:"[ALT DA FOTO 03]",title:"[MOMENTO 03]",caption:"[LEGENDA CURTA]"}
       ]
