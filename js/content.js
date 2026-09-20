@@ -6,9 +6,9 @@
  * O HTML não precisa ser alterado para adicionar/remover/trocar fotos.
  */
 window.siteContent={
-  hero:{title:"[TÍTULO PRINCIPAL]",subtitle:"[MENSAGEM CURTA DE ABERTURA]"},
-  story:{title:"[TÍTULO DA HISTÓRIA]",text:"[ESPAÇO PARA UMA MENSAGEM OU INTRODUÇÃO DA HISTÓRIA]"},
-  memories:{title:"[TÍTULO DAS MEMÓRIAS]",text:"[ESPAÇO RESERVADO PARA MEMÓRIAS, FOTOS E MOMENTOS]"},
+  hero:{title:"FELIZ ANIVERSÁRIO, MEU AMOR!",subtitle:"Hoje eu preparei uma pequena surpresa para você, espero que goste."},
+  story:{title:"Onde tudo começou...",text:"Algumas histórias começam sem a gente perceber o que nos espera... E eu mal imaginava que você se tornaria tão importante para mim."},
+  memories:{title:"Alguns dos nossos momentos, coisas que eu quero guardar.",text:"Entre tantos dias, alguns acabaram ficando guardados de um jeito diferente."},
   musicas:[
     {titulo:"Mirrors",artista:"Justim Timberlake",arquivo:"assets/musicas/musica01.mp3",capa:"assets/fotos/musicas/musica01.png",altCapa:"Capa da Música 01"},
     {titulo:"Pra Sempre com Você",artista:"Jorge & Mateus",arquivo:"assets/musicas/musica02.mp3",capa:"assets/fotos/musicas/musica02.png",altCapa:"Capa da Música 02"},
