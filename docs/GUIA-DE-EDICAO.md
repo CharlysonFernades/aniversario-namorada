@@ -79,3 +79,58 @@ A coleção photos.album existe somente para manter a separação arquitetural. 
 5. Registre alterações relevantes em docs/CHANGELOG.md.
 6. Antes de nova etapa, audite a estrutura e defina critérios de aceitação.
 7. Não transformar animações em requisito para acessar o conteúdo: sempre manter fallback funcional.
+
+## Etapa 4.1 — Algumas coisas que eu gosto em você
+
+A primeira nova experiência interativa da Etapa 4 fica em uma seção própria da página. O conteúdo pessoal é separado do comportamento.
+
+### Onde editar os motivos
+
+Abra:
+
+`js/content.js`
+
+Localize:
+
+`likes`
+
+A estrutura é:
+
+```js
+likes:{
+  title:"Algumas coisas que eu gosto em você",
+  intro:"[INTRODUÇÃO DA EXPERIÊNCIA]",
+  items:[
+    {title:"[MOTIVO 01]",text:"[DESCRIÇÃO DO MOTIVO 01]"},
+    {title:"[MOTIVO 02]",text:"[DESCRIÇÃO DO MOTIVO 02]"},
+    {title:"[MOTIVO 03]",text:"[DESCRIÇÃO DO MOTIVO 03]"}
+  ]
+}
+```
+
+- `title`: título da experiência.
+- `intro`: texto curto apresentado abaixo do título.
+- `items`: lista dos motivos/qualidades.
+- `items[].title`: título de cada motivo.
+- `items[].text`: descrição de cada motivo.
+
+### Adicionar ou remover motivos
+
+Para adicionar um motivo, acrescente outro objeto dentro de `items`.
+
+Para remover um motivo, remova o objeto correspondente.
+
+Não é necessário editar o HTML para criar ou remover cards.
+
+### Como a interação funciona
+
+O arquivo `js/interactions.js` cuida somente do comportamento da experiência 4.1.
+
+- `current` guarda o índice do motivo atualmente exibido.
+- `render()` atualiza número, título, descrição e contador.
+- Os botões anterior/próximo alteram `current` dentro dos limites da lista.
+- O último/primeiro item desabilita o controle correspondente.
+- `prefers-reduced-motion` evita a pequena transição quando o usuário solicita redução de movimento.
+
+O arquivo `css/style.css` cuida apenas da apresentação: card, espaçamento, tipografia, controles e transição.
+
