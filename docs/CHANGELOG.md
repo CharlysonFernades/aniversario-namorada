@@ -1,3 +1,19 @@
+## [0.7.1] — 2026-09-21
+
+### Polimento do coração pixelado das Memórias
+- Reduzido o coração para uma presença mais delicada e proporcional ao card.
+- Ajustada a elevação vertical para manter o coração visualmente separado da foto, sem sobreposição.
+- Mantida a forma em pixel art 2D, o preenchimento rosa-bebê e o número centralizado em tom mais escuro.
+- Ajustado o tamanho do número para acompanhar a nova escala do coração sem perder legibilidade no desktop e no mobile.
+- Nenhuma alteração feita na foto, prévias laterais, card, textos, controles, carrossel, História, player ou sistema de reveals.
+
+### Validação
+- Alteração restrita ao CSS do indicador das Memórias e a este registro.
+- Não houve alteração em js/photos.js.
+- Proporção natural das imagens, placeholders, legenda, swipe, transição e timings permanecem inalterados.
+- Não há suíte npm/package.json; npm test permanece não aplicável.
+- Validação visual real em navegador desktop/mobile depende do teste do projeto pelo responsável.
+
 ## [0.7.0] — 2026-09-21
 
 ### Refinamento visual das Memórias
