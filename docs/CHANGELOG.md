@@ -1,3 +1,22 @@
+## [0.8.0] — 2026-09-21
+
+### Etapa 4.1 — Algumas coisas que eu gosto em você
+- Adicionada uma nova seção narrativa depois das Memórias.
+- Criada uma experiência de um motivo por vez, com navegação anterior/próxima e contador.
+- Conteúdo centralizado em `js/content.js`, dentro de `likes`.
+- Criado `js/interactions.js` para separar comportamento da apresentação.
+- Adicionada apresentação visual própria em `css/style.css`, seguindo a identidade já aprovada.
+- Mantidos placeholders claros; nenhum conteúdo pessoal novo foi inventado.
+- Controles possuem estados de limite e foco visível.
+- A transição é discreta e respeita `prefers-reduced-motion`.
+
+### Validação
+- Branch criada diretamente da `main` atual: `etapa-4-continuacao-da-estrutura`.
+- Etapa 4.1 implementada isoladamente; 4.2–4.5 não foram antecipadas.
+- Memórias, História, player e timings anteriores não foram alterados intencionalmente.
+- Não há suíte npm/package.json; `npm test` permanece não aplicável.
+- Validação estrutural e estática realizada; validação visual/interativa real em navegador desktop/mobile depende da execução no navegador.
+
 ## [0.7.1] — 2026-09-21
 
 ### Polimento do coração pixelado das Memórias
