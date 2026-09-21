@@ -1,3 +1,23 @@
+## [0.7.0] — 2026-09-21
+
+### Refinamento visual das Memórias
+- Criada uma composição de carrossel com a foto principal centralizada e prévias visuais discretas da memória anterior e da próxima no desktop.
+- As prévias usam baixa opacidade e preservam a proporção natural das imagens, sem crop ou distorção.
+- Em telas menores, as prévias são reduzidas a uma presença sutil para preservar a foto principal e evitar overflow horizontal.
+- Refinada a moldura do card, com borda delicada, cantos suaves e contraste discreto.
+- Refinados espaçamento, hierarquia e leitura entre foto, título e legenda sem alterar os textos.
+- Controles mantidos com a mesma lógica, anterior/próxima, contador e bloqueio dos limites, apenas com integração visual refinada.
+- O coração pixelado atual foi mantido sem alterações de design nesta etapa.
+- História, player, conteúdo, proporção natural, placeholders, swipe e timings de reveal permanecem fora do escopo funcional.
+
+### Validação
+- Nova branch criada diretamente da main atual.
+- Alterações restritas a css/style.css, js/photos.js e docs/CHANGELOG.md.
+- Nenhuma outra área do projeto foi alterada.
+- Não há suíte npm/package.json; npm test permanece não aplicável.
+- Validação visual real em navegador desktop/mobile ainda depende do teste do projeto pelo responsável.
+- Testes estáticos posteriores devem confirmar os seletores, lógica de prévias, proporção natural e preservação dos timings.
+
 ## [0.5.3] — 2026-09-21
 
 ### Correção da legenda duplicada nas Memórias
