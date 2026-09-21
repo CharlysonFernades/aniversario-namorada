@@ -116,8 +116,16 @@
     viewport.className="memory-carousel__viewport";
     viewport.setAttribute("aria-live","polite");
 
+    const previousPreview=document.createElement("div");
+    previousPreview.className="memory-carousel__preview memory-carousel__preview--previous";
+    previousPreview.setAttribute("aria-hidden","true");
+
+    const nextPreview=document.createElement("div");
+    nextPreview.className="memory-carousel__preview memory-carousel__preview--next";
+    nextPreview.setAttribute("aria-hidden","true");
+
     const card=createMemoryCard(memoryItems[0],0,false);
-    viewport.appendChild(card);
+    viewport.append(previousPreview,card,nextPreview);
 
     const controls=document.createElement("div");
     controls.className="memory-carousel__controls";
@@ -142,10 +150,39 @@
     controls.append(previous,status,next);
     grid.append(viewport,controls);
 
+    function renderPreview(slot,item,index,position){
+      slot.replaceChildren();
+      slot.className="memory-carousel__preview memory-carousel__preview--"+position;
+      if(!item){
+        slot.classList.add("is-empty");
+        return;
+      }
+
+      if(item.image){
+        const image=document.createElement("img");
+        image.src=item.image;
+        image.alt="";
+        image.loading="lazy";
+        image.decoding="async";
+        slot.appendChild(image);
+      }else{
+        const placeholder=document.createElement("span");
+        placeholder.textContent=String(index+1).padStart(2,"0");
+        slot.classList.add("is-placeholder");
+        slot.appendChild(placeholder);
+      }
+    }
+
+    function updatePreviews(){
+      renderPreview(previousPreview,memoryItems[current-1],current-1,"previous");
+      renderPreview(nextPreview,memoryItems[current+1],current+1,"next");
+    }
+
     function updateControls(){
       previous.disabled=current===0;
       next.disabled=current===memoryItems.length-1;
       status.textContent=String(current+1)+" / "+String(memoryItems.length);
+      updatePreviews();
     }
 
     function show(index){
@@ -162,14 +199,16 @@
       const token=++transitionToken;
 
       if(prefersReducedMotion){
-        viewport.replaceChildren(createMemoryCard(memoryItems[current],current,true));
+        viewport.replaceChildren(previousPreview,createMemoryCard(memoryItems[current],current,true),nextPreview);
+        updatePreviews();
         return;
       }
 
       viewport.classList.add("is-changing");
       window.setTimeout(()=>{
         if(token!==transitionToken)return;
-        viewport.replaceChildren(createMemoryCard(memoryItems[current],current,true));
+        viewport.replaceChildren(previousPreview,createMemoryCard(memoryItems[current],current,true),nextPreview);
+        updatePreviews();
         window.requestAnimationFrame(()=>viewport.classList.remove("is-changing"));
       },180);
     }
