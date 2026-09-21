@@ -172,6 +172,10 @@
   min-height:0;
   object-fit:initial;
 }
+.memory-card .photo-frame figcaption{
+  display:none;
+}
+
 .memory-card .photo-frame--placeholder{
   height:190px;
   min-height:190px;

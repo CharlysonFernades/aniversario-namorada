@@ -1,3 +1,17 @@
+## [0.5.3] — 2026-09-21
+
+### Correção da legenda duplicada nas Memórias
+- Removida a legenda sobreposta dentro da área da foto das Memórias.
+- A legenda das Memórias permanece somente abaixo do título, na área de texto do card.
+- A legenda da seção de História permanece inalterada.
+- Nenhuma alteração foi feita na proporção das imagens, controles do carrossel, swipe, reveals, player ou conteúdo.
+
+### Validação
+- Correção restrita ao CSS das Memórias.
+- `js/photos.js` não foi alterado.
+- Não há suíte npm/package.json; npm test permanece não aplicável.
+- Validação visual final depende do teste no navegador/GitHub Pages.
+  
 ## [0.5.2] — 2026-09-20
 
 ### Correção da proporção das imagens das Memórias
