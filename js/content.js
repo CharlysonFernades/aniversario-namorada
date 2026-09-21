@@ -9,6 +9,15 @@ window.siteContent={
   hero:{title:"FELIZ ANIVERSÁRIO, MEU AMOR!",subtitle:"Hoje eu preparei uma pequena surpresa para você, espero que goste."},
   story:{title:"Onde tudo começou...",text:"Algumas histórias começam sem a gente perceber o que nos espera... E eu mal imaginava que você se tornaria tão importante para mim."},
   memories:{title:"Alguns dos nossos momentos, coisas que eu quero guardar.",text:"Entre tantos dias, alguns acabaram ficando guardados de um jeito diferente."},
+  likes:{
+    title:"Algumas coisas que eu gosto em você",
+    intro:"[INTRODUÇÃO DA EXPERIÊNCIA]",
+    items:[
+      {title:"[MOTIVO 01]",text:"[DESCRIÇÃO DO MOTIVO 01]"},
+      {title:"[MOTIVO 02]",text:"[DESCRIÇÃO DO MOTIVO 02]"},
+      {title:"[MOTIVO 03]",text:"[DESCRIÇÃO DO MOTIVO 03]"}
+    ]
+  },
   musicas:[
     {titulo:"Mirrors",artista:"Justim Timberlake",arquivo:"assets/musicas/musica01.mp3",capa:"assets/fotos/musicas/musica01.png",altCapa:"Capa da Música 01"},
     {titulo:"Pra Sempre com Você",artista:"Jorge & Mateus",arquivo:"assets/musicas/musica02.mp3",capa:"assets/fotos/musicas/musica02.png",altCapa:"Capa da Música 02"},
