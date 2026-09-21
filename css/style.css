@@ -438,3 +438,124 @@
     gap:.85rem;
   }
 }
+
+/* Etapa 4.1: experiência "Algumas coisas que eu gosto em você". */
+.section--experience{
+  background:linear-gradient(180deg,rgba(255,255,255,.012),transparent);
+}
+.likes-experience{
+  width:min(100%,760px);
+  margin-inline:auto;
+}
+.likes-card{
+  position:relative;
+  min-height:260px;
+  display:grid;
+  place-content:center;
+  padding:3rem clamp(1.4rem,5vw,4rem);
+  border:1px solid rgba(255,215,230,.14);
+  border-radius:24px;
+  background:rgba(33,17,32,.7);
+  box-shadow:0 18px 48px rgba(0,0,0,.16);
+  text-align:center;
+  transition:opacity 160ms ease,transform 160ms ease;
+}
+.likes-card::before{
+  content:"";
+  position:absolute;
+  top:1.35rem;
+  left:50%;
+  width:28px;
+  height:1px;
+  transform:translateX(-50%);
+  background:rgba(255,215,230,.5);
+}
+.likes-card.is-switching{
+  opacity:.35;
+  transform:translateY(6px);
+}
+.likes-card__index{
+  display:block;
+  margin-bottom:.8rem;
+  color:var(--accent);
+  font-size:.72rem;
+  font-weight:700;
+  letter-spacing:.16em;
+}
+.likes-card__title{
+  margin:0 auto .65rem;
+  color:var(--text);
+  font-size:clamp(1.35rem,2.8vw,1.8rem);
+  line-height:1.2;
+}
+.likes-card__text{
+  max-width:52ch;
+  margin:0 auto;
+  color:var(--muted);
+  font-size:.98rem;
+  line-height:1.7;
+}
+.likes-controls{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:1rem;
+  margin-top:1.15rem;
+}
+.likes-control{
+  display:grid;
+  place-items:center;
+  width:2.75rem;
+  height:2.75rem;
+  padding:0;
+  border:1px solid rgba(255,215,230,.28);
+  border-radius:50%;
+  background:rgba(255,255,255,.025);
+  color:var(--text);
+  font:inherit;
+  cursor:pointer;
+  transition:background 180ms ease,border-color 180ms ease,transform 180ms ease;
+}
+.likes-control:hover:not(:disabled){
+  transform:translateY(-1px);
+  border-color:rgba(255,215,230,.65);
+  background:rgba(255,215,230,.08);
+}
+.likes-control:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+.likes-control:disabled{
+  opacity:.28;
+  cursor:default;
+}
+.likes-status{
+  min-width:3.5rem;
+  color:var(--muted);
+  font-size:.74rem;
+  font-weight:700;
+  letter-spacing:.08em;
+  text-align:center;
+}
+@media(max-width:760px){
+  .likes-card{
+    min-height:230px;
+    padding:2.5rem 1.1rem;
+    border-radius:20px;
+  }
+  .likes-card__title{
+    font-size:1.3rem;
+  }
+  .likes-card__text{
+    font-size:.92rem;
+    line-height:1.65;
+  }
+  .likes-controls{
+    gap:.8rem;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .likes-card{
+    transition:none;
+  }
+}
