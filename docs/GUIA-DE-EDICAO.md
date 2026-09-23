@@ -178,3 +178,50 @@ A experiência fica dentro de `js/interactions.js`, na função `initTimeCapsule
 - A mensagem usa altura natural e pode crescer conforme o texto cadastrado.
 
 O arquivo `css/style.css` cuida da cápsula fechada, abertura da tampa, selo, botão, mensagem e responsividade.
+
+
+## Etapa 4.3 — Surpresa / Interação
+
+A terceira experiência da Etapa 4 cria uma pequena sequência narrativa em três estados: inicial, confirmação e revelação.
+
+### Onde editar a surpresa
+
+Abra:
+
+`js/content.js`
+
+Localize:
+
+`surprise`
+
+A estrutura é:
+
+```js
+surprise:{
+  title:"[TÍTULO DA SURPRESA]",
+  intro:"[INTRODUÇÃO DA SURPRESA]",
+  question:"[PERGUNTA]",
+  confirmLabel:"[BOTÃO DE CONFIRMAÇÃO]",
+  reveal:"[REVELAÇÃO]"
+}
+```
+
+- `title`: título apresentado no primeiro estado.
+- `intro`: introdução apresentada no primeiro estado.
+- `question`: pergunta exibida na confirmação.
+- `confirmLabel`: texto do botão que confirma a continuação.
+- `reveal`: mensagem curta que faz a ponte narrativa para a próxima experiência.
+
+Para alterar os textos, edite somente os campos dentro de `surprise`. Não é necessário alterar `index.html` ou `js/interactions.js`.
+
+### Como a interação funciona
+
+A lógica fica em `js/interactions.js`, na função `initSurprise()`.
+
+- O estado começa em `initial`.
+- **Continuar** leva a `confirmation`.
+- O botão de confirmação leva a `reveal`.
+- Após a revelação, a interação fica encerrada; novos cliques não executam outra transição.
+- A troca de estado usa uma transição curta e respeita `prefers-reduced-motion`.
+
+A experiência não cria dependência técnica com a futura Etapa 4.4.
