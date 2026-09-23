@@ -408,6 +408,16 @@ A Etapa 5 não fica exposta no fluxo normal da página. Ela é liberada somente 
 
 A Etapa 5 não usa `IntersectionObserver` para iniciar. Não é necessário editar HTML ou criar uma nova página/URL.
 
+### Navegação dos checkpoints
+
+Nas Cenas 1–5, o scroll funciona em modo de leitura:
+- subir é livre;
+- descer é permitido até o limite inferior calculado dinamicamente pelo botão **Continuar**;
+- ultrapassar esse limite é bloqueado somente no excesso;
+- resize e mudança de orientação recalculam o limite.
+
+Durante o auto-scroll e o takeover, as entradas de rolagem são bloqueadas e a animação controla a posição.
+
 ## Etapa 5 — Encerramento Cinematográfico
 
 A Etapa 5 fica no final da página e apresenta sete cenas: texto, três fotografias, mensagem final, aviso da música e celebração.

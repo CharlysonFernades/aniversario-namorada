@@ -14,6 +14,18 @@
 - Os filhos de `main` que são irmãos da cena continuam sendo bloqueados.
 - Teste funcional real em navegador desktop/mobile permanece necessário para confirmar scroll, cliques, abertura, fechamento e reentrada no ambiente publicado.
 
+## [1.3.2] — 2026-09-23
+
+### Refinamento final da navegação cinematográfica
+- Checkpoints das Cenas 1–5 agora permitem leitura livre para cima e para baixo até um limite inferior calculado dinamicamente pela posição real do botão **Continuar** e pelo viewport.
+- O excesso de scroll descendente é bloqueado sem transformar todo o checkpoint em uma área sem rolagem.
+- O limite é recalculado ao entrar em checkpoint, durante resize e após mudança de orientação.
+- O auto-scroll passou a usar progressão linear com velocidade constante, removendo o easing que produzia aceleração/desaceleração perceptível.
+- `guardScroll()` deixou de corrigir a posição durante `auto`/takeover, evitando disputa com o `requestAnimationFrame`.
+- Wheel/trackpad, touch e teclas de rolagem continuam bloqueados durante `auto` e takeover; no checkpoint, apenas o excesso além do limite é impedido.
+- Corrigida a condição de `advanceFromCheckpoint()` para permitir **Cena 5 → Cena 6 / takeover**.
+- Mantidos a entrada pela Mensagem Secreta, a Cena 6, a música final, reduced motion e as experiências aprovadas anteriores.
+
 ## [1.3.1] — 2026-09-23
 
 ### Correção de integração — Etapa 4.5 → Etapa 5

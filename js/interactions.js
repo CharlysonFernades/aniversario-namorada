@@ -680,6 +680,7 @@
     let state="idle";
     let sceneIndex=0;
     let checkpointY=0;
+    let checkpointLimitY=0;
     let autoFrame=0;
     let autoTargetY=0;
     let touchStartY=null;
@@ -849,15 +850,47 @@
       return Math.max(0,Math.round(scenes[index].getBoundingClientRect().top+window.scrollY));
     }
 
+    function calculateCheckpointLimit(index){
+      const button=scenes[index]?.querySelector(".finale-scene__continue");
+      if(!button)return checkpointY;
+
+      const margin=24;
+      const rect=button.getBoundingClientRect();
+      const viewportBottom=window.innerHeight-margin;
+      const limit=window.scrollY+rect.bottom-viewportBottom;
+
+      return Math.max(checkpointY,Math.round(limit));
+    }
+
+    function clampToCheckpointLimit(){
+      if(state!=="checkpoint")return;
+      if(window.scrollY>checkpointLimitY+1){
+        window.scrollTo(0,checkpointLimitY);
+      }
+    }
+
+    function recalculateCheckpointLimit(){
+      if(state!=="checkpoint")return;
+      checkpointLimitY=calculateCheckpointLimit(sceneIndex);
+      clampToCheckpointLimit();
+    }
+
     function setCheckpoint(index){
       sceneIndex=index;
       checkpointY=sceneTop(index);
       setSceneVisibility(index);
       state=index===6?"finished":"checkpoint";
+      checkpointLimitY=state==="checkpoint"?calculateCheckpointLimit(index):checkpointY;
+
       const button=scenes[index].querySelector(".finale-scene__continue");
       if(button){
         button.disabled=false;
-        requestAnimationFrame(()=>button.focus({preventScroll:true}));
+        button.classList.remove("is-fading");
+        requestAnimationFrame(()=>{
+          checkpointLimitY=calculateCheckpointLimit(index);
+          clampToCheckpointLimit();
+          button.focus({preventScroll:true});
+        });
       }
     }
 
@@ -874,13 +907,13 @@
       state="auto";
       const startY=window.scrollY;
       const distance=autoTargetY-startY;
-      const duration=isReduced()?40:Math.min(4200,Math.max(1500,Math.abs(distance)*1.35));
+      const speed=240;
+      const duration=isReduced()?40:Math.max(900,(Math.abs(distance)/speed)*1000);
       const startTime=performance.now();
       function step(now){
         if(state!=="auto")return;
         const progress=Math.min(1,(now-startTime)/duration);
-        const eased=1-Math.pow(1-progress,3);
-        window.scrollTo(0,startY+(distance*eased));
+        window.scrollTo(0,startY+(distance*progress));
         if(progress<1){
           autoFrame=requestAnimationFrame(step);
           return;
@@ -898,7 +931,7 @@
     }
 
     function advanceFromCheckpoint(button){
-      if(state!=="checkpoint"||sceneIndex>=4||button.disabled)return;
+      if(state!=="checkpoint"||sceneIndex>4||button.disabled)return;
       fadeButton(button);
       window.setTimeout(()=>{
         if(state!=="checkpoint")return;
@@ -975,24 +1008,61 @@
     }
 
     function guardScroll(){
-      if(state==="auto"||state==="takeover"){
-        if(Math.abs(window.scrollY-autoTargetY)>1)window.scrollTo(0,autoTargetY);
-      }else if(state==="checkpoint"&&window.scrollY>checkpointY+1){
-        window.scrollTo(0,checkpointY);
+      if(state==="checkpoint"){
+        clampToCheckpointLimit();
       }
+    }
+
+    function blockScrollInput(event){
+      if(event.cancelable)event.preventDefault();
     }
 
     function handleWheel(event){
-      if(state==="auto"||state==="takeover"||(state==="checkpoint"&&event.deltaY>0)){
-        if(event.cancelable)event.preventDefault();
+      if(state==="auto"||state==="takeover"){
+        blockScrollInput(event);
+        return;
+      }
+
+      if(state!=="checkpoint"||event.deltaY<=0)return;
+
+      const projected=window.scrollY+event.deltaY;
+      if(projected>checkpointLimitY){
+        blockScrollInput(event);
+        window.scrollTo(0,checkpointLimitY);
       }
     }
 
+    function getKeyboardScrollDelta(event){
+      if(event.key==="ArrowDown")return 40;
+      if(event.key==="PageDown")return Math.max(1,Math.round(window.innerHeight*.9));
+      if(event.key==="End")return Number.POSITIVE_INFINITY;
+      if((event.key===" "||event.key==="Spacebar")&&!event.shiftKey){
+        return Math.max(1,Math.round(window.innerHeight*.9));
+      }
+      return 0;
+    }
+
     function handleKeydown(event){
-      if(state!=="auto"&&state!=="takeover"&&state!=="checkpoint")return;
-      const blocked=["ArrowDown","PageDown"," ","Spacebar","End"];
-      if(blocked.includes(event.key)||(state!=="checkpoint"&&["ArrowUp","PageUp","Home"].includes(event.key))){
-        if(event.cancelable)event.preventDefault();
+      if(state==="auto"||state==="takeover"){
+        const blocked=["ArrowUp","ArrowDown","PageUp","PageDown"," ","Spacebar","Home","End"];
+        if(blocked.includes(event.key))blockScrollInput(event);
+        return;
+      }
+
+      if(state!=="checkpoint")return;
+
+      if(event.key==="ArrowUp"||event.key==="PageUp"||event.key==="Home"||
+         ((event.key===" "||event.key==="Spacebar")&&event.shiftKey)){
+        return;
+      }
+
+      const delta=getKeyboardScrollDelta(event);
+      if(delta<=0)return;
+
+      const projected=window.scrollY+delta;
+      if(projected>checkpointLimitY){
+        blockScrollInput(event);
+        window.scrollTo(0,checkpointLimitY);
       }
     }
 
@@ -1002,9 +1072,21 @@
 
     function handleTouchMove(event){
       if(!event.touches||!event.touches[0]||touchStartY===null)return;
+
+      if(state==="auto"||state==="takeover"){
+        blockScrollInput(event);
+        return;
+      }
+
+      if(state!=="checkpoint")return;
+
       const delta=touchStartY-event.touches[0].clientY;
-      if(state==="auto"||state==="takeover"||(state==="checkpoint"&&delta>0)){
-        if(event.cancelable)event.preventDefault();
+      if(delta<=0)return;
+
+      const projected=window.scrollY+delta;
+      if(projected>checkpointLimitY){
+        blockScrollInput(event);
+        window.scrollTo(0,checkpointLimitY);
       }
     }
 
@@ -1048,6 +1130,10 @@
     document.addEventListener("touchend",handleTouchEnd,{passive:true});
     document.addEventListener("click",handleFinaleLinks);
     window.addEventListener("scroll",guardScroll,{passive:true});
+    window.addEventListener("resize",recalculateCheckpointLimit,{passive:true});
+    window.addEventListener("orientationchange",()=>{
+      window.setTimeout(recalculateCheckpointLimit,0);
+    },{passive:true});
 
     window.addEventListener("beforeunload",()=>{
       if(autoFrame)cancelAnimationFrame(autoFrame);
