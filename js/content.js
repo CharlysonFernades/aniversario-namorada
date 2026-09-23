@@ -18,6 +18,11 @@ window.siteContent={
       {title:"[MOTIVO 03]",text:"[DESCRIÇÃO DO MOTIVO 03]"}
     ]
   },
+  timeCapsule:{
+    title:"Cápsula do Tempo",
+    intro:"[INTRODUÇÃO DA CÁPSULA]",
+    message:"[MENSAGEM REVELADA]"
+  },
   musicas:[
     {titulo:"Mirrors",artista:"Justim Timberlake",arquivo:"assets/musicas/musica01.mp3",capa:"assets/fotos/musicas/musica01.png",altCapa:"Capa da Música 01"},
     {titulo:"Pra Sempre com Você",artista:"Jorge & Mateus",arquivo:"assets/musicas/musica02.mp3",capa:"assets/fotos/musicas/musica02.png",altCapa:"Capa da Música 02"},
