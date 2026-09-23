@@ -534,11 +534,118 @@
     return openLetterScene;
   }
 
+
+  function initSecretMessage(){
+    const root=document.querySelector("[data-secret-message]");
+    if(!root)return;
+
+    const secret=content.secretMessage||{};
+    let state="locked";
+
+    root.className="secret-message-experience";
+    root.setAttribute("aria-live","polite");
+
+    const note=document.createElement("article");
+    note.className="secret-message";
+    note.setAttribute("aria-live","polite");
+
+    const symbol=document.createElement("span");
+    symbol.className="secret-message__symbol";
+    symbol.setAttribute("aria-hidden","true");
+    symbol.textContent="✦";
+
+    const label=document.createElement("span");
+    label.className="secret-message__label";
+    label.textContent="P.S.";
+
+    const title=document.createElement("h3");
+    title.className="secret-message__title";
+
+    const intro=document.createElement("p");
+    intro.className="secret-message__intro";
+
+    const message=document.createElement("p");
+    message.className="secret-message__message";
+    message.id="secret-message-content";
+    message.hidden=true;
+
+    const controls=document.createElement("div");
+    controls.className="secret-message__controls";
+
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="secret-message__button";
+    button.setAttribute("aria-controls","secret-message-content");
+
+    const status=document.createElement("span");
+    status.className="secret-message__status";
+    status.setAttribute("aria-live","polite");
+
+    controls.append(button,status);
+    note.append(symbol,label,title,intro,message,controls);
+    root.append(note);
+
+    function render(){
+      if(state==="locked"){
+        title.textContent=secret.title||"[TÍTULO DA MENSAGEM SECRETA]";
+        intro.hidden=false;
+        intro.textContent=secret.intro||"[INTRODUÇÃO DA MENSAGEM SECRETA]";
+        message.textContent="";
+        message.hidden=true;
+        button.textContent=secret.actionLabel||"[TEXTO DO BOTÃO]";
+        button.disabled=false;
+        button.setAttribute("aria-expanded","false");
+        status.textContent="";
+      }else if(state==="revealing"){
+        button.disabled=true;
+        status.textContent="Revelando…";
+      }else{
+        title.textContent=secret.title||"[TÍTULO DA MENSAGEM SECRETA]";
+        intro.hidden=true;
+        message.textContent=secret.message||"[MENSAGEM SECRETA]";
+        message.hidden=false;
+        button.disabled=true;
+        button.textContent="Mensagem revelada";
+        button.setAttribute("aria-expanded","true");
+        status.textContent="Mensagem revelada";
+      }
+      root.dataset.state=state;
+    }
+
+    function reveal(){
+      if(state!=="locked")return;
+
+      state="revealing";
+      root.dataset.state="revealing";
+      button.disabled=true;
+
+      const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(reduced){
+        finishReveal();
+        return;
+      }
+
+      note.classList.add("is-revealing");
+      window.setTimeout(finishReveal,320);
+    }
+
+    function finishReveal(){
+      if(state!=="revealing")return;
+      state="revealed";
+      render();
+      note.classList.remove("is-revealing");
+    }
+
+    button.addEventListener("click",reveal);
+    render();
+  }
+
   function init(){
     initLikes();
     initTimeCapsule();
     const openLetterScene=initLetterExperience();
     initSurprise(openLetterScene);
+    initSecretMessage();
   }
 
   if(document.readyState==="loading"){

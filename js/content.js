@@ -31,6 +31,12 @@ window.siteContent={
     confirmLabel:"IR PARA SURPRESA",
     reveal:"VIXEEEE, é muito grande cara, não coube aqui..."
   },
+  secretMessage:{
+    title:"[TÍTULO DA MENSAGEM SECRETA]",
+    intro:"[INTRODUÇÃO DA MENSAGEM SECRETA]",
+    actionLabel:"[TEXTO DO BOTÃO]",
+    message:"[MENSAGEM SECRETA]"
+  },
   gift:{
     title:"Uma carta para você",
     intro:"Escrevi essa carta de todo o meu coração",

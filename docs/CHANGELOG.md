@@ -14,6 +14,25 @@
 - Os filhos de `main` que são irmãos da cena continuam sendo bloqueados.
 - Teste funcional real em navegador desktop/mobile permanece necessário para confirmar scroll, cliques, abertura, fechamento e reentrada no ambiente publicado.
 
+## [1.2.0] — 2026-09-23
+
+### Etapa 4.5 — Mensagem Secreta
+- Adicionada uma experiência independente de “P.S.” depois da Carta, preparada como ponte narrativa para uma futura Etapa 5.
+- Criada a estrutura `secretMessage` em `js/content.js`, sem inventar conteúdo pessoal.
+- Implementada a máquina de estados `locked → revealing → revealed` em `js/interactions.js`.
+- Utilizado botão HTML real, com foco visível, suporte a teclado/toque e bloqueio de disparos duplicados durante a revelação.
+- Adicionado suporte a `prefers-reduced-motion`, concluindo a revelação sem depender de animação.
+- Criada identidade visual própria em `css/style.css`, sem reutilizar a composição da Carta ou da Cápsula do Tempo.
+- Mensagem com altura natural, `pre-wrap` e `overflow-wrap` para suportar quebras de linha e textos maiores em desktop e mobile.
+- Não foram alterados Memórias, Likes, Cápsula do Tempo, Surpresa, Carta, `js/animations.js` ou os timings congelados da Etapa 2.
+- A Etapa 5 não foi implementada.
+
+### Validação estrutural
+- Auditoria da branch e dos arquivos principais realizada antes da implementação.
+- Revisão estática dos estados, integração e seletores realizada após a implementação.
+- Não há `package.json`/suíte npm no projeto; `npm test` permanece não aplicável.
+- Validação visual/funcional final em navegador desktop/mobile permanece pendente do teste do usuário.
+
 ## [1.1.2] — 2026-09-23
 
 ### Correção — Estado inicial da cena da carta

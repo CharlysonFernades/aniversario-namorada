@@ -1164,3 +1164,144 @@
   }
 }
 
+
+/* Etapa 4.5: Mensagem Secreta — P.S. discreto e independente da Carta/Cápsula. */
+.section--secret{
+  background:linear-gradient(180deg,transparent,rgba(255,215,230,.014));
+}
+.secret-message-experience{
+  width:min(100%,620px);
+  margin-inline:auto;
+}
+.secret-message{
+  position:relative;
+  width:100%;
+  padding:clamp(1.8rem,4vw,2.7rem) clamp(1.25rem,5vw,3.2rem);
+  border:1px dashed rgba(255,215,230,.28);
+  border-radius:18px;
+  background:rgba(255,215,230,.045);
+  color:var(--text);
+  text-align:center;
+  box-shadow:0 18px 42px rgba(0,0,0,.12);
+  transition:opacity 320ms ease,transform 320ms ease,border-color 320ms ease;
+}
+.secret-message::before{
+  content:"";
+  position:absolute;
+  top:-1px;
+  left:18%;
+  right:18%;
+  height:1px;
+  background:rgba(255,215,230,.42);
+}
+.secret-message__symbol{
+  display:grid;
+  place-items:center;
+  width:42px;
+  height:42px;
+  margin:0 auto .65rem;
+  border:1px solid rgba(255,215,230,.34);
+  border-radius:50%;
+  color:#ffd7e6;
+  font-size:.9rem;
+  box-shadow:0 5px 18px rgba(255,143,184,.08);
+}
+.secret-message__label{
+  display:block;
+  margin-bottom:.7rem;
+  color:#ffd7e6;
+  font-size:.68rem;
+  font-weight:800;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.secret-message__title{
+  margin:0;
+  color:var(--text);
+  font-size:clamp(1.15rem,2.8vw,1.55rem);
+  line-height:1.3;
+}
+.secret-message__intro{
+  width:min(100%,480px);
+  margin:1rem auto 0;
+  color:var(--muted);
+  line-height:1.7;
+}
+.secret-message__message{
+  width:min(100%,500px);
+  margin:1.2rem auto 0;
+  color:var(--text);
+  font-size:clamp(1rem,2.2vw,1.12rem);
+  line-height:1.8;
+  text-align:left;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+.secret-message__message[hidden],
+.secret-message__intro[hidden]{
+  display:none;
+}
+.secret-message__controls{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.55rem;
+  margin-top:1.35rem;
+}
+.secret-message__button{
+  min-width:10rem;
+  min-height:2.8rem;
+  padding:.7rem 1.2rem;
+  border:1px solid rgba(255,215,230,.42);
+  border-radius:999px;
+  background:rgba(255,215,230,.1);
+  color:var(--text);
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  transition:background 180ms ease,border-color 180ms ease,transform 180ms ease,opacity 180ms ease;
+}
+.secret-message__button:hover:not(:disabled){
+  transform:translateY(-1px);
+  border-color:rgba(255,215,230,.7);
+  background:rgba(255,215,230,.16);
+}
+.secret-message__button:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+.secret-message__button:disabled{
+  cursor:default;
+  opacity:.62;
+}
+.secret-message__status{
+  min-height:1.2em;
+  color:var(--muted);
+  font-size:.7rem;
+  letter-spacing:.06em;
+}
+.secret-message-experience[data-state="revealed"] .secret-message{
+  border-color:rgba(255,215,230,.38);
+}
+.secret-message-experience[data-state="revealing"] .secret-message{
+  opacity:.78;
+  transform:translateY(4px);
+}
+@media(max-width:760px){
+  .secret-message{
+    padding:1.55rem 1rem 1.7rem;
+    border-radius:16px;
+  }
+  .secret-message__message{
+    line-height:1.72;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .secret-message,
+  .secret-message__button{
+    transition:none;
+  }
+  .secret-message-experience[data-state="revealing"] .secret-message{
+    transform:none;
+  }
+}

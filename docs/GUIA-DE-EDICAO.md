@@ -340,3 +340,54 @@ O botão `Voltar` usa `env(safe-area-inset-*)` para respeitar áreas seguras de 
 ### O que permanece congelado
 
 A arte do envelope, o selo pixelado, a abertura da carta, `gift`, os estados internos `closed/opening/opened`, 4.1, 4.2, Memórias, História, Player e os timings da Etapa 2 não são redesenhados nesta correção.
+
+## Etapa 4.5 — Mensagem Secreta
+
+A quinta experiência da Etapa 4 funciona como um pequeno P.S.: um convite discreto revela uma última mensagem que ficou de fora da Carta.
+
+### Onde editar a Mensagem Secreta
+
+Abra:
+
+`js/content.js`
+
+Localize:
+
+`secretMessage`
+
+A estrutura é:
+
+```js
+secretMessage:{
+  title:"[TÍTULO DA MENSAGEM SECRETA]",
+  intro:"[INTRODUÇÃO DA MENSAGEM SECRETA]",
+  actionLabel:"[TEXTO DO BOTÃO]",
+  message:"[MENSAGEM SECRETA]"
+}
+```
+
+Edite somente estes quatro campos:
+
+- `secretMessage.title`: título do pequeno P.S.
+- `secretMessage.intro`: convite/indício apresentado antes da revelação.
+- `secretMessage.actionLabel`: texto do botão que executa a ação explícita.
+- `secretMessage.message`: texto que aparece depois da revelação.
+
+A mensagem é inserida como texto real e usa `white-space: pre-wrap`, portanto as quebras de linha digitadas no valor de `message` são preservadas. O layout usa altura natural e pode crescer para textos maiores.
+
+### Como a interação funciona
+
+A lógica fica em `js/interactions.js`, na função `initSecretMessage()`.
+
+- O estado inicial é `locked`.
+- O botão real leva a `revealing`.
+- Durante `revealing`, o botão é desabilitado para impedir disparos duplicados.
+- A transição curta termina em `revealed`.
+- Em `revealed`, a mensagem permanece disponível e nenhuma nova interação é exigida.
+- Com `prefers-reduced-motion: reduce`, a revelação é concluída diretamente, sem depender da animação.
+
+A apresentação visual fica isolada em `css/style.css` pelos seletores da 4.5. Não é necessário alterar HTML estrutural ou outras experiências para trocar o conteúdo.
+
+### Limites da 4.5
+
+A Mensagem Secreta não cria senha, puzzle, caça ao tesouro, temporizador, sequência de cliques, modal ou nova página. Ela também não implementa a Etapa 5; a integração futura pode ser feita posteriormente sem exigir que a 4.5 controle o encerramento da experiência.
