@@ -840,8 +840,11 @@
   }
 }
 /* Integração 4.3 → 4.4: cena modal da carta. */
-.section--letter[hidden]{
+.section--letter[hidden],
+.section--letter.is-scene[hidden]{
   display:none;
+  pointer-events:none;
+  visibility:hidden;
 }
 .section--letter.is-scene{
   position:fixed;
