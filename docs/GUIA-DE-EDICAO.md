@@ -225,3 +225,16 @@ A lógica fica em `js/interactions.js`, na função `initSurprise()`.
 - A troca de estado usa uma transição curta e respeita `prefers-reduced-motion`.
 
 A experiência não cria dependência técnica com a futura Etapa 4.4.
+
+
+### Campos editáveis da 4.3
+
+Os campos ficam dentro de `surprise`:
+
+- `surprise.title`
+- `surprise.intro`
+- `surprise.question`
+- `surprise.confirmLabel`
+- `surprise.reveal`
+
+A edição desses cinco campos não exige nenhuma alteração no comportamento.
