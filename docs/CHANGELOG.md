@@ -1,3 +1,22 @@
+## [1.0.0] — 2026-09-23
+
+### Etapa 4.3 — Surpresa / Interação
+- Adicionada uma pequena experiência narrativa em três estados: inicial, confirmação e revelação.
+- Conteúdo centralizado em `js/content.js`, dentro de `surprise`.
+- Reutilizado `js/interactions.js`; nenhum novo arquivo de comportamento foi criado.
+- Utilizado botão HTML real com foco visível, área de toque adequada e proteção contra transições repetidas.
+- Adicionada transição discreta entre os estados e suporte a `prefers-reduced-motion`.
+- Mensagens usam altura natural e quebra de texto, sem altura fixa para conteúdo.
+- A 4.3 não cria dependência técnica com a futura 4.4.
+- 4.1, 4.2, Memórias, História, player e timings anteriores foram preservados.
+- 4.4 e 4.5 não foram implementadas.
+
+### Validação
+- Auditoria estrutural realizada antes da implementação.
+- Validação estática dos arquivos e integrações realizada após a implementação.
+- Não há `package.json`/suíte npm no projeto; `npm test` permanece não aplicável.
+- Validação visual real em navegador desktop/mobile não foi executada neste ambiente.
+
 ## [0.9.0] — 2026-09-23
 
 ### Etapa 4.2 — Cápsula do Tempo
