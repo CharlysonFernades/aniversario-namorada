@@ -559,3 +559,189 @@
     transition:none;
   }
 }
+
+
+/* Etapa 4.2: Cápsula do Tempo. */
+.section--time-capsule{
+  background:linear-gradient(180deg,rgba(255,255,255,.008),rgba(255,215,230,.018));
+}
+.time-capsule-experience{
+  width:min(100%,760px);
+  margin-inline:auto;
+  display:grid;
+  justify-items:center;
+  text-align:center;
+}
+.time-capsule{
+  position:relative;
+  width:180px;
+  height:116px;
+  margin:.5rem auto 1.35rem;
+  filter:drop-shadow(0 18px 30px rgba(0,0,0,.22));
+}
+.time-capsule__body,
+.time-capsule__lid{
+  position:absolute;
+  display:block;
+  left:50%;
+  background:linear-gradient(145deg,#ffdce9,#f4aec8);
+  border:1px solid rgba(255,255,255,.34);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.35);
+}
+.time-capsule__body{
+  bottom:0;
+  width:160px;
+  height:82px;
+  transform:translateX(-50%);
+  border-radius:18px 18px 24px 24px;
+}
+.time-capsule__lid{
+  top:17px;
+  width:174px;
+  height:28px;
+  transform:translateX(-50%);
+  border-radius:15px 15px 9px 9px;
+  transform-origin:center bottom;
+  transition:transform 420ms cubic-bezier(.2,.7,.2,1),top 420ms cubic-bezier(.2,.7,.2,1),opacity 260ms ease;
+}
+.time-capsule__seal{
+  position:absolute;
+  left:50%;
+  bottom:25px;
+  display:grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  transform:translateX(-50%);
+  border:1px solid rgba(125,59,87,.22);
+  border-radius:50%;
+  background:#fff0f5;
+  color:#9d4569;
+  font-size:1rem;
+  box-shadow:0 5px 12px rgba(157,69,105,.16);
+  transition:opacity 220ms ease,transform 420ms cubic-bezier(.2,.7,.2,1);
+}
+.time-capsule__controls{
+  display:grid;
+  justify-items:center;
+  gap:.55rem;
+}
+.time-capsule__button{
+  min-width:120px;
+  min-height:46px;
+  padding:.75rem 1.3rem;
+  border:1px solid #ffd7e6;
+  border-radius:999px;
+  background:#ffd7e6;
+  color:#351321;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 9px 24px rgba(255,143,184,.15);
+  transition:transform 180ms ease,background 180ms ease,border-color 180ms ease,opacity 180ms ease;
+}
+.time-capsule__button:hover:not(:disabled){
+  transform:translateY(-2px);
+  background:#ffe5ee;
+  border-color:#ffe5ee;
+}
+.time-capsule__button:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+.time-capsule__button:disabled{
+  cursor:default;
+  opacity:.62;
+}
+.time-capsule__status{
+  min-height:1.2em;
+  color:var(--muted);
+  font-size:.72rem;
+  letter-spacing:.08em;
+}
+.time-capsule__message{
+  width:100%;
+  margin-top:1.75rem;
+  padding:1.7rem clamp(1.2rem,5vw,3.2rem);
+  border:1px solid rgba(255,215,230,.18);
+  border-radius:22px;
+  background:rgba(33,17,32,.74);
+  box-shadow:0 18px 48px rgba(0,0,0,.16);
+  text-align:center;
+  animation:time-capsule-message-in 420ms ease both;
+}
+.time-capsule__message-label{
+  display:block;
+  margin-bottom:.7rem;
+  color:var(--accent);
+  font-size:.7rem;
+  font-weight:700;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+}
+.time-capsule__message-text{
+  max-width:60ch;
+  margin:0 auto;
+  color:var(--text);
+  font-size:clamp(1rem,2.2vw,1.15rem);
+  line-height:1.8;
+  white-space:pre-wrap;
+  overflow-wrap:anywhere;
+}
+@keyframes time-capsule-message-in{
+  from{opacity:0;transform:translateY(10px)}
+  to{opacity:1;transform:none}
+}
+.time-capsule-experience[data-state="opening"] .time-capsule__lid{
+  top:0;
+  transform:translateX(-50%) rotate(-4deg) translateY(-13px);
+}
+.time-capsule-experience[data-state="opening"] .time-capsule__seal,
+.time-capsule-experience[data-state="open"] .time-capsule__seal{
+  opacity:0;
+  transform:translateX(-50%) translateY(7px) scale(.88);
+}
+.time-capsule-experience[data-state="open"] .time-capsule__lid{
+  top:0;
+  transform:translateX(-50%) rotate(-4deg) translateY(-13px);
+}
+@media(max-width:760px){
+  .time-capsule{
+    width:150px;
+    height:98px;
+    margin-top:0;
+    margin-bottom:1.15rem;
+  }
+  .time-capsule__body{
+    width:134px;
+    height:70px;
+  }
+  .time-capsule__lid{
+    width:146px;
+    height:25px;
+    top:14px;
+  }
+  .time-capsule__seal{
+    bottom:21px;
+    width:30px;
+    height:30px;
+  }
+  .time-capsule__message{
+    margin-top:1.4rem;
+    padding:1.4rem 1rem;
+    border-radius:19px;
+  }
+  .time-capsule__message-text{
+    font-size:.95rem;
+    line-height:1.7;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .time-capsule__lid,
+  .time-capsule__seal,
+  .time-capsule__button,
+  .time-capsule__message{
+    transition:none;
+    animation:none;
+  }
+}
