@@ -14,6 +14,26 @@
 - Os filhos de `main` que são irmãos da cena continuam sendo bloqueados.
 - Teste funcional real em navegador desktop/mobile permanece necessário para confirmar scroll, cliques, abertura, fechamento e reentrada no ambiente publicado.
 
+## [1.3.0] — 2026-09-23
+
+### Etapa 5 — Encerramento Cinematográfico
+- Criada uma experiência final com sete cenas: texto, três fotografias, mensagem final, aviso da música e celebração.
+- Adicionada a estrutura `finale` em `js/content.js`, com placeholders para textos, fotos e música final.
+- Implementado controle de progressão e checkpoints em `js/interactions.js`, com bloqueio específico das interações de rolagem durante o auto-scroll e bloqueio de avanço manual para baixo nos checkpoints.
+- Cenas 2–4 usam placeholders de foto e aceitam caminhos editáveis sem alteração de JavaScript, CSS ou HTML.
+- A Cena 6 pausa a faixa atual do mini-player e prepara uma instância de áudio separada para a música final, mantendo-a inaudível durante o aviso e liberando o som na Cena 7.
+- Criada celebração visual discreta, sem animações infinitas, e restaurado o comportamento normal de scroll ao finalizar.
+- Adicionado suporte a `prefers-reduced-motion`.
+- Documentado no guia como editar fotos, textos e música final.
+- Não foram alterados `js/animations.js`, Memórias, Likes, Cápsula, Surpresa, Carta, Mensagem Secreta ou os timings congelados da Etapa 2.
+- A Etapa 6 não foi iniciada.
+
+### Validação estrutural
+- Nova branch criada diretamente da `main` atualizada.
+- Revisão estática da integração com o player, sistema de fotos, Carta fullscreen e correção existente de `setBackgroundInert()`.
+- Não há suíte npm no projeto; `npm test` não é aplicável.
+- Validação visual/funcional real em desktop e mobile permanece pendente do teste do usuário.
+
 ## [1.2.0] — 2026-09-23
 
 ### Etapa 4.5 — Mensagem Secreta

@@ -48,6 +48,39 @@ window.siteContent={
     intro:"AQUI EU PREPAREI ALGO QUE EU QUERO COMPARTILHAR COM VOCÊ, SOBRE O NOSSO FUTURO.",
     message:"Meu amor, sabe o que eu penso sobre nós? Penso que você  será a mãe dos meus filhos, a mulher que edificará o nosso lar, a mulher que será empoderada, poderá malhar, treinar, dançar e fazer qualquer coisa que você queira fazer às 14h da tarde... Eu quero que você seja a mulher da minha vida, em menos de 5 anos estaremos casados... Talvez olhando para trás depois de tantas dificuldades e pensando: VENCEMOS! Eu te amo meu bebẽ."
   },
+  finale:{
+    scene1:{
+      title:"[TÍTULO DA CENA 1]",
+      message:"[TEXTO DA CENA 1]",
+      actionLabel:"Continuar"
+    },
+    scene2:{
+      image:"",
+      alt:"[DESCRIÇÃO DA FOTO DA CENA 2]"
+    },
+    scene3:{
+      image:"",
+      alt:"[DESCRIÇÃO DA FOTO DA CENA 3]"
+    },
+    scene4:{
+      image:"",
+      alt:"[DESCRIÇÃO DA FOTO DA CENA 4]"
+    },
+    scene5:{
+      title:"[TÍTULO DA MENSAGEM FINAL]",
+      message:"[MENSAGEM FINAL]",
+      actionLabel:"Continuar"
+    },
+    scene6:{
+      takeoverMessage:"Confiscamos sua música para dar ênfase nesse momento final."
+    },
+    scene7:{
+      birthdayLabel:"Feliz aniversário ❤️",
+      finalMusic:{
+        src:"assets/musicas/[COLOQUE-AQUI-O-ARQUIVO].mp3"
+      }
+    }
+  },
   musicas:[
     {titulo:"Mirrors",artista:"Justim Timberlake",arquivo:"assets/musicas/musica01.mp3",capa:"assets/fotos/musicas/musica01.png",altCapa:"Capa da Música 01"},
     {titulo:"Pra Sempre com Você",artista:"Jorge & Mateus",arquivo:"assets/musicas/musica02.mp3",capa:"assets/fotos/musicas/musica02.png",altCapa:"Capa da Música 02"},

@@ -640,12 +640,407 @@
     render();
   }
 
+
+  function initFinale(){
+    const root=document.querySelector("[data-finale-experience]");
+    const section=document.querySelector("#encerramento");
+    if(!root||!section)return;
+
+    const finale=content.finale||{};
+    const sceneData=[
+      {type:"text",data:finale.scene1||{}},
+      {type:"photo",data:finale.scene2||{}},
+      {type:"photo",data:finale.scene3||{}},
+      {type:"photo",data:finale.scene4||{}},
+      {type:"message",data:finale.scene5||{}},
+      {type:"takeover",data:finale.scene6||{}},
+      {type:"celebration",data:finale.scene7||{}}
+    ];
+
+    let state="idle";
+    let sceneIndex=0;
+    let checkpointY=0;
+    let autoFrame=0;
+    let autoTargetY=0;
+    let touchStartY=null;
+    let finalAudio=null;
+    let takeoverTimer=0;
+
+    root.className="finale-scenes";
+    root.setAttribute("aria-live","polite");
+
+    const scenes=sceneData.map((scene,index)=>{
+      const element=document.createElement("article");
+      element.className="finale-scene";
+      element.dataset.scene=String(index+1);
+      element.setAttribute("aria-labelledby","finale-scene-"+String(index+1)+"-title");
+      root.appendChild(element);
+      return element;
+    });
+
+    function titleId(index){
+      return "finale-scene-"+String(index+1)+"-title";
+    }
+
+    function setSceneVisibility(activeIndex){
+      scenes.forEach((scene,index)=>{
+        scene.setAttribute("aria-hidden",String(index!==activeIndex));
+      });
+    }
+
+    function createButton(label){
+      const button=document.createElement("button");
+      button.type="button";
+      button.className="finale-scene__continue";
+      button.textContent=label||"Continuar";
+      button.addEventListener("click",()=>advanceFromCheckpoint(button));
+      return button;
+    }
+
+    function renderTextScene(scene,index,data){
+      const wrap=document.createElement("div");
+      wrap.className="finale-scene__content finale-scene__content--text";
+      const eyebrow=document.createElement("span");
+      eyebrow.className="finale-scene__eyebrow";
+      eyebrow.textContent="CENA "+String(index+1);
+      const title=document.createElement("h2");
+      title.id=titleId(index);
+      title.className="finale-scene__title";
+      title.textContent=data.title||"[TÍTULO DA CENA 1]";
+      const message=document.createElement("p");
+      message.className="finale-scene__message";
+      message.textContent=data.message||"[TEXTO DA CENA 1]";
+      const button=createButton(data.actionLabel||"Continuar");
+      wrap.append(eyebrow,title,message,button);
+      scene.append(wrap);
+    }
+
+    function renderPhotoScene(scene,index,data){
+      const wrap=document.createElement("div");
+      wrap.className="finale-scene__content finale-scene__content--photo";
+      const eyebrow=document.createElement("span");
+      eyebrow.className="finale-scene__eyebrow";
+      eyebrow.textContent="CENA "+String(index+1);
+      const title=document.createElement("h2");
+      title.id=titleId(index);
+      title.className="finale-scene__title finale-scene__title--sr";
+      title.textContent="Cena "+String(index+1)+" — fotografia";
+      const frame=document.createElement("figure");
+      frame.className="finale-photo-frame";
+      if(data.image){
+        const image=document.createElement("img");
+        image.src=data.image;
+        image.alt=data.alt||"Fotografia da celebração";
+        image.loading="lazy";
+        image.decoding="async";
+        image.addEventListener("error",()=>{
+          frame.replaceChildren();
+          frame.classList.add("is-placeholder");
+          const placeholder=document.createElement("span");
+          placeholder.className="finale-photo-frame__placeholder";
+          placeholder.textContent="FOTO / PLACEHOLDER";
+          frame.append(placeholder);
+        });
+        frame.append(image);
+      }else{
+        frame.classList.add("is-placeholder");
+        const placeholder=document.createElement("span");
+        placeholder.className="finale-photo-frame__placeholder";
+        placeholder.textContent="FOTO / PLACEHOLDER";
+        frame.append(placeholder);
+      }
+      const button=createButton("Continuar");
+      wrap.append(eyebrow,title,frame,button);
+      scene.append(wrap);
+    }
+
+    function renderMessageScene(scene,index,data){
+      const wrap=document.createElement("div");
+      wrap.className="finale-scene__content finale-scene__content--text";
+      const eyebrow=document.createElement("span");
+      eyebrow.className="finale-scene__eyebrow";
+      eyebrow.textContent="CENA "+String(index+1);
+      const title=document.createElement("h2");
+      title.id=titleId(index);
+      title.className="finale-scene__title";
+      title.textContent=data.title||"[TÍTULO DA MENSAGEM FINAL]";
+      const message=document.createElement("p");
+      message.className="finale-scene__message";
+      message.textContent=data.message||"[MENSAGEM FINAL]";
+      const button=createButton(data.actionLabel||"Continuar");
+      wrap.append(eyebrow,title,message,button);
+      scene.append(wrap);
+    }
+
+    function renderTakeoverScene(scene,index,data){
+      const wrap=document.createElement("div");
+      wrap.className="finale-scene__content finale-scene__content--takeover";
+      const title=document.createElement("h2");
+      title.id=titleId(index);
+      title.className="finale-scene__title";
+      title.textContent=data.takeoverMessage||"Confiscamos sua música para dar ênfase nesse momento final.";
+      const status=document.createElement("p");
+      status.className="finale-scene__status";
+      wrap.append(title,status);
+      scene.append(wrap);
+    }
+
+    function renderCelebrationScene(scene,index,data){
+      const wrap=document.createElement("div");
+      wrap.className="finale-scene__content finale-scene__content--celebration";
+      const symbol=document.createElement("span");
+      symbol.className="finale-celebration__symbol";
+      symbol.setAttribute("aria-hidden","true");
+      symbol.textContent="♡";
+      const title=document.createElement("h2");
+      title.id=titleId(index);
+      title.className="finale-scene__title";
+      title.textContent=data.birthdayLabel||"Feliz aniversário ❤️";
+      const confetti=document.createElement("div");
+      confetti.className="finale-celebration__confetti";
+      confetti.setAttribute("aria-hidden","true");
+      for(let i=0;i<14;i+=1){
+        const piece=document.createElement("span");
+        piece.textContent=i%3===0?"♥":i%3===1?"✦":"·";
+        piece.style.setProperty("--finale-piece",String(i));
+        confetti.append(piece);
+      }
+      const note=document.createElement("p");
+      note.className="finale-scene__message finale-scene__message--celebration";
+      note.textContent="";
+      wrap.append(confetti,symbol,title,note);
+      scene.append(wrap);
+    }
+
+    renderTextScene(scenes[0],0,sceneData[0].data);
+    renderPhotoScene(scenes[1],1,sceneData[1].data);
+    renderPhotoScene(scenes[2],2,sceneData[2].data);
+    renderPhotoScene(scenes[3],3,sceneData[3].data);
+    renderMessageScene(scenes[4],4,sceneData[4].data);
+    renderTakeoverScene(scenes[5],5,sceneData[5].data);
+    renderCelebrationScene(scenes[6],6,sceneData[6].data);
+    setSceneVisibility(0);
+
+    function isReduced(){
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    function sceneTop(index){
+      return Math.max(0,Math.round(scenes[index].getBoundingClientRect().top+window.scrollY));
+    }
+
+    function setCheckpoint(index){
+      sceneIndex=index;
+      checkpointY=sceneTop(index);
+      setSceneVisibility(index);
+      state=index===6?"finished":"checkpoint";
+      const button=scenes[index].querySelector(".finale-scene__continue");
+      if(button){
+        button.disabled=false;
+        requestAnimationFrame(()=>button.focus({preventScroll:true}));
+      }
+    }
+
+    function cancelAutoScroll(){
+      if(autoFrame){
+        cancelAnimationFrame(autoFrame);
+        autoFrame=0;
+      }
+    }
+
+    function scrollToTarget(index,after){
+      if(autoFrame)cancelAnimationFrame(autoFrame);
+      autoTargetY=sceneTop(index);
+      state="auto";
+      const startY=window.scrollY;
+      const distance=autoTargetY-startY;
+      const duration=isReduced()?40:Math.min(4200,Math.max(1500,Math.abs(distance)*1.35));
+      const startTime=performance.now();
+      function step(now){
+        if(state!=="auto")return;
+        const progress=Math.min(1,(now-startTime)/duration);
+        const eased=1-Math.pow(1-progress,3);
+        window.scrollTo(0,startY+(distance*eased));
+        if(progress<1){
+          autoFrame=requestAnimationFrame(step);
+          return;
+        }
+        autoFrame=0;
+        window.scrollTo(0,autoTargetY);
+        if(typeof after==="function")after();
+      }
+      autoFrame=requestAnimationFrame(step);
+    }
+
+    function fadeButton(button){
+      button.disabled=true;
+      button.classList.add("is-fading");
+    }
+
+    function advanceFromCheckpoint(button){
+      if(state!=="checkpoint"||sceneIndex>=4||button.disabled)return;
+      fadeButton(button);
+      window.setTimeout(()=>{
+        if(state!=="checkpoint")return;
+        const nextIndex=sceneIndex+1;
+        if(nextIndex===5){
+          beginTakeover();
+          return;
+        }
+        scrollToTarget(nextIndex,()=>setCheckpoint(nextIndex));
+      },isReduced()?0:220);
+    }
+
+    function pauseCurrentPlayer(){
+      if(window.musicPlayer&&typeof window.musicPlayer.pause==="function")window.musicPlayer.pause();
+    }
+
+    function beginTakeover(){
+      state="takeover";
+      sceneIndex=5;
+      if(autoFrame)cancelAnimationFrame(autoFrame);
+      pauseCurrentPlayer();
+      prepareFinalMusic();
+      setSceneVisibility(5);
+      checkpointY=sceneTop(5);
+      window.scrollTo(0,checkpointY);
+      const scene=scenes[5];
+      scene.classList.add("is-active");
+      window.clearTimeout(takeoverTimer);
+      takeoverTimer=window.setTimeout(()=>{
+        scene.classList.remove("is-active");
+        scrollToTarget(6,finishCelebration);
+      },isReduced()?120:3600);
+    }
+
+    function prepareFinalMusic(){
+      const src=sceneData[6].data.finalMusic&&sceneData[6].data.finalMusic.src;
+      if(!src)return;
+      if(!finalAudio){
+        finalAudio=new Audio();
+        finalAudio.preload="auto";
+      }
+      finalAudio.pause();
+      finalAudio.currentTime=0;
+      finalAudio.src=src;
+      finalAudio.volume=1;
+      finalAudio.muted=true;
+      const playPromise=finalAudio.play();
+      if(playPromise&&playPromise.catch)playPromise.catch(()=>{});
+    }
+
+    function startFinalMusic(){
+      if(!finalAudio)return;
+      finalAudio.currentTime=0;
+      finalAudio.muted=false;
+      const playPromise=finalAudio.play();
+      if(playPromise&&playPromise.catch)playPromise.catch(()=>{});
+    }
+
+    function finishCelebration(){
+      setCheckpoint(6);
+      state="finished";
+      startFinalMusic();
+      root.classList.add("is-finished");
+      window.setTimeout(()=>{
+        root.classList.add("is-settled");
+        enableNormalScroll();
+      },isReduced()?0:900);
+    }
+
+    function enableNormalScroll(){
+      if(autoFrame)cancelAnimationFrame(autoFrame);
+      state="finished";
+      document.documentElement.classList.remove("finale-is-active");
+    }
+
+    function guardScroll(){
+      if(state==="auto"||state==="takeover"){
+        if(Math.abs(window.scrollY-autoTargetY)>1)window.scrollTo(0,autoTargetY);
+      }else if(state==="checkpoint"&&window.scrollY>checkpointY+1){
+        window.scrollTo(0,checkpointY);
+      }
+    }
+
+    function handleWheel(event){
+      if(state==="auto"||state==="takeover"||(state==="checkpoint"&&event.deltaY>0)){
+        if(event.cancelable)event.preventDefault();
+      }
+    }
+
+    function handleKeydown(event){
+      if(state!=="auto"&&state!=="takeover"&&state!=="checkpoint")return;
+      const blocked=["ArrowDown","PageDown"," ","Spacebar","End"];
+      if(blocked.includes(event.key)||(state!=="checkpoint"&&["ArrowUp","PageUp","Home"].includes(event.key))){
+        if(event.cancelable)event.preventDefault();
+      }
+    }
+
+    function handleTouchStart(event){
+      if(event.touches&&event.touches[0])touchStartY=event.touches[0].clientY;
+    }
+
+    function handleTouchMove(event){
+      if(!event.touches||!event.touches[0]||touchStartY===null)return;
+      const delta=touchStartY-event.touches[0].clientY;
+      if(state==="auto"||state==="takeover"||(state==="checkpoint"&&delta>0)){
+        if(event.cancelable)event.preventDefault();
+      }
+    }
+
+    function handleTouchEnd(){
+      touchStartY=null;
+    }
+
+    function handleFinaleLinks(event){
+      if(state!=="auto"&&state!=="takeover"&&state!=="checkpoint")return;
+      const link=event.target.closest("a[href]");
+      if(link&&link.closest(".site-nav"))event.preventDefault();
+    }
+
+    function startFinale(){
+      if(state!=="idle")return;
+      state="checkpoint";
+      document.documentElement.classList.add("finale-is-active");
+      setSceneVisibility(0);
+      checkpointY=sceneTop(0);
+      window.scrollTo(0,checkpointY);
+      const button=scenes[0].querySelector(".finale-scene__continue");
+      if(button){
+        button.disabled=false;
+        requestAnimationFrame(()=>button.focus({preventScroll:true}));
+      }
+    }
+
+    document.addEventListener("wheel",handleWheel,{passive:false});
+    document.addEventListener("keydown",handleKeydown);
+    document.addEventListener("touchstart",handleTouchStart,{passive:true});
+    document.addEventListener("touchmove",handleTouchMove,{passive:false});
+    document.addEventListener("touchend",handleTouchEnd,{passive:true});
+    document.addEventListener("click",handleFinaleLinks);
+    window.addEventListener("scroll",guardScroll,{passive:true});
+
+    const observer=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting&&entry.intersectionRatio>=.5)startFinale();
+      });
+    },{threshold:[.5]});
+    observer.observe(section);
+
+    window.addEventListener("beforeunload",()=>{
+      if(autoFrame)cancelAnimationFrame(autoFrame);
+      window.clearTimeout(takeoverTimer);
+      if(finalAudio)finalAudio.pause();
+    },{once:true});
+  }
+
   function init(){
     initLikes();
     initTimeCapsule();
     const openLetterScene=initLetterExperience();
     initSurprise(openLetterScene);
     initSecretMessage();
+    initFinale();
   }
 
   if(document.readyState==="loading"){
