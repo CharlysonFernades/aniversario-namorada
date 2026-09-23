@@ -25,17 +25,17 @@ window.siteContent={
     ]
   },
   surprise:{
-    title:"[TÍTULO DA SURPRESA]",
-    intro:"[INTRODUÇÃO DA SURPRESA]",
-    question:"[PERGUNTA]",
-    confirmLabel:"[BOTÃO DE CONFIRMAÇÃO]",
-    reveal:"[REVELAÇÃO]"
+    title:"TENHO UMA SURPRESA PRA VOCÊ!",
+    intro:"Aqui eu preparei uma coisa bonitinha pra você, espero que você goste.",
+    question:"Que site grandão né, igual [...] Está gostando?",
+    confirmLabel:"IR PARA SURPRESA",
+    reveal:"VIXEEEE, é muito grande cara, não coube aqui..."
   },
   gift:{
     title:"Uma carta para você",
-    intro:"[INTRODUÇÃO DA CARTA]",
-    letterTitle:"[TÍTULO DA CARTA]",
-    message:"[TEXTO DA CARTA]"
+    intro:"Escrevi essa carta de todo o meu coração",
+    letterTitle:"Uma carta destinada à jovem adulta mais linda que eu conheci.",
+    message:"Oi meu amor, seja bem vinda à esta mensagem que tenho para te dar, primeiramente, olhe pra mim ( que estou do seu lado ) e me fale: O que você achou da surpresa até agora? Hehehehe. Enfim, vamos começar: Dia 25/09 é um dia muito especial meu amor, é o dia que a minha princesa nasceu, há 18 anos atrás... Uma garota sorridente, carequinha quando era criança, foi ganhando cabelos ( e gordurakkkkkkkk), depois cresceu e virou pré-adolescente. Sofreu muito com a inveja alheia, sofreu com bullying, rejeição... Cresceu e se tornou adolescente: perdeu uma das pessoas mais importantes para você ( fisicamente, pois eu tenho certeza que a cada ano que passa, ele faz o céu inteiro comemorar com ele o seu nascimento. Como eu sempre digo: Hoje o céu se alegra por você, meu amor.) e na mesma época: se envolveu com um menino que nunca te amou e só te usou... Cresceu, virou 'pré-adulta' (kkkkkkK), conheceu a lenda aqui e gamou no 'tchan' do pai, começamos a namorar, criamos memórias lindas juntos, entre brigas e discurssões... Mas sempre juntos. Cresceu.... Agora, chegou no estado de ADULTA! E que seja abençoada essa sua nova fase, meu amor. Eu te amo muito: Feliz 0 anos de vida ( na vida adulta você acabou de nascerKKKKKKKKKk). Ass: Charlyson, Peep."
   },
   timeCapsule:{
     title:"Cápsula do Tempo",
