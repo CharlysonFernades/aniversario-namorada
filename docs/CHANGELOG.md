@@ -1,3 +1,19 @@
+## [1.1.3] — 2026-09-23
+
+### Correção — Escopo do `inert` na cena da carta
+- Corrigido o bloqueio do background em `setBackgroundInert()`.
+- A causa estava na inclusão do próprio `main` como candidato a `inert`; como a cena da carta pertence ao `main`, isso tornava a própria cena descendente de um ancestral inerte e impedia sua interação.
+- O `main` e outros ancestrais da cena agora ficam fora dos candidatos diretos ao `inert`.
+- Os elementos irmãos da cena dentro do `main` continuam recebendo `inert`, preservando o bloqueio do conteúdo de fundo sem bloquear a cena.
+- Nenhuma alteração feita no design, conteúdo ou estados da carta, nem em 4.1, 4.2, 4.3, Memórias, História, Player ou timings congelados.
+- 4.5 não foi implementada.
+
+### Validação
+- Revisão estática confirmou que `main` não é mais adicionado ao conjunto de elementos inertes.
+- A cena continua fora do conjunto de elementos inertes.
+- Os filhos de `main` que são irmãos da cena continuam sendo bloqueados.
+- Teste funcional real em navegador desktop/mobile permanece necessário para confirmar scroll, cliques, abertura, fechamento e reentrada no ambiente publicado.
+
 ## [1.1.2] — 2026-09-23
 
 ### Correção — Estado inicial da cena da carta
