@@ -18,6 +18,13 @@ window.siteContent={
       {title:"[MOTIVO 03]",text:"[DESCRIÇÃO DO MOTIVO 03]"}
     ]
   },
+  surprise:{
+    title:"[TÍTULO DA SURPRESA]",
+    intro:"[INTRODUÇÃO DA SURPRESA]",
+    question:"[PERGUNTA]",
+    confirmLabel:"[BOTÃO DE CONFIRMAÇÃO]",
+    reveal:"[REVELAÇÃO]"
+  },
   timeCapsule:{
     title:"Cápsula do Tempo",
     intro:"[INTRODUÇÃO DA CÁPSULA]",
