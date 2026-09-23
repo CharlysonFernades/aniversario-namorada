@@ -1309,6 +1309,17 @@
 .section--finale[hidden]{
   display:none;
 }
+.section--finale.is-entering{
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity 180ms ease,transform 180ms ease;
+}
+@media(prefers-reduced-motion:reduce){
+  .section--finale.is-entering{
+    transition:none;
+    transform:none;
+  }
+}
 .secret-message__finale-button{
   min-width:11rem;
   min-height:2.9rem;

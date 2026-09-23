@@ -1108,18 +1108,38 @@
       section.setAttribute("aria-hidden","false");
       document.documentElement.classList.add("finale-is-active");
       setSceneVisibility(0);
+      section.classList.add("is-entering");
 
       window.requestAnimationFrame(()=>{
         if(state!=="checkpoint")return;
-        checkpointY=sceneTop(0);
-        window.scrollTo(0,checkpointY);
 
-        const button=scenes[0].querySelector(".finale-scene__continue");
-        if(button){
-          button.disabled=false;
-          button.classList.remove("is-fading");
-          button.focus({preventScroll:true});
-        }
+        checkpointY=sceneTop(0);
+        checkpointLimitY=checkpointY;
+        window.scrollTo({top:checkpointY,left:0,behavior:"instant"});
+
+        window.requestAnimationFrame(()=>{
+          if(state!=="checkpoint")return;
+
+          checkpointY=sceneTop(0);
+          checkpointLimitY=calculateCheckpointLimit(0);
+
+          const button=scenes[0].querySelector(".finale-scene__continue");
+          if(button){
+            button.disabled=false;
+            button.classList.remove("is-fading");
+            button.focus({preventScroll:true});
+          }
+
+          const reduced=isReduced();
+          if(reduced){
+            section.classList.remove("is-entering");
+            return;
+          }
+
+          window.setTimeout(()=>{
+            if(state==="checkpoint")section.classList.remove("is-entering");
+          },180);
+        });
       });
     }
 
