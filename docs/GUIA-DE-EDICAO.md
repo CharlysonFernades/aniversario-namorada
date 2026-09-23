@@ -393,6 +393,21 @@ A apresentação visual fica isolada em `css/style.css` pelos seletores da 4.5. 
 A Mensagem Secreta não cria senha, puzzle, caça ao tesouro, temporizador, sequência de cliques, modal ou nova página. Ela também não implementa a Etapa 5; a integração futura pode ser feita posteriormente sem exigir que a 4.5 controle o encerramento da experiência.
 
 
+## Integração 4.5 → Etapa 5 — Entrada do Encerramento
+
+A Etapa 5 não fica exposta no fluxo normal da página. Ela é liberada somente pela Mensagem Secreta.
+
+### Como a entrada funciona
+
+1. A Mensagem Secreta começa em `locked`.
+2. Ao revelar a mensagem, o botão **IR PARA ENCERRAMENTO** aparece.
+3. O botão é um `<button>` real e chama a ação retornada por `initFinale()`.
+4. A seção `#encerramento` permanece com `hidden` até essa ação.
+5. Ao abrir, a Cena 1 é posicionada como um `checkpoint`.
+6. O auto-scroll só começa quando o usuário pressiona **Continuar**.
+
+A Etapa 5 não usa `IntersectionObserver` para iniciar. Não é necessário editar HTML ou criar uma nova página/URL.
+
 ## Etapa 5 — Encerramento Cinematográfico
 
 A Etapa 5 fica no final da página e apresenta sete cenas: texto, três fotografias, mensagem final, aviso da música e celebração.

@@ -14,6 +14,16 @@
 - Os filhos de `main` que são irmãos da cena continuam sendo bloqueados.
 - Teste funcional real em navegador desktop/mobile permanece necessário para confirmar scroll, cliques, abertura, fechamento e reentrada no ambiente publicado.
 
+## [1.3.1] — 2026-09-23
+
+### Correção de integração — Etapa 4.5 → Etapa 5
+- A Mensagem Secreta agora exibe **IR PARA ENCERRAMENTO** somente depois de `revealed` e usa a ação retornada por `initFinale()` para iniciar a experiência.
+- O encerramento cinematográfico permanece oculto no fluxo normal da página até a liberação explícita.
+- Removido o gatilho por `IntersectionObserver`; a entrada na Etapa 5 deixou de depender da visibilidade de uma seção de aproximadamente 700svh.
+- A Cena 1 agora é aberta diretamente em estado `checkpoint`, com leitura livre para cima e sem auto-scroll até o clique em **Continuar**.
+- A máquina de auto-scroll, bloqueios de avanço e transições das Cenas 2–7 foram preservados.
+- Nenhuma alteração foi feita na Carta, na correção de `setBackgroundInert()`, nas experiências 4.1–4.5 aprovadas, no player, nas Memórias, na História ou nos timings congelados da Etapa 2.
+
 ## [1.3.0] — 2026-09-23
 
 ### Etapa 5 — Encerramento Cinematográfico

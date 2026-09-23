@@ -535,7 +535,7 @@
   }
 
 
-  function initSecretMessage(){
+  function initSecretMessage(openFinale){
     const root=document.querySelector("[data-secret-message]");
     if(!root)return;
 
@@ -577,11 +577,19 @@
     button.className="secret-message__button";
     button.setAttribute("aria-controls","secret-message-content");
 
+    const finaleButton=document.createElement("button");
+    finaleButton.type="button";
+    finaleButton.className="secret-message__finale-button";
+    finaleButton.textContent="IR PARA ENCERRAMENTO";
+    finaleButton.disabled=true;
+    finaleButton.hidden=true;
+    finaleButton.setAttribute("aria-label","Ir para o encerramento cinematográfico");
+
     const status=document.createElement("span");
     status.className="secret-message__status";
     status.setAttribute("aria-live","polite");
 
-    controls.append(button,status);
+    controls.append(button,finaleButton,status);
     note.append(symbol,label,title,intro,message,controls);
     root.append(note);
 
@@ -595,9 +603,13 @@
         button.textContent=secret.actionLabel||"[TEXTO DO BOTÃO]";
         button.disabled=false;
         button.setAttribute("aria-expanded","false");
+        finaleButton.hidden=true;
+        finaleButton.disabled=true;
         status.textContent="";
       }else if(state==="revealing"){
         button.disabled=true;
+        finaleButton.hidden=true;
+        finaleButton.disabled=true;
         status.textContent="Revelando…";
       }else{
         title.textContent=secret.title||"[TÍTULO DA MENSAGEM SECRETA]";
@@ -607,6 +619,8 @@
         button.disabled=true;
         button.textContent="Mensagem revelada";
         button.setAttribute("aria-expanded","true");
+        finaleButton.hidden=false;
+        finaleButton.disabled=false;
         status.textContent="Mensagem revelada";
       }
       root.dataset.state=state;
@@ -637,6 +651,9 @@
     }
 
     button.addEventListener("click",reveal);
+    finaleButton.addEventListener("click",()=>{
+      if(state==="revealed"&&typeof openFinale==="function")openFinale();
+    });
     render();
   }
 
@@ -644,7 +661,10 @@
   function initFinale(){
     const root=document.querySelector("[data-finale-experience]");
     const section=document.querySelector("#encerramento");
-    if(!root||!section)return;
+    if(!root||!section)return null;
+
+    section.hidden=true;
+    section.setAttribute("aria-hidden","true");
 
     const finale=content.finale||{};
     const sceneData=[
@@ -998,18 +1018,27 @@
       if(link&&link.closest(".site-nav"))event.preventDefault();
     }
 
-    function startFinale(){
+    function openFinale(){
       if(state!=="idle")return;
+
       state="checkpoint";
+      section.hidden=false;
+      section.setAttribute("aria-hidden","false");
       document.documentElement.classList.add("finale-is-active");
       setSceneVisibility(0);
-      checkpointY=sceneTop(0);
-      window.scrollTo(0,checkpointY);
-      const button=scenes[0].querySelector(".finale-scene__continue");
-      if(button){
-        button.disabled=false;
-        requestAnimationFrame(()=>button.focus({preventScroll:true}));
-      }
+
+      window.requestAnimationFrame(()=>{
+        if(state!=="checkpoint")return;
+        checkpointY=sceneTop(0);
+        window.scrollTo(0,checkpointY);
+
+        const button=scenes[0].querySelector(".finale-scene__continue");
+        if(button){
+          button.disabled=false;
+          button.classList.remove("is-fading");
+          button.focus({preventScroll:true});
+        }
+      });
     }
 
     document.addEventListener("wheel",handleWheel,{passive:false});
@@ -1020,18 +1049,13 @@
     document.addEventListener("click",handleFinaleLinks);
     window.addEventListener("scroll",guardScroll,{passive:true});
 
-    const observer=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting&&entry.intersectionRatio>=.5)startFinale();
-      });
-    },{threshold:[.5]});
-    observer.observe(section);
-
     window.addEventListener("beforeunload",()=>{
       if(autoFrame)cancelAnimationFrame(autoFrame);
       window.clearTimeout(takeoverTimer);
       if(finalAudio)finalAudio.pause();
     },{once:true});
+
+    return openFinale;
   }
 
   function init(){
@@ -1039,8 +1063,8 @@
     initTimeCapsule();
     const openLetterScene=initLetterExperience();
     initSurprise(openLetterScene);
-    initSecretMessage();
-    initFinale();
+    const openFinale=initFinale();
+    initSecretMessage(openFinale);
   }
 
   if(document.readyState==="loading"){
