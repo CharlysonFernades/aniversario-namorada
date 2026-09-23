@@ -93,8 +93,101 @@
     render();
   }
 
+  function initTimeCapsule(){
+    const root=document.querySelector("[data-time-capsule]");
+    if(!root)return;
+
+    const capsule=content.timeCapsule||{};
+    const message=capsule.message||"[MENSAGEM REVELADA]";
+    let state="closed";
+
+    root.className="time-capsule-experience";
+
+    const object=document.createElement("div");
+    object.className="time-capsule";
+    object.setAttribute("aria-hidden","true");
+
+    const lid=document.createElement("span");
+    lid.className="time-capsule__lid";
+
+    const body=document.createElement("span");
+    body.className="time-capsule__body";
+
+    const seal=document.createElement("span");
+    seal.className="time-capsule__seal";
+    seal.textContent="♡";
+
+    object.append(lid,body,seal);
+
+    const controls=document.createElement("div");
+    controls.className="time-capsule__controls";
+
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="time-capsule__button";
+    button.setAttribute("aria-expanded","false");
+    button.setAttribute("aria-controls","time-capsule-message");
+    button.textContent="Abrir";
+
+    const status=document.createElement("span");
+    status.className="time-capsule__status";
+    status.setAttribute("aria-live","polite");
+
+    controls.append(button,status);
+
+    const revealed=document.createElement("div");
+    revealed.className="time-capsule__message";
+    revealed.id="time-capsule-message";
+    revealed.setAttribute("aria-live","polite");
+    revealed.hidden=true;
+
+    const messageLabel=document.createElement("span");
+    messageLabel.className="time-capsule__message-label";
+    messageLabel.textContent="Uma coisa que eu guardei para você";
+
+    const messageText=document.createElement("p");
+    messageText.className="time-capsule__message-text";
+
+    revealed.append(messageLabel,messageText);
+    root.append(object,controls,revealed);
+
+    function openCapsule(){
+      if(state!=="closed")return;
+
+      state="opening";
+      button.disabled=true;
+      button.setAttribute("aria-expanded","true");
+      root.dataset.state="opening";
+      status.textContent="Abrindo…";
+
+      const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(reduced){
+        finishOpening();
+        return;
+      }
+
+      window.setTimeout(finishOpening,420);
+    }
+
+    function finishOpening(){
+      if(state!=="opening")return;
+
+      state="open";
+      root.dataset.state="open";
+      messageText.textContent=message;
+      revealed.hidden=false;
+      status.textContent="Cápsula aberta";
+      button.textContent="Aberta";
+      button.disabled=true;
+    }
+
+    button.addEventListener("click",openCapsule);
+    root.dataset.state="closed";
+  }
+
   function init(){
     initLikes();
+    initTimeCapsule();
   }
 
   if(document.readyState==="loading"){
