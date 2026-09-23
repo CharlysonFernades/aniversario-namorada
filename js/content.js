@@ -32,10 +32,10 @@ window.siteContent={
     reveal:"VIXEEEE, é muito grande cara, não coube aqui..."
   },
   secretMessage:{
-    title:"[TÍTULO DA MENSAGEM SECRETA]",
-    intro:"[INTRODUÇÃO DA MENSAGEM SECRETA]",
-    actionLabel:"[TEXTO DO BOTÃO]",
-    message:"[MENSAGEM SECRETA]"
+    title:"AQUI ESTÁ ESCONDIDO UM SEGREDO...",
+    intro:"É uma coisa que você vai querer saber...",
+    actionLabel:"REVELAR SEGREDO",
+    message:"Você é a dona do sorriso mais lindo desse planeta, é a mulher mais maravilhosa, mais forte que eu já conheci, eu quero viver um futuro lindo com você. EU TE AMO MEU AMOR. e aqui o segredo: Eu gosto de sentir o cheiro dos seus peidos..."
   },
   gift:{
     title:"Uma carta para você",
