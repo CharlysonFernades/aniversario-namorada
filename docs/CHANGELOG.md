@@ -1,3 +1,24 @@
+## [1.1.0] — 2026-09-23
+
+### Etapa 4.4 — Carta
+- Adicionada a sexta parte da experiência narrativa, com envelope fechado, abertura e carta revelada.
+- Mantido o conteúdo da carta centralizado em `js/content.js`, dentro de `gift`.
+- Reutilizado `js/interactions.js`, sem criar um arquivo específico para a carta.
+- Implementados os estados `closed`, `opening` e `opened`, com bloqueio imediato contra acionamentos repetidos.
+- Envelope e selo/coração construídos integralmente com CSS, formas geométricas e `clip-path`, sem imagem externa.
+- Conteúdo pessoal da carta mantido como texto HTML real, com altura natural e suporte a mensagens curtas, médias ou longas.
+- Implementados foco visível, botão HTML real, área de toque adequada, anúncio de estado e suporte a `prefers-reduced-motion`.
+- Timings da Etapa 2 preservados; a abertura da carta utiliza timing próprio e isolado.
+- 4.1, 4.2, 4.3, Memórias, História e Player permanecem fora do escopo de alteração.
+- 4.5 não foi implementada nem antecipada.
+
+### Validação
+- Auditoria estrutural realizada antes da implementação, incluindo branch, HEAD, comparação com `main`, 4.3, conteúdo, comportamento e estilos existentes.
+- Validação estática realizada após a implementação dos arquivos e integrações.
+- Não há `package.json`/suíte npm no projeto; `npm test` permanece não aplicável.
+- Validação visual real em navegador desktop/mobile depende da execução no navegador pelo responsável do projeto.
+- Testes estruturais de conteúdo curto, médio e longo foram representados por altura natural e quebra de texto; não foram executados visualmente neste ambiente.
+
 ## [1.0.0] — 2026-09-23
 
 ### Etapa 4.3 — Surpresa / Interação

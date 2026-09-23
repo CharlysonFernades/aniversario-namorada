@@ -238,3 +238,75 @@ Os campos ficam dentro de `surprise`:
 - `surprise.reveal`
 
 A edição desses cinco campos não exige nenhuma alteração no comportamento.
+
+## Etapa 4.4 — Carta
+
+A quarta experiência da Etapa 4 apresenta um envelope fechado que pode ser aberto uma única vez para revelar uma carta.
+
+### Onde editar a carta
+
+Abra:
+
+`js/content.js`
+
+Localize:
+
+`gift`
+
+A estrutura é:
+
+```js
+gift:{
+  title:"Uma carta para você",
+  intro:"[INTRODUÇÃO DA CARTA]",
+  letterTitle:"[TÍTULO DA CARTA]",
+  message:"[TEXTO DA CARTA]"
+}
+```
+
+- `gift.title`: título da experiência exibido no cabeçalho da seção.
+- `gift.intro`: introdução exibida antes do envelope.
+- `gift.letterTitle`: título exibido dentro da carta aberta.
+- `gift.message`: texto pessoal da carta.
+
+Para trocar a mensagem, edite somente `gift.message`. Para trocar o título interno, edite `gift.letterTitle`. Não é necessário alterar `js/interactions.js`.
+
+### Separação entre conteúdo, comportamento e apresentação
+
+- `js/content.js`: guarda os textos da carta.
+- `js/interactions.js`: controla os estados `closed`, `opening` e `opened`, o clique e a revelação do conteúdo.
+- `css/style.css`: constrói o envelope, o selo/coração, a animação e a aparência da carta.
+
+O envelope e o selo/coração são desenhados com CSS, usando formas geométricas e `clip-path`; nenhuma imagem externa é necessária para representar a carta. O conteúdo pessoal da carta é inserido como texto real em elementos HTML (`h3` e `p`), e não como imagem.
+
+### Como a abertura funciona
+
+1. O estado inicial é `closed`.
+2. O botão real `Abrir` muda o estado para `opening` e fica desabilitado imediatamente.
+3. Durante a abertura, a aba do envelope gira, o selo desaparece suavemente e a folha interna se desloca.
+4. Depois da transição, o estado passa para `opened`, o envelope sai de cena e a carta é exibida.
+5. O título e a mensagem são carregados de `gift.letterTitle` e `gift.message`.
+6. O estado aberto não permite uma segunda abertura.
+
+A abertura usa um timing próprio e isolado da Etapa 2. Os timings dos reveals continuam em `1050ms`, `140ms`, `280ms`, `420ms` e `560ms`.
+
+### Responsividade e acessibilidade
+
+A composição do envelope é reduzida no mobile sem manter dimensões fixas de desktop. A carta usa altura natural e quebra de texto para suportar mensagens curtas, médias ou longas.
+
+O botão é um `<button type="button">` real, possui foco visível, área de toque adequada e é desabilitado assim que a abertura começa. O estado é anunciado por uma área de status com `aria-live`. O envelope e o selo são decorativos.
+
+Quando `prefers-reduced-motion: reduce` está ativo, a abertura é concluída diretamente, sem a animação intermediária.
+
+### O que não deve ser alterado nesta etapa
+
+A 4.4 não exige alterações em:
+
+- Memórias;
+- História;
+- Player;
+- `js/animations.js`;
+- 4.1;
+- 4.2;
+- 4.3;
+- futura Etapa 4.5.

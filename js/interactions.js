@@ -265,10 +265,116 @@
 
     render();
   }
+  function initLetterExperience(){
+    const root=document.querySelector("[data-letter-experience]");
+    if(!root)return;
+
+    const gift=content.gift||{};
+    let state="closed";
+
+    root.className="letter-experience";
+    root.setAttribute("aria-live","polite");
+
+    const stage=document.createElement("div");
+    stage.className="letter-stage";
+
+    const envelope=document.createElement("div");
+    envelope.className="letter-envelope";
+    envelope.setAttribute("aria-hidden","true");
+
+    const paper=document.createElement("div");
+    paper.className="letter-envelope__paper";
+
+    const back=document.createElement("span");
+    back.className="letter-envelope__back";
+
+    const flap=document.createElement("span");
+    flap.className="letter-envelope__flap";
+
+    const front=document.createElement("span");
+    front.className="letter-envelope__front";
+
+    const seal=document.createElement("span");
+    seal.className="letter-envelope__seal";
+    seal.textContent="♥";
+
+    envelope.append(paper,back,flap,front,seal);
+
+    const letter=document.createElement("article");
+    letter.className="letter-card";
+    letter.hidden=true;
+
+    const letterTitle=document.createElement("h3");
+    letterTitle.className="letter-card__title";
+
+    const message=document.createElement("p");
+    message.className="letter-card__message";
+
+    const closing=document.createElement("span");
+    closing.className="letter-card__mark";
+    closing.setAttribute("aria-hidden","true");
+    closing.textContent="♥";
+
+    letter.append(letterTitle,message,closing);
+    stage.append(envelope,letter);
+
+    const controls=document.createElement("div");
+    controls.className="letter-controls";
+
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="letter-open-button";
+    button.setAttribute("aria-expanded","false");
+    button.textContent="Abrir";
+
+    const status=document.createElement("span");
+    status.className="letter-status";
+    status.setAttribute("aria-live","polite");
+
+    controls.append(button,status);
+    root.append(stage,controls);
+
+    function finishOpening(){
+      if(state!=="opening")return;
+
+      state="opened";
+      root.dataset.state="opened";
+      letterTitle.textContent=gift.letterTitle||"[TÍTULO DA CARTA]";
+      message.textContent=gift.message||"[TEXTO DA CARTA]";
+      letter.hidden=false;
+      button.textContent="Carta aberta";
+      button.disabled=true;
+      button.setAttribute("aria-expanded","true");
+      status.textContent="Carta aberta";
+    }
+
+    function openLetter(){
+      if(state!=="closed")return;
+
+      state="opening";
+      root.dataset.state="opening";
+      button.disabled=true;
+      button.setAttribute("aria-expanded","true");
+      status.textContent="Abrindo a carta…";
+
+      const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(reduced){
+        finishOpening();
+        return;
+      }
+
+      window.setTimeout(finishOpening,420);
+    }
+
+    button.addEventListener("click",openLetter);
+    root.dataset.state="closed";
+  }
+
   function init(){
     initLikes();
     initTimeCapsule();
     initSurprise();
+    initLetterExperience();
   }
 
   if(document.readyState==="loading"){

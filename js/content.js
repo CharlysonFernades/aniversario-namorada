@@ -25,6 +25,12 @@ window.siteContent={
     confirmLabel:"[BOTÃO DE CONFIRMAÇÃO]",
     reveal:"[REVELAÇÃO]"
   },
+  gift:{
+    title:"Uma carta para você",
+    intro:"[INTRODUÇÃO DA CARTA]",
+    letterTitle:"[TÍTULO DA CARTA]",
+    message:"[TEXTO DA CARTA]"
+  },
   timeCapsule:{
     title:"Cápsula do Tempo",
     intro:"[INTRODUÇÃO DA CÁPSULA]",
