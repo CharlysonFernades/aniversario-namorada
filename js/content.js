@@ -11,11 +11,17 @@ window.siteContent={
   memories:{title:"Alguns dos nossos momentos, coisas que eu quero guardar.",text:"Entre tantos dias, alguns acabaram ficando guardados de um jeito diferente."},
   likes:{
     title:"Algumas coisas que eu gosto em você",
-    intro:"[INTRODUÇÃO DA EXPERIÊNCIA]",
+    intro:"Aqui eu gostaria de compartilhar algumas coisas que, todos os dias, me relembram de como é bom ter você do meu lado.",
     items:[
-      {title:"[MOTIVO 01]",text:"[DESCRIÇÃO DO MOTIVO 01]"},
-      {title:"[MOTIVO 02]",text:"[DESCRIÇÃO DO MOTIVO 02]"},
-      {title:"[MOTIVO 03]",text:"[DESCRIÇÃO DO MOTIVO 03]"}
+      {title:"O SEU SORRISO",text:"Eu amo o seu jeito genuíno de sorrir, me faz ficar feliz."},
+      {title:"A SUA INTELIGÊNCIA",text:"Eu amo o quão inteligente você é, sempre perspicaz no que faz, pensando no melhor para tudo e todos."},
+      {title:"O SEU CORPO",text:"Eu tentei demais não lhe sexualizar enquanto eu fui escrever isso, então, eu direi apenas que gosto da sua barriguinha ( e de todo o resto rsrsrsrsrs)."},
+      {title:"SEUS PÉS",text:"Não podia faltar né? Convenhamos..."},
+      {title:"SUA BOCA",text:"Causadora de 89% do meu gatilho de tesão... Aiai, eu adoro sua boquinha."},
+      {title:"SUA FORÇA",text:"É uma característica inata e muito importante que eu vejo em você... Mas lembre-se: você não precisa ser forte todos os momentos, eu estou aqui agora."},
+      {title:"SUA VAIDADE",text:"Eu amo ver você se cuidando meu amor, tens muito cuidado consigo mesmo e é algo que eu admiro."},
+      {title:"SEU CABELO",text:"Eu gosto do quanto você cuida do seu cabelo, é cheiroso, volumoso, onduladinho, eu amo ele."},
+      {title:"SEUS OLHOS",text:"Eu amo o seu olhar, tanto o de gata feroz, quanto o de gatinha mansa, são por eles que eu vejo que você realmente ama o que faz e quem você é."}
     ]
   },
   surprise:{
