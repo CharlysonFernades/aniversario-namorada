@@ -745,3 +745,97 @@
     animation:none;
   }
 }
+
+/* Etapa 4.3: experiência "Surpresa / Interação". */
+.section--surprise{
+  background:linear-gradient(180deg,transparent,rgba(255,215,230,.012));
+}
+.surprise-experience{
+  width:min(100%,720px);
+  margin-inline:auto;
+}
+.surprise-card{
+  min-height:300px;
+  display:grid;
+  justify-items:center;
+  align-content:center;
+  padding:3.25rem clamp(1.4rem,6vw,4.5rem);
+  border:1px solid rgba(255,215,230,.14);
+  border-radius:26px;
+  background:rgba(33,17,32,.68);
+  box-shadow:0 18px 48px rgba(0,0,0,.16);
+  text-align:center;
+  transition:opacity 180ms ease,transform 180ms ease;
+}
+.surprise-card.is-switching{
+  opacity:.35;
+  transform:translateY(6px);
+}
+.surprise-card__symbol{
+  display:block;
+  margin-bottom:1rem;
+  color:var(--accent);
+  font-size:1.05rem;
+  line-height:1;
+}
+.surprise-card__title{
+  max-width:18ch;
+  margin:0 auto .7rem;
+  font-size:clamp(1.55rem,3vw,2.15rem);
+  line-height:1.12;
+}
+.surprise-card__text{
+  width:min(100%,54ch);
+  margin:0 auto;
+  color:var(--muted);
+  font-size:1rem;
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+.surprise-card__button{
+  min-width:8.5rem;
+  min-height:2.9rem;
+  margin-top:1.45rem;
+  padding:.75rem 1.25rem;
+  border:1px solid rgba(255,215,230,.35);
+  border-radius:999px;
+  background:rgba(255,215,230,.08);
+  color:var(--text);
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  transition:background 180ms ease,border-color 180ms ease,transform 180ms ease;
+}
+.surprise-card__button:hover:not(:disabled){
+  transform:translateY(-1px);
+  border-color:rgba(255,215,230,.7);
+  background:rgba(255,215,230,.14);
+}
+.surprise-card__button:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+.surprise-card__button:disabled{
+  opacity:.55;
+  cursor:default;
+}
+@media(max-width:760px){
+  .surprise-card{
+    min-height:260px;
+    padding:2.7rem 1.1rem;
+    border-radius:21px;
+  }
+  .surprise-card__title{
+    max-width:20ch;
+    font-size:1.4rem;
+  }
+  .surprise-card__text{
+    font-size:.94rem;
+    line-height:1.65;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .surprise-card{
+    transition:none;
+  }
+}
