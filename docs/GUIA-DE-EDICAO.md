@@ -79,3 +79,315 @@ A coleção photos.album existe somente para manter a separação arquitetural. 
 5. Registre alterações relevantes em docs/CHANGELOG.md.
 6. Antes de nova etapa, audite a estrutura e defina critérios de aceitação.
 7. Não transformar animações em requisito para acessar o conteúdo: sempre manter fallback funcional.
+
+## Etapa 4.1 — Algumas coisas que eu gosto em você
+
+A primeira nova experiência interativa da Etapa 4 fica em uma seção própria da página. O conteúdo pessoal é separado do comportamento.
+
+### Onde editar os motivos
+
+Abra:
+
+`js/content.js`
+
+Localize:
+
+`likes`
+
+A estrutura é:
+
+```js
+likes:{
+  title:"Algumas coisas que eu gosto em você",
+  intro:"[INTRODUÇÃO DA EXPERIÊNCIA]",
+  items:[
+    {title:"[MOTIVO 01]",text:"[DESCRIÇÃO DO MOTIVO 01]"},
+    {title:"[MOTIVO 02]",text:"[DESCRIÇÃO DO MOTIVO 02]"},
+    {title:"[MOTIVO 03]",text:"[DESCRIÇÃO DO MOTIVO 03]"}
+  ]
+}
+```
+
+- `title`: título da experiência.
+- `intro`: texto curto apresentado abaixo do título.
+- `items`: lista dos motivos/qualidades.
+- `items[].title`: título de cada motivo.
+- `items[].text`: descrição de cada motivo.
+
+### Adicionar ou remover motivos
+
+Para adicionar um motivo, acrescente outro objeto dentro de `items`.
+
+Para remover um motivo, remova o objeto correspondente.
+
+Não é necessário editar o HTML para criar ou remover cards.
+
+### Como a interação funciona
+
+O arquivo `js/interactions.js` cuida somente do comportamento da experiência 4.1.
+
+- `current` guarda o índice do motivo atualmente exibido.
+- `render()` atualiza número, título, descrição e contador.
+- Os botões anterior/próximo alteram `current` dentro dos limites da lista.
+- O último/primeiro item desabilita o controle correspondente.
+- `prefers-reduced-motion` evita a pequena transição quando o usuário solicita redução de movimento.
+
+O arquivo `css/style.css` cuida apenas da apresentação: card, espaçamento, tipografia, controles e transição.
+
+
+
+## Etapa 4.2 — Cápsula do Tempo
+
+A segunda experiência da Etapa 4 apresenta uma cápsula fechada que pode ser aberta uma única vez para revelar uma mensagem. O conteúdo continua separado do comportamento.
+
+### Onde editar a cápsula
+
+Abra:
+
+`js/content.js`
+
+Localize:
+
+`timeCapsule`
+
+A estrutura é:
+
+```js
+timeCapsule:{
+  title:"Cápsula do Tempo",
+  intro:"[INTRODUÇÃO DA CÁPSULA]",
+  message:"[MENSAGEM REVELADA]"
+}
+```
+
+- `title`: título exibido no cabeçalho da experiência.
+- `intro`: introdução apresentada antes da cápsula.
+- `message`: mensagem revelada depois de abrir a cápsula.
+
+Para trocar a mensagem, altere somente `timeCapsule.message`. Não é necessário editar `index.html` ou `js/interactions.js`.
+
+### Como a interação funciona
+
+A experiência fica dentro de `js/interactions.js`, na função `initTimeCapsule()`.
+
+- O estado começa em `closed`.
+- Ao clicar em **Abrir**, passa para `opening` e inicia a transição visual.
+- Depois da transição, passa para `open` e insere a mensagem uma única vez.
+- O botão é desabilitado durante a abertura e permanece desabilitado depois dela.
+- Com `prefers-reduced-motion: reduce`, a revelação é concluída sem a animação.
+- A mensagem usa altura natural e pode crescer conforme o texto cadastrado.
+
+O arquivo `css/style.css` cuida da cápsula fechada, abertura da tampa, selo, botão, mensagem e responsividade.
+
+
+## Etapa 4.3 — Surpresa / Interação
+
+A terceira experiência da Etapa 4 cria uma pequena sequência narrativa em três estados: inicial, confirmação e revelação.
+
+### Onde editar a surpresa
+
+Abra:
+
+`js/content.js`
+
+Localize:
+
+`surprise`
+
+A estrutura é:
+
+```js
+surprise:{
+  title:"[TÍTULO DA SURPRESA]",
+  intro:"[INTRODUÇÃO DA SURPRESA]",
+  question:"[PERGUNTA]",
+  confirmLabel:"[BOTÃO DE CONFIRMAÇÃO]",
+  reveal:"[REVELAÇÃO]"
+}
+```
+
+- `title`: título apresentado no primeiro estado.
+- `intro`: introdução apresentada no primeiro estado.
+- `question`: pergunta exibida na confirmação.
+- `confirmLabel`: texto do botão que confirma a continuação.
+- `reveal`: mensagem curta que faz a ponte narrativa para a próxima experiência.
+
+Para alterar os textos, edite somente os campos dentro de `surprise`. Não é necessário alterar `index.html` ou `js/interactions.js`.
+
+### Como a interação funciona
+
+A lógica fica em `js/interactions.js`, na função `initSurprise()`.
+
+- O estado começa em `initial`.
+- **Continuar** leva a `confirmation`.
+- O botão de confirmação leva a `reveal`.
+- Após a revelação, a interação fica encerrada; novos cliques não executam outra transição.
+- A troca de estado usa uma transição curta e respeita `prefers-reduced-motion`.
+
+A experiência não cria dependência técnica com a futura Etapa 4.4.
+
+
+### Campos editáveis da 4.3
+
+Os campos ficam dentro de `surprise`:
+
+- `surprise.title`
+- `surprise.intro`
+- `surprise.question`
+- `surprise.confirmLabel`
+- `surprise.reveal`
+
+A edição desses cinco campos não exige nenhuma alteração no comportamento.
+
+## Etapa 4.4 — Carta
+
+A quarta experiência da Etapa 4 apresenta um envelope fechado que pode ser aberto uma única vez para revelar uma carta.
+
+### Onde editar a carta
+
+Abra:
+
+`js/content.js`
+
+Localize:
+
+`gift`
+
+A estrutura é:
+
+```js
+gift:{
+  title:"Uma carta para você",
+  intro:"[INTRODUÇÃO DA CARTA]",
+  letterTitle:"[TÍTULO DA CARTA]",
+  message:"[TEXTO DA CARTA]"
+}
+```
+
+- `gift.title`: título da experiência exibido no cabeçalho da seção.
+- `gift.intro`: introdução exibida antes do envelope.
+- `gift.letterTitle`: título exibido dentro da carta aberta.
+- `gift.message`: texto pessoal da carta.
+
+Para trocar a mensagem, edite somente `gift.message`. Para trocar o título interno, edite `gift.letterTitle`. Não é necessário alterar `js/interactions.js`.
+
+### Separação entre conteúdo, comportamento e apresentação
+
+- `js/content.js`: guarda os textos da carta.
+- `js/interactions.js`: controla os estados `closed`, `opening` e `opened`, o clique e a revelação do conteúdo.
+- `css/style.css`: constrói o envelope, o selo/coração, a animação e a aparência da carta.
+
+O envelope e o selo/coração são desenhados com CSS, usando formas geométricas e `clip-path`; nenhuma imagem externa é necessária para representar a carta. O conteúdo pessoal da carta é inserido como texto real em elementos HTML (`h3` e `p`), e não como imagem.
+
+### Como a abertura funciona
+
+1. O estado inicial é `closed`.
+2. O botão real `Abrir` muda o estado para `opening` e fica desabilitado imediatamente.
+3. Durante a abertura, a aba do envelope gira, o selo desaparece suavemente e a folha interna se desloca.
+4. Depois da transição, o estado passa para `opened`, o envelope sai de cena e a carta é exibida.
+5. O título e a mensagem são carregados de `gift.letterTitle` e `gift.message`.
+6. O estado aberto não permite uma segunda abertura.
+
+A abertura usa um timing próprio e isolado da Etapa 2. Os timings dos reveals continuam em `1050ms`, `140ms`, `280ms`, `420ms` e `560ms`.
+
+### Responsividade e acessibilidade
+
+A composição do envelope é reduzida no mobile sem manter dimensões fixas de desktop. A carta usa altura natural e quebra de texto para suportar mensagens curtas, médias ou longas.
+
+O botão é um `<button type="button">` real, possui foco visível, área de toque adequada e é desabilitado assim que a abertura começa. O estado é anunciado por uma área de status com `aria-live`. O envelope e o selo são decorativos.
+
+Quando `prefers-reduced-motion: reduce` está ativo, a abertura é concluída diretamente, sem a animação intermediária.
+
+### O que não deve ser alterado nesta etapa
+
+A 4.4 não exige alterações em:
+
+- Memórias;
+- História;
+- Player;
+- `js/animations.js`;
+- 4.1;
+- 4.2;
+- 4.3;
+- futura Etapa 4.5.
+## Correção de integração 4.3 → 4.4 — Cena da Carta
+
+A ação final da 4.3, **Próximo momento**, agora abre a 4.4 como uma cena em tela cheia dentro da mesma página.
+
+### Fluxo
+
+`4.3 → Próximo momento → cena da carta → Voltar → posição anterior`
+
+A seção `#carta` continua sendo a mesma seção existente. Ela fica oculta no fluxo normal até ser aberta pela ação final da 4.3. Não foi criado `carta.html`, nova URL ou nova aplicação.
+
+### Como a cena funciona
+
+- `initLetterExperience()` inicializa a carta e retorna `openLetterScene()`.
+- `initSurprise(openLetterScene)` recebe essa ação e a executa somente quando a 4.3 já está no estado `reveal`.
+- Antes de abrir, a posição de `window.scrollY` é salva.
+- O `body` é travado usando posicionamento fixo e o deslocamento salvo, evitando que o fundo continue rolando.
+- As partes externas à cena recebem `inert`, impedindo foco e interação enquanto a cena está ativa.
+- O foco é movido para o botão `Voltar`.
+- `Voltar` ou `Escape` fecha a cena, restaura o scroll salvo e devolve o foco ao elemento que acionou a abertura.
+- A carta é reinicializada ao fechar, permitindo entrar novamente nela sem duplicação.
+
+### Visual da cena
+
+A cena usa `position: fixed` para ocupar o viewport, mantendo o conteúdo da carta isolado do fluxo normal. O conteúdo interno pode rolar quando uma carta longa exigir espaço, enquanto o fundo permanece bloqueado.
+
+O botão `Voltar` usa `env(safe-area-inset-*)` para respeitar áreas seguras de dispositivos com recortes e cantos arredondados.
+
+### O que permanece congelado
+
+A arte do envelope, o selo pixelado, a abertura da carta, `gift`, os estados internos `closed/opening/opened`, 4.1, 4.2, Memórias, História, Player e os timings da Etapa 2 não são redesenhados nesta correção.
+
+## Etapa 4.5 — Mensagem Secreta
+
+A quinta experiência da Etapa 4 funciona como um pequeno P.S.: um convite discreto revela uma última mensagem que ficou de fora da Carta.
+
+### Onde editar a Mensagem Secreta
+
+Abra:
+
+`js/content.js`
+
+Localize:
+
+`secretMessage`
+
+A estrutura é:
+
+```js
+secretMessage:{
+  title:"[TÍTULO DA MENSAGEM SECRETA]",
+  intro:"[INTRODUÇÃO DA MENSAGEM SECRETA]",
+  actionLabel:"[TEXTO DO BOTÃO]",
+  message:"[MENSAGEM SECRETA]"
+}
+```
+
+Edite somente estes quatro campos:
+
+- `secretMessage.title`: título do pequeno P.S.
+- `secretMessage.intro`: convite/indício apresentado antes da revelação.
+- `secretMessage.actionLabel`: texto do botão que executa a ação explícita.
+- `secretMessage.message`: texto que aparece depois da revelação.
+
+A mensagem é inserida como texto real e usa `white-space: pre-wrap`, portanto as quebras de linha digitadas no valor de `message` são preservadas. O layout usa altura natural e pode crescer para textos maiores.
+
+### Como a interação funciona
+
+A lógica fica em `js/interactions.js`, na função `initSecretMessage()`.
+
+- O estado inicial é `locked`.
+- O botão real leva a `revealing`.
+- Durante `revealing`, o botão é desabilitado para impedir disparos duplicados.
+- A transição curta termina em `revealed`.
+- Em `revealed`, a mensagem permanece disponível e nenhuma nova interação é exigida.
+- Com `prefers-reduced-motion: reduce`, a revelação é concluída diretamente, sem depender da animação.
+
+A apresentação visual fica isolada em `css/style.css` pelos seletores da 4.5. Não é necessário alterar HTML estrutural ou outras experiências para trocar o conteúdo.
+
+### Limites da 4.5
+
+A Mensagem Secreta não cria senha, puzzle, caça ao tesouro, temporizador, sequência de cliques, modal ou nova página. Ela também não implementa a Etapa 5; a integração futura pode ser feita posteriormente sem exigir que a 4.5 controle o encerramento da experiência.

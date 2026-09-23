@@ -1,3 +1,155 @@
+## [1.1.3] — 2026-09-23
+
+### Correção — Escopo do `inert` na cena da carta
+- Corrigido o bloqueio do background em `setBackgroundInert()`.
+- A causa estava na inclusão do próprio `main` como candidato a `inert`; como a cena da carta pertence ao `main`, isso tornava a própria cena descendente de um ancestral inerte e impedia sua interação.
+- O `main` e outros ancestrais da cena agora ficam fora dos candidatos diretos ao `inert`.
+- Os elementos irmãos da cena dentro do `main` continuam recebendo `inert`, preservando o bloqueio do conteúdo de fundo sem bloquear a cena.
+- Nenhuma alteração feita no design, conteúdo ou estados da carta, nem em 4.1, 4.2, 4.3, Memórias, História, Player ou timings congelados.
+- 4.5 não foi implementada.
+
+### Validação
+- Revisão estática confirmou que `main` não é mais adicionado ao conjunto de elementos inertes.
+- A cena continua fora do conjunto de elementos inertes.
+- Os filhos de `main` que são irmãos da cena continuam sendo bloqueados.
+- Teste funcional real em navegador desktop/mobile permanece necessário para confirmar scroll, cliques, abertura, fechamento e reentrada no ambiente publicado.
+
+## [1.2.0] — 2026-09-23
+
+### Etapa 4.5 — Mensagem Secreta
+- Adicionada uma experiência independente de “P.S.” depois da Carta, preparada como ponte narrativa para uma futura Etapa 5.
+- Criada a estrutura `secretMessage` em `js/content.js`, sem inventar conteúdo pessoal.
+- Implementada a máquina de estados `locked → revealing → revealed` em `js/interactions.js`.
+- Utilizado botão HTML real, com foco visível, suporte a teclado/toque e bloqueio de disparos duplicados durante a revelação.
+- Adicionado suporte a `prefers-reduced-motion`, concluindo a revelação sem depender de animação.
+- Criada identidade visual própria em `css/style.css`, sem reutilizar a composição da Carta ou da Cápsula do Tempo.
+- Mensagem com altura natural, `pre-wrap` e `overflow-wrap` para suportar quebras de linha e textos maiores em desktop e mobile.
+- Não foram alterados Memórias, Likes, Cápsula do Tempo, Surpresa, Carta, `js/animations.js` ou os timings congelados da Etapa 2.
+- A Etapa 5 não foi implementada.
+
+### Validação estrutural
+- Auditoria da branch e dos arquivos principais realizada antes da implementação.
+- Revisão estática dos estados, integração e seletores realizada após a implementação.
+- Não há `package.json`/suíte npm no projeto; `npm test` permanece não aplicável.
+- Validação visual/funcional final em navegador desktop/mobile permanece pendente do teste do usuário.
+
+## [1.1.2] — 2026-09-23
+
+### Correção — Estado inicial da cena da carta
+- Identificada a causa raiz do bloqueio no carregamento: a regra CSS de `.section--letter.is-scene` tinha especificidade suficiente para sobrescrever o comportamento de `[hidden]` e manter a cena como `display:block` mesmo com `scene.hidden = true`.
+- Corrigido o estado fechado para garantir `display:none`, `pointer-events:none` e `visibility:hidden` enquanto a cena não foi aberta.
+- Mantido o bloqueio de scroll e o `inert` exclusivamente dentro do fluxo de abertura da cena.
+- Mantidos `Voltar`, `Escape`, restauração de scroll, restauração de estilos originais, retorno de foco e reentrada sem alterações de comportamento.
+- Nenhuma alteração feita em 4.1, 4.2, 4.3, Memórias, História, Player, fotos, músicas, `photos.js`, `music-player.js` ou `js/animations.js`.
+- Timings congelados da Etapa 2 permanecem inalterados.
+- 4.5 não foi implementada.
+
+### Validação
+- Revisão estática confirmou que a correção é restrita ao estado de interação visual da cena fechada.
+- O carregamento limpo com `Ctrl+R`/`Ctrl+Shift+R` e os testes reais desktop/mobile ainda precisam ser executados no navegador/GitHub Pages.
+
+## [1.1.1] — 2026-09-23
+
+### Correção — Integração 4.3 → 4.4
+- Transformado o botão **Próximo momento** da revelação da 4.3 no gatilho oficial da entrada da carta.
+- A seção 4.4 deixou de aparecer como continuação normal do scroll e passou a abrir como cena em tela cheia dentro da mesma página.
+- Adicionado botão **← Voltar** com foco visível e suporte a retorno para a posição anterior.
+- Adicionado suporte a `Escape` no desktop.
+- Implementado bloqueio do scroll de fundo com preservação de `scrollY`.
+- Implementado `inert` no conteúdo de fundo enquanto a cena está aberta.
+- Implementado retorno de foco ao elemento que acionou a cena.
+- A carta existente é reinicializada ao fechar, permitindo reentrada sem duplicação.
+- Mantidos envelope, selo, conteúdo, abertura e responsividade da carta existente.
+- Nenhuma nova página, URL, biblioteca ou asset foi criado.
+- Timings da Etapa 2 e `js/animations.js` permaneceram inalterados.
+- 4.5 não foi implementada.
+
+### Validação
+- Auditoria da branch e dos arquivos existentes realizada antes da alteração.
+- Validação estática dos estados, listeners, scroll lock, retorno, Escape, `inert`, responsividade e preservação da carta realizada após a implementação.
+- Validação visual real em navegador desktop/mobile não foi executada neste ambiente.
+- Testes funcionais reais de clique/scroll/reentrada dependem da execução no navegador pelo responsável do projeto.
+
+## [1.1.0] — 2026-09-23
+
+### Etapa 4.4 — Carta
+- Adicionada a sexta parte da experiência narrativa, com envelope fechado, abertura e carta revelada.
+- Mantido o conteúdo da carta centralizado em `js/content.js`, dentro de `gift`.
+- Reutilizado `js/interactions.js`, sem criar um arquivo específico para a carta.
+- Implementados os estados `closed`, `opening` e `opened`, com bloqueio imediato contra acionamentos repetidos.
+- Envelope e selo/coração construídos integralmente com CSS, formas geométricas e `clip-path`, sem imagem externa.
+- Conteúdo pessoal da carta mantido como texto HTML real, com altura natural e suporte a mensagens curtas, médias ou longas.
+- Implementados foco visível, botão HTML real, área de toque adequada, anúncio de estado e suporte a `prefers-reduced-motion`.
+- Timings da Etapa 2 preservados; a abertura da carta utiliza timing próprio e isolado.
+- 4.1, 4.2, 4.3, Memórias, História e Player permanecem fora do escopo de alteração.
+- 4.5 não foi implementada nem antecipada.
+
+### Validação
+- Auditoria estrutural realizada antes da implementação, incluindo branch, HEAD, comparação com `main`, 4.3, conteúdo, comportamento e estilos existentes.
+- Validação estática realizada após a implementação dos arquivos e integrações.
+- Não há `package.json`/suíte npm no projeto; `npm test` permanece não aplicável.
+- Validação visual real em navegador desktop/mobile depende da execução no navegador pelo responsável do projeto.
+- Testes estruturais de conteúdo curto, médio e longo foram representados por altura natural e quebra de texto; não foram executados visualmente neste ambiente.
+
+## [1.0.0] — 2026-09-23
+
+### Etapa 4.3 — Surpresa / Interação
+- Adicionada uma pequena experiência narrativa em três estados: inicial, confirmação e revelação.
+- Conteúdo centralizado em `js/content.js`, dentro de `surprise`.
+- Reutilizado `js/interactions.js`; nenhum novo arquivo de comportamento foi criado.
+- Utilizado botão HTML real com foco visível, área de toque adequada e proteção contra transições repetidas.
+- Adicionada transição discreta entre os estados e suporte a `prefers-reduced-motion`.
+- Mensagens usam altura natural e quebra de texto, sem altura fixa para conteúdo.
+- A 4.3 não cria dependência técnica com a futura 4.4.
+- 4.1, 4.2, Memórias, História, player e timings anteriores foram preservados.
+- 4.4 e 4.5 não foram implementadas.
+
+### Validação
+- Auditoria estrutural realizada antes da implementação.
+- Validação estática dos arquivos e integrações realizada após a implementação.
+- Não há `package.json`/suíte npm no projeto; `npm test` permanece não aplicável.
+- Validação visual real em navegador desktop/mobile não foi executada neste ambiente.
+
+## [0.9.0] — 2026-09-23
+
+### Etapa 4.2 — Cápsula do Tempo
+- Adicionada uma nova seção narrativa depois da experiência 4.1.
+- Criada uma cápsula visual fechada com interação de abertura e revelação de mensagem.
+- Mantido o conteúdo pessoal centralizado em `js/content.js`, dentro de `timeCapsule`.
+- Reutilizado `js/interactions.js`; não foi criado um novo arquivo de comportamento.
+- Implementada abertura com estados simples: fechada, abrindo e aberta.
+- O botão usa elemento HTML real, possui foco visível, estado desabilitado após o acionamento e suporte a `prefers-reduced-motion`.
+- A mensagem revelada usa altura natural, sem altura fixa, para suportar conteúdos curtos, médios ou longos.
+- Adicionada responsividade específica para desktop e mobile, mantendo a identidade escura/ameixa e rosa-bebê.
+- 4.1, Memórias, História, player e timings anteriores foram preservados.
+- 4.3, 4.4 e 4.5 não foram implementadas.
+
+### Validação
+- Auditoria estrutural realizada antes da implementação.
+- Validação estática dos arquivos e das integrações realizada após a implementação.
+- Não há `package.json`/suíte npm no projeto; `npm test` permanece não aplicável.
+- Este ambiente não possui navegador/DevTools para validação visual real; testes visuais finais de desktop e mobile dependem da execução no navegador.
+- Testes de mensagem curta, média e longa foram tratados estruturalmente pela ausência de altura fixa e uso de quebra de conteúdo, mas não foram executados como teste visual em navegador.
+
+## [0.8.0] — 2026-09-21
+
+### Etapa 4.1 — Algumas coisas que eu gosto em você
+- Adicionada uma nova seção narrativa depois das Memórias.
+- Criada uma experiência de um motivo por vez, com navegação anterior/próxima e contador.
+- Conteúdo centralizado em `js/content.js`, dentro de `likes`.
+- Criado `js/interactions.js` para separar comportamento da apresentação.
+- Adicionada apresentação visual própria em `css/style.css`, seguindo a identidade já aprovada.
+- Mantidos placeholders claros; nenhum conteúdo pessoal novo foi inventado.
+- Controles possuem estados de limite e foco visível.
+- A transição é discreta e respeita `prefers-reduced-motion`.
+
+### Validação
+- Branch criada diretamente da `main` atual: `etapa-4-continuacao-da-estrutura`.
+- Etapa 4.1 implementada isoladamente; 4.2–4.5 não foram antecipadas.
+- Memórias, História, player e timings anteriores não foram alterados intencionalmente.
+- Não há suíte npm/package.json; `npm test` permanece não aplicável.
+- Validação estrutural e estática realizada; validação visual/interativa real em navegador desktop/mobile depende da execução no navegador.
+
 ## [0.7.1] — 2026-09-21
 
 ### Polimento do coração pixelado das Memórias
