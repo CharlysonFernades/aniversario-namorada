@@ -134,3 +134,47 @@ O arquivo `js/interactions.js` cuida somente do comportamento da experiência 4.
 
 O arquivo `css/style.css` cuida apenas da apresentação: card, espaçamento, tipografia, controles e transição.
 
+
+
+## Etapa 4.2 — Cápsula do Tempo
+
+A segunda experiência da Etapa 4 apresenta uma cápsula fechada que pode ser aberta uma única vez para revelar uma mensagem. O conteúdo continua separado do comportamento.
+
+### Onde editar a cápsula
+
+Abra:
+
+`js/content.js`
+
+Localize:
+
+`timeCapsule`
+
+A estrutura é:
+
+```js
+timeCapsule:{
+  title:"Cápsula do Tempo",
+  intro:"[INTRODUÇÃO DA CÁPSULA]",
+  message:"[MENSAGEM REVELADA]"
+}
+```
+
+- `title`: título exibido no cabeçalho da experiência.
+- `intro`: introdução apresentada antes da cápsula.
+- `message`: mensagem revelada depois de abrir a cápsula.
+
+Para trocar a mensagem, altere somente `timeCapsule.message`. Não é necessário editar `index.html` ou `js/interactions.js`.
+
+### Como a interação funciona
+
+A experiência fica dentro de `js/interactions.js`, na função `initTimeCapsule()`.
+
+- O estado começa em `closed`.
+- Ao clicar em **Abrir**, passa para `opening` e inicia a transição visual.
+- Depois da transição, passa para `open` e insere a mensagem uma única vez.
+- O botão é desabilitado durante a abertura e permanece desabilitado depois dela.
+- Com `prefers-reduced-motion: reduce`, a revelação é concluída sem a animação.
+- A mensagem usa altura natural e pode crescer conforme o texto cadastrado.
+
+O arquivo `css/style.css` cuida da cápsula fechada, abertura da tampa, selo, botão, mensagem e responsividade.
