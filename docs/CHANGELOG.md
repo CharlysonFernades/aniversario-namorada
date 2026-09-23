@@ -1,3 +1,18 @@
+## [1.1.2] — 2026-09-23
+
+### Correção — Estado inicial da cena da carta
+- Identificada a causa raiz do bloqueio no carregamento: a regra CSS de `.section--letter.is-scene` tinha especificidade suficiente para sobrescrever o comportamento de `[hidden]` e manter a cena como `display:block` mesmo com `scene.hidden = true`.
+- Corrigido o estado fechado para garantir `display:none`, `pointer-events:none` e `visibility:hidden` enquanto a cena não foi aberta.
+- Mantido o bloqueio de scroll e o `inert` exclusivamente dentro do fluxo de abertura da cena.
+- Mantidos `Voltar`, `Escape`, restauração de scroll, restauração de estilos originais, retorno de foco e reentrada sem alterações de comportamento.
+- Nenhuma alteração feita em 4.1, 4.2, 4.3, Memórias, História, Player, fotos, músicas, `photos.js`, `music-player.js` ou `js/animations.js`.
+- Timings congelados da Etapa 2 permanecem inalterados.
+- 4.5 não foi implementada.
+
+### Validação
+- Revisão estática confirmou que a correção é restrita ao estado de interação visual da cena fechada.
+- O carregamento limpo com `Ctrl+R`/`Ctrl+Shift+R` e os testes reais desktop/mobile ainda precisam ser executados no navegador/GitHub Pages.
+
 ## [1.1.1] — 2026-09-23
 
 ### Correção — Integração 4.3 → 4.4
