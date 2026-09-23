@@ -39,8 +39,8 @@ window.siteContent={
   },
   timeCapsule:{
     title:"Cápsula do Tempo",
-    intro:"[INTRODUÇÃO DA CÁPSULA]",
-    message:"[MENSAGEM REVELADA]"
+    intro:"AQUI EU PREPAREI ALGO QUE EU QUERO COMPARTILHAR COM VOCÊ, SOBRE O NOSSO FUTURO.",
+    message:"Meu amor, sabe o que eu penso sobre nós? Penso que você  será a mãe dos meus filhos, a mulher que edificará o nosso lar, a mulher que será empoderada, poderá malhar, treinar, dançar e fazer qualquer coisa que você queira fazer às 14h da tarde... Eu quero que você seja a mulher da minha vida, em menos de 5 anos estaremos casados... Talvez olhando para trás depois de tantas dificuldades e pensando: VENCEMOS! Eu te amo meu bebẽ."
   },
   musicas:[
     {titulo:"Mirrors",artista:"Justim Timberlake",arquivo:"assets/musicas/musica01.mp3",capa:"assets/fotos/musicas/musica01.png",altCapa:"Capa da Música 01"},
