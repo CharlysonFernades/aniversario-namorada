@@ -297,6 +297,7 @@
     if(sceneTitle)scene.setAttribute("aria-labelledby","letter-scene-title");
     scene.setAttribute("aria-hidden","true");
     scene.tabIndex=-1;
+    scene.classList.add("is-scene");
     scene.hidden=true;
 
     const backButton=document.createElement("button");
