@@ -1,9 +1,8 @@
 /**
  * Interações das novas experiências da Etapa 4.
  *
- * Esta primeira experiência lê somente window.siteContent.likes.
- * O conteúdo pessoal permanece no content.js; este arquivo cuida apenas
- * da apresentação, navegação e estado do item ativo.
+ * As experiências da Etapa 4 leem o conteúdo de window.siteContent.
+ * Este arquivo cuida apenas da apresentação, navegação e estado de cada interação.
  */
 (function(){
   "use strict";
@@ -185,9 +184,91 @@
     root.dataset.state="closed";
   }
 
+
+  function initSurprise(){
+    const root=document.querySelector("[data-surprise-experience]");
+    if(!root)return;
+
+    const surprise=content.surprise||{};
+    let state="initial";
+
+    root.className="surprise-experience";
+    root.setAttribute("aria-live","polite");
+
+    const card=document.createElement("article");
+    card.className="surprise-card";
+
+    const symbol=document.createElement("span");
+    symbol.className="surprise-card__symbol";
+    symbol.setAttribute("aria-hidden","true");
+    symbol.textContent="✦";
+
+    const title=document.createElement("h3");
+    title.className="surprise-card__title";
+
+    const text=document.createElement("p");
+    text.className="surprise-card__text";
+
+    const button=document.createElement("button");
+    button.type="button";
+    button.className="surprise-card__button";
+
+    card.append(symbol,title,text,button);
+    root.append(card);
+
+    function render(){
+      if(state==="initial"){
+        title.textContent=surprise.title||"[TÍTULO DA SURPRESA]";
+        text.textContent=surprise.intro||"[INTRODUÇÃO DA SURPRESA]";
+        button.textContent="Continuar";
+        button.setAttribute("aria-label","Continuar para a próxima mensagem");
+        button.disabled=false;
+      }else if(state==="confirmation"){
+        title.textContent=surprise.question||"[PERGUNTA]";
+        text.textContent="";
+        button.textContent=surprise.confirmLabel||"[BOTÃO DE CONFIRMAÇÃO]";
+        button.setAttribute("aria-label","Confirmar e continuar");
+        button.disabled=false;
+      }else{
+        title.textContent="✦";
+        text.textContent=surprise.reveal||"[REVELAÇÃO]";
+        button.textContent="Próximo momento";
+        button.setAttribute("aria-label","Próximo momento");
+        button.disabled=true;
+      }
+      root.dataset.state=state;
+    }
+
+    function moveTo(nextState){
+      if(state===nextState||state==="reveal")return;
+
+      state=nextState;
+      card.classList.add("is-switching");
+
+      const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(reduced){
+        render();
+        card.classList.remove("is-switching");
+        return;
+      }
+
+      window.setTimeout(()=>{
+        render();
+        card.classList.remove("is-switching");
+      },180);
+    }
+
+    button.addEventListener("click",()=>{
+      if(state==="initial")moveTo("confirmation");
+      else if(state==="confirmation")moveTo("reveal");
+    });
+
+    render();
+  }
   function init(){
     initLikes();
     initTimeCapsule();
+    initSurprise();
   }
 
   if(document.readyState==="loading"){
