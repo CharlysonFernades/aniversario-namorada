@@ -839,6 +839,92 @@
     transition:none;
   }
 }
+/* Integração 4.3 → 4.4: cena modal da carta. */
+.section--letter[hidden]{
+  display:none;
+}
+.section--letter.is-scene{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  display:block;
+  min-height:100svh;
+  max-height:100dvh;
+  margin:0;
+  padding:clamp(4.8rem,10vh,7rem) max(1rem,env(safe-area-inset-right,0px)) max(2rem,env(safe-area-inset-bottom,0px)) max(1rem,env(safe-area-inset-left,0px));
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  background:radial-gradient(circle at 50% 20%,rgba(255,215,230,.06),transparent 38%),#160d18;
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity 220ms ease,transform 220ms ease;
+}
+.section--letter.is-scene.is-scene-visible{
+  opacity:1;
+  transform:none;
+}
+.section--letter.is-scene .section__inner{
+  width:min(100%,900px);
+  min-height:calc(100svh - 7rem);
+  margin-inline:auto;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:1rem 0 2rem;
+}
+.section--letter.is-scene .section-heading{
+  margin-bottom:1.5rem;
+}
+.letter-scene__back{
+  position:fixed;
+  top:max(1rem,env(safe-area-inset-top,0px));
+  right:max(1rem,env(safe-area-inset-right,0px));
+  z-index:1002;
+  min-width:6.5rem;
+  min-height:2.75rem;
+  padding:.65rem 1rem;
+  border:1px solid rgba(255,215,230,.3);
+  border-radius:999px;
+  background:rgba(22,13,24,.82);
+  color:var(--text);
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 8px 24px rgba(0,0,0,.16);
+  backdrop-filter:blur(10px);
+  transition:background 180ms ease,border-color 180ms ease,transform 180ms ease;
+}
+.letter-scene__back:hover{
+  transform:translateY(-1px);
+  border-color:rgba(255,215,230,.6);
+  background:rgba(125,59,87,.28);
+}
+.letter-scene__back:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+@media(max-width:760px){
+  .section--letter.is-scene{
+    padding-top:max(4.6rem,calc(env(safe-area-inset-top,0px) + 4.2rem));
+    padding-right:max(.9rem,env(safe-area-inset-right,0px));
+    padding-bottom:max(1.5rem,env(safe-area-inset-bottom,0px));
+    padding-left:max(.9rem,env(safe-area-inset-left,0px));
+  }
+  .section--letter.is-scene .section__inner{
+    min-height:calc(100svh - 5.8rem);
+    padding-top:.75rem;
+  }
+  .letter-scene__back{
+    top:max(.75rem,env(safe-area-inset-top,0px));
+    right:max(.75rem,env(safe-area-inset-right,0px));
+    min-height:2.7rem;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .section--letter.is-scene,.letter-scene__back{
+    transition:none;
+  }
+}
 /* Etapa 4.4: carta com envelope e selo em pixel art CSS. */
 .section--letter{
   background:linear-gradient(180deg,transparent,rgba(255,215,230,.018));

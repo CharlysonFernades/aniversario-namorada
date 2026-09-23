@@ -185,7 +185,7 @@
   }
 
 
-  function initSurprise(){
+  function initSurprise(openLetterScene){
     const root=document.querySelector("[data-surprise-experience]");
     if(!root)return;
 
@@ -233,8 +233,8 @@
         title.textContent="✦";
         text.textContent=surprise.reveal||"[REVELAÇÃO]";
         button.textContent="Próximo momento";
-        button.setAttribute("aria-label","Próximo momento");
-        button.disabled=true;
+        button.setAttribute("aria-label","Abrir a cena da carta");
+        button.disabled=false;
       }
       root.dataset.state=state;
     }
@@ -261,19 +261,50 @@
     button.addEventListener("click",()=>{
       if(state==="initial")moveTo("confirmation");
       else if(state==="confirmation")moveTo("reveal");
+      else if(state==="reveal" && openLetterScene)openLetterScene();
     });
 
     render();
   }
   function initLetterExperience(){
     const root=document.querySelector("[data-letter-experience]");
-    if(!root)return;
+    const scene=root?.closest(".section--letter");
+    if(!root||!scene)return null;
 
     const gift=content.gift||{};
     let state="closed";
+    let sceneState="closed";
+    let savedScrollY=0;
+    let lastFocusedElement=null;
+    let lockedElements=[];
+    const body=document.body;
+    const originalBodyStyles={
+      position:body.style.position,
+      top:body.style.top,
+      width:body.style.width,
+      overflow:body.style.overflow,
+      paddingRight:body.style.paddingRight
+    };
 
     root.className="letter-experience";
     root.setAttribute("aria-live","polite");
+
+    const sceneTitle=scene.querySelector("h2");
+    if(sceneTitle)sceneTitle.id="letter-scene-title";
+
+    scene.setAttribute("role","dialog");
+    scene.setAttribute("aria-modal","true");
+    if(sceneTitle)scene.setAttribute("aria-labelledby","letter-scene-title");
+    scene.setAttribute("aria-hidden","true");
+    scene.tabIndex=-1;
+    scene.hidden=true;
+
+    const backButton=document.createElement("button");
+    backButton.type="button";
+    backButton.className="letter-scene__back";
+    backButton.textContent="← Voltar";
+    backButton.setAttribute("aria-label","Voltar para a surpresa");
+    scene.prepend(backButton);
 
     const stage=document.createElement("div");
     stage.className="letter-stage";
@@ -334,6 +365,126 @@
     controls.append(button,status);
     root.append(stage,controls);
 
+    function setBackgroundInert(value){
+      if(value){
+        lockedElements=[];
+        const siteShell=document.querySelector(".site-shell");
+        const candidates=new Set();
+
+        document.querySelectorAll("body > *").forEach(element=>{
+          if(element!==siteShell)candidates.add(element);
+        });
+
+        if(siteShell){
+          Array.from(siteShell.children).forEach(element=>{
+            if(element!==scene)candidates.add(element);
+          });
+
+          const main=siteShell.querySelector("main");
+          if(main){
+            Array.from(main.children).forEach(element=>{
+              if(element!==scene)candidates.add(element);
+            });
+          }
+        }
+
+        candidates.forEach(element=>{
+          lockedElements.push([element,element.inert]);
+          element.inert=true;
+        });
+        return;
+      }
+
+      lockedElements.forEach(([element,wasInert])=>{
+        element.inert=wasInert;
+      });
+      lockedElements=[];
+    }
+
+    function lockBackgroundScroll(){
+      savedScrollY=window.scrollY;
+      const scrollbarGap=window.innerWidth-document.documentElement.clientWidth;
+
+      body.style.position="fixed";
+      body.style.top="-"+savedScrollY+"px";
+      body.style.width="100%";
+      body.style.overflow="hidden";
+      if(scrollbarGap>0)body.style.paddingRight=scrollbarGap+"px";
+      setBackgroundInert(true);
+    }
+
+    function unlockBackgroundScroll(){
+      body.style.position=originalBodyStyles.position;
+      body.style.top=originalBodyStyles.top;
+      body.style.width=originalBodyStyles.width;
+      body.style.overflow=originalBodyStyles.overflow;
+      body.style.paddingRight=originalBodyStyles.paddingRight;
+      setBackgroundInert(false);
+      window.scrollTo(0,savedScrollY);
+    }
+
+    function resetLetter(){
+      state="closed";
+      root.dataset.state="closed";
+      letter.hidden=true;
+      letterTitle.textContent="";
+      message.textContent="";
+      button.textContent="Abrir";
+      button.disabled=false;
+      button.setAttribute("aria-expanded","false");
+      status.textContent="";
+    }
+
+    function closeLetterScene(){
+      if(sceneState!=="open")return;
+
+      sceneState="closed";
+      scene.classList.remove("is-scene-visible");
+      scene.dataset.sceneState="closed";
+      scene.setAttribute("aria-hidden","true");
+      backButton.disabled=true;
+
+      const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const finishClose=()=>{
+        scene.hidden=true;
+        unlockBackgroundScroll();
+        resetLetter();
+
+        if(lastFocusedElement&&document.contains(lastFocusedElement)){
+          lastFocusedElement.focus();
+        }
+        lastFocusedElement=null;
+      };
+
+      if(reduced)finishClose();
+      else window.setTimeout(finishClose,220);
+    }
+
+    function openLetterScene(){
+      if(sceneState!=="closed")return;
+
+      sceneState="open";
+      lastFocusedElement=document.activeElement instanceof HTMLElement?document.activeElement:null;
+      lockBackgroundScroll();
+
+      scene.hidden=false;
+      scene.dataset.sceneState="open";
+      scene.setAttribute("aria-hidden","false");
+      backButton.disabled=false;
+
+      const reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if(reduced){
+        scene.classList.add("is-scene-visible");
+        backButton.focus();
+        return;
+      }
+
+      window.requestAnimationFrame(()=>{
+        scene.classList.add("is-scene-visible");
+        backButton.focus();
+      });
+    }
+
     function finishOpening(){
       if(state!=="opening")return;
 
@@ -366,15 +517,27 @@
       window.setTimeout(finishOpening,420);
     }
 
+    backButton.addEventListener("click",closeLetterScene);
     button.addEventListener("click",openLetter);
-    root.dataset.state="closed";
+
+    document.addEventListener("keydown",event=>{
+      if(event.key==="Escape" && sceneState==="open"){
+        event.preventDefault();
+        closeLetterScene();
+      }
+    });
+
+    resetLetter();
+    scene.dataset.sceneState="closed";
+
+    return openLetterScene;
   }
 
   function init(){
     initLikes();
     initTimeCapsule();
-    initSurprise();
-    initLetterExperience();
+    const openLetterScene=initLetterExperience();
+    initSurprise(openLetterScene);
   }
 
   if(document.readyState==="loading"){

@@ -310,3 +310,33 @@ A 4.4 não exige alterações em:
 - 4.2;
 - 4.3;
 - futura Etapa 4.5.
+## Correção de integração 4.3 → 4.4 — Cena da Carta
+
+A ação final da 4.3, **Próximo momento**, agora abre a 4.4 como uma cena em tela cheia dentro da mesma página.
+
+### Fluxo
+
+`4.3 → Próximo momento → cena da carta → Voltar → posição anterior`
+
+A seção `#carta` continua sendo a mesma seção existente. Ela fica oculta no fluxo normal até ser aberta pela ação final da 4.3. Não foi criado `carta.html`, nova URL ou nova aplicação.
+
+### Como a cena funciona
+
+- `initLetterExperience()` inicializa a carta e retorna `openLetterScene()`.
+- `initSurprise(openLetterScene)` recebe essa ação e a executa somente quando a 4.3 já está no estado `reveal`.
+- Antes de abrir, a posição de `window.scrollY` é salva.
+- O `body` é travado usando posicionamento fixo e o deslocamento salvo, evitando que o fundo continue rolando.
+- As partes externas à cena recebem `inert`, impedindo foco e interação enquanto a cena está ativa.
+- O foco é movido para o botão `Voltar`.
+- `Voltar` ou `Escape` fecha a cena, restaura o scroll salvo e devolve o foco ao elemento que acionou a abertura.
+- A carta é reinicializada ao fechar, permitindo entrar novamente nela sem duplicação.
+
+### Visual da cena
+
+A cena usa `position: fixed` para ocupar o viewport, mantendo o conteúdo da carta isolado do fluxo normal. O conteúdo interno pode rolar quando uma carta longa exigir espaço, enquanto o fundo permanece bloqueado.
+
+O botão `Voltar` usa `env(safe-area-inset-*)` para respeitar áreas seguras de dispositivos com recortes e cantos arredondados.
+
+### O que permanece congelado
+
+A arte do envelope, o selo pixelado, a abertura da carta, `gift`, os estados internos `closed/opening/opened`, 4.1, 4.2, Memórias, História, Player e os timings da Etapa 2 não são redesenhados nesta correção.

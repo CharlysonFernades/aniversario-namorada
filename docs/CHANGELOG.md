@@ -1,3 +1,25 @@
+## [1.1.1] — 2026-09-23
+
+### Correção — Integração 4.3 → 4.4
+- Transformado o botão **Próximo momento** da revelação da 4.3 no gatilho oficial da entrada da carta.
+- A seção 4.4 deixou de aparecer como continuação normal do scroll e passou a abrir como cena em tela cheia dentro da mesma página.
+- Adicionado botão **← Voltar** com foco visível e suporte a retorno para a posição anterior.
+- Adicionado suporte a `Escape` no desktop.
+- Implementado bloqueio do scroll de fundo com preservação de `scrollY`.
+- Implementado `inert` no conteúdo de fundo enquanto a cena está aberta.
+- Implementado retorno de foco ao elemento que acionou a cena.
+- A carta existente é reinicializada ao fechar, permitindo reentrada sem duplicação.
+- Mantidos envelope, selo, conteúdo, abertura e responsividade da carta existente.
+- Nenhuma nova página, URL, biblioteca ou asset foi criado.
+- Timings da Etapa 2 e `js/animations.js` permaneceram inalterados.
+- 4.5 não foi implementada.
+
+### Validação
+- Auditoria da branch e dos arquivos existentes realizada antes da alteração.
+- Validação estática dos estados, listeners, scroll lock, retorno, Escape, `inert`, responsividade e preservação da carta realizada após a implementação.
+- Validação visual real em navegador desktop/mobile não foi executada neste ambiente.
+- Testes funcionais reais de clique/scroll/reentrada dependem da execução no navegador pelo responsável do projeto.
+
 ## [1.1.0] — 2026-09-23
 
 ### Etapa 4.4 — Carta
