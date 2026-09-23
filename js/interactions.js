@@ -378,7 +378,7 @@
 
         if(siteShell){
           Array.from(siteShell.children).forEach(element=>{
-            if(element!==scene)candidates.add(element);
+            if(element!==scene && !element.contains(scene))candidates.add(element);
           });
 
           const main=siteShell.querySelector("main");
