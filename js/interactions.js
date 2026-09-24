@@ -998,10 +998,12 @@
     }
 
     function finishCelebration(){
+      if(state!=="auto")return;
       setCinematicScrollMode(false);
       setCheckpoint(6);
       state="finished";
       startFinalMusic();
+      scenes[6].classList.add("is-celebrating");
       root.classList.add("is-finished");
       window.setTimeout(()=>{
         root.classList.add("is-settled");

@@ -1473,7 +1473,7 @@
   color:#ffd7e6;
   font-size:2rem;
   box-shadow:0 12px 32px rgba(255,143,184,.12);
-  animation:finale-heart-breathe 3.2s ease-in-out 2 both;
+  animation:none;
 }
 .finale-scene__message--celebration{min-height:1.85em}
 .finale-celebration__confetti{position:absolute;inset:0;pointer-events:none}
@@ -1484,6 +1484,12 @@
   color:rgba(255,215,230,.76);
   font-size:clamp(.75rem,1.8vw,1.15rem);
   opacity:0;
+  animation:none;
+}
+.finale-scene.is-celebrating .finale-celebration__symbol{
+  animation:finale-heart-breathe 3.2s ease-in-out 2 both;
+}
+.finale-scene.is-celebrating .finale-celebration__confetti span{
   animation:finale-confetti 4.8s ease-out calc(var(--finale-piece) * 90ms) both;
 }
 .finale-is-auto{

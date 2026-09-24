@@ -1,3 +1,20 @@
+## [1.3.5] — 2026-09-24
+
+### Correção — Momento dos efeitos da celebração final
+- As animações de coração e confetes da Cena 7 deixaram de iniciar quando a Cena 7 é criada no DOM.
+- Os efeitos agora permanecem parados durante o carregamento e são ativados somente em `finishCelebration()`, no início real da celebração.
+- A música final continua sendo iniciada antes do acionamento da classe visual, mantendo a sincronização desejada entre música, mensagem e efeitos.
+- O disparo permanece único: `finishCelebration()` só prossegue quando o estado ainda é `auto`, e a animação CSS é finita, sem loop.
+- `prefers-reduced-motion` permanece preservado; a celebração continua funcional sem depender do movimento.
+- Máquina de scroll, checkpoints, velocidade, touch, wheel, teclado, entrada da Etapa 5, Cena 5 → 6, Cena 6 → 7, música original e demais etapas permanecem fora do escopo.
+
+### Validação
+- Auditoria confirmou que `renderCelebrationScene()` apenas cria os elementos e não inicia mais as animações.
+- `finishCelebration()` é o ponto explícito de ativação dos efeitos.
+- Nenhum listener ou timer novo foi criado para o disparo visual.
+- Validação estática confirmou animações finitas e preservação do reduced-motion.
+- Teste visual final desktop/mobile deve ser realizado pelo responsável no GitHub Pages/dispositivo.
+
 ## [1.3.4] — 2026-09-23
 
 ### Correção — Interação mobile do auto-scroll cinematográfico
