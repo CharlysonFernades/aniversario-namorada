@@ -1,3 +1,22 @@
+## [1.3.6] — 2026-09-24
+
+### Refinamento visual — Celebração final
+- Aumentada de forma controlada a quantidade de partículas da Cena 7, de 14 para 22 elementos.
+- Ampliada a distribuição ao redor da mensagem, com posições iniciais mais abertas e deslocamentos responsivos.
+- Reforçados tamanho, contraste e presença dos símbolos sem cobrir o texto principal.
+- Adicionado um pequeno burst inicial com expansão/dispersão e desaparecimento gradual.
+- Alongada a duração visual dos confetes para permitir que a celebração seja percebida sem criar animação permanente.
+- Reforçado discretamente o coração central, mantendo-o limitado e finito.
+- Mantido o disparo exclusivamente em is-celebrating, acionado por finishCelebration() somente na chegada real à Cena 7.
+- prefers-reduced-motion permanece preservado, sem depender do movimento para transmitir a celebração.
+- Nenhuma alteração feita na máquina de scroll, checkpoints, touch, wheel, teclado, auto-scroll, música ou conteúdo pessoal.
+
+### Validação
+- Auditoria confirmou que renderCelebrationScene() continua apenas criando os elementos; o disparo permanece em finishCelebration().
+- Revisão estática confirmou 22 partículas, duração finita, ausência de loop e uso de distribuição responsiva.
+- CSS de desktop/mobile e reduced-motion revisado para evitar overflow e preservar a leitura da mensagem.
+- Validação visual final desktop/mobile deve ser realizada pelo responsável no GitHub Pages/dispositivo.
+
 ## [1.3.5] — 2026-09-24
 
 ### Correção — Momento dos efeitos da celebração final

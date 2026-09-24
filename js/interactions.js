@@ -820,12 +820,42 @@
       const confetti=document.createElement("div");
       confetti.className="finale-celebration__confetti";
       confetti.setAttribute("aria-hidden","true");
-      for(let i=0;i<14;i+=1){
+      const pieces=[
+        ["♥","-38%","-25","-7","-15","-18","0"],
+        ["✦","-29%","-14","-12","-20","20","70"],
+        ["·","-20%","2","-16","-24","-32","140"],
+        ["♥","-11%","-28","-10","-18","34","210"],
+        ["✦","0%","-38","-4","-23","-12","280"],
+        ["·","12%","-27","8","-21","28","350"],
+        ["♥","23%","-10","12","-18","-26","60"],
+        ["✦","34%","6","15","-24","18","130"],
+        ["·","40%","22","8","-19","-34","200"],
+        ["♥","30%","35","18","-17","12","270"],
+        ["✦","16%","30","-15","-22","-20","340"],
+        ["·","-2%","34","-20","-16","30","40"],
+        ["♥","-17%","28","-13","-23","-28","110"],
+        ["✦","-31%","18","-9","-20","22","180"],
+        ["·","-42%","3","-18","-18","-16","250"],
+        ["♥","-35%","-20","14","-24","34","320"],
+        ["✦","-24%","-36","-11","-19","-30","30"],
+        ["·","8%","-48","17","-21","16","100"],
+        ["♥","27%","-32","-14","-23","-24","170"],
+        ["✦","43%","-12","10","-20","28","240"],
+        ["·","37%","30","-8","-18","-32","310"],
+        ["♥","-44%","31","16","-22","20","80"]
+      ];
+      pieces.forEach(([symbol,startX,startY,driftX,driftY,rotate,delay],index)=>{
         const piece=document.createElement("span");
-        piece.textContent=i%3===0?"♥":i%3===1?"✦":"·";
-        piece.style.setProperty("--finale-piece",String(i));
+        piece.textContent=symbol;
+        piece.style.setProperty("--finale-piece",String(index));
+        piece.style.setProperty("--finale-start-x",startX);
+        piece.style.setProperty("--finale-start-y",startY+"%");
+        piece.style.setProperty("--finale-drift-x",driftX);
+        piece.style.setProperty("--finale-drift-y",driftY);
+        piece.style.setProperty("--finale-rotate",rotate+"deg");
+        piece.style.setProperty("--finale-delay",delay+"ms");
         confetti.append(piece);
-      }
+      });
       const note=document.createElement("p");
       note.className="finale-scene__message finale-scene__message--celebration";
       note.textContent="";
