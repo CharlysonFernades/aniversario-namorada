@@ -1,3 +1,31 @@
+## [1.4.0] — 2026-09-24
+
+### Etapa 6 — Polimento Visual Global
+- Criado um pequeno conjunto de variáveis visuais compartilhadas para superfícies, bordas, sombras, raios e altura mínima de controles.
+- Harmonizados cartões escuros equivalentes das experiências 4.1, 4.2 e 4.3 sem remover a identidade específica de cada interação.
+- Refinados tipografia e ritmo vertical globais, incluindo line-height dos textos de apoio e espaçamento dos cabeçalhos de seção.
+- Melhorada a responsividade de áreas gerais e da navegação mobile, com áreas tocáveis mais confortáveis e respeito aos safe areas laterais.
+- Reforçada a prevenção contra overflow horizontal acidental sem alterar a mecânica das experiências.
+- Refinado visualmente o mini-player, mantendo sua arquitetura, playlist, áudio e comportamentos aprovados.
+- Adicionada separação visual muito discreta entre experiências consecutivas para reforçar a sensação de um único projeto.
+- Consolidada uma duplicação segura no CSS do botão de play do mini-player.
+- Adicionada regra global de foco visível e herança tipográfica para controles, sem substituir os tratamentos específicos já existentes.
+- Nenhuma alteração de conteúdo pessoal.
+
+### Preservado
+- Lógica e máquina do Encerramento Cinematográfico, incluindo checkpoints, limite dinâmico, auto-scroll, takeover, velocidade de aproximadamente 240 px/s, touch, wheel, teclado, pausa/troca de música, celebração e restauração do scroll.
+- Timings congelados do sistema de reveal: 1050ms, 140ms, 280ms, 420ms e 560ms.
+- Mecânicas das Memórias, Carta e Mensagem Secreta.
+- Arquitetura do player e da única instância de áudio.
+- HTML, JavaScript funcional e conteúdo pessoal permaneceram sem mudanças.
+
+### Validação
+- Branch criada diretamente do HEAD atualizado da main antes da implementação.
+- Ausência de package.json confirmada; npm test não é aplicável.
+- Revisão estática dos seletores, variáveis, media queries, foco, overflow e áreas de toque.
+- Validação sintática dos arquivos JavaScript do projeto e balanceamento estrutural do CSS serão confirmados após o commit.
+- Validação visual real em navegador desktop/mobile depende da execução do projeto em servidor local/GitHub Pages.
+
 ## [1.3.6] — 2026-09-24
 
 ### Refinamento visual — Celebração final
