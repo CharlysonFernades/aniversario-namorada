@@ -77,7 +77,7 @@ window.siteContent={
     scene7:{
       birthdayLabel:"Feliz aniversário , minha princesa. ❤️",
       finalMusic:{
-        src:"assets/musicas/[COLOQUE-AQUI-O-ARQUIVO].mp3"
+        src:"assets/musicas/felizaniversario.mp3"
       }
     }
   },
