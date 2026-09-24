@@ -535,7 +535,7 @@
   }
 
 
-  function initSecretMessage(){
+  function initSecretMessage(openFinale){
     const root=document.querySelector("[data-secret-message]");
     if(!root)return;
 
@@ -577,11 +577,19 @@
     button.className="secret-message__button";
     button.setAttribute("aria-controls","secret-message-content");
 
+    const finaleButton=document.createElement("button");
+    finaleButton.type="button";
+    finaleButton.className="secret-message__finale-button";
+    finaleButton.textContent="IR PARA ENCERRAMENTO";
+    finaleButton.disabled=true;
+    finaleButton.hidden=true;
+    finaleButton.setAttribute("aria-label","Ir para o encerramento cinematográfico");
+
     const status=document.createElement("span");
     status.className="secret-message__status";
     status.setAttribute("aria-live","polite");
 
-    controls.append(button,status);
+    controls.append(button,finaleButton,status);
     note.append(symbol,label,title,intro,message,controls);
     root.append(note);
 
@@ -595,9 +603,13 @@
         button.textContent=secret.actionLabel||"[TEXTO DO BOTÃO]";
         button.disabled=false;
         button.setAttribute("aria-expanded","false");
+        finaleButton.hidden=true;
+        finaleButton.disabled=true;
         status.textContent="";
       }else if(state==="revealing"){
         button.disabled=true;
+        finaleButton.hidden=true;
+        finaleButton.disabled=true;
         status.textContent="Revelando…";
       }else{
         title.textContent=secret.title||"[TÍTULO DA MENSAGEM SECRETA]";
@@ -607,6 +619,8 @@
         button.disabled=true;
         button.textContent="Mensagem revelada";
         button.setAttribute("aria-expanded","true");
+        finaleButton.hidden=false;
+        finaleButton.disabled=false;
         status.textContent="Mensagem revelada";
       }
       root.dataset.state=state;
@@ -637,7 +651,559 @@
     }
 
     button.addEventListener("click",reveal);
+    finaleButton.addEventListener("click",()=>{
+      if(state==="revealed"&&typeof openFinale==="function")openFinale();
+    });
     render();
+  }
+
+
+  function initFinale(){
+    const root=document.querySelector("[data-finale-experience]");
+    const section=document.querySelector("#encerramento");
+    if(!root||!section)return null;
+
+    section.hidden=true;
+    section.setAttribute("aria-hidden","true");
+
+    const finale=content.finale||{};
+    const sceneData=[
+      {type:"text",data:finale.scene1||{}},
+      {type:"photo",data:finale.scene2||{}},
+      {type:"photo",data:finale.scene3||{}},
+      {type:"photo",data:finale.scene4||{}},
+      {type:"message",data:finale.scene5||{}},
+      {type:"takeover",data:finale.scene6||{}},
+      {type:"celebration",data:finale.scene7||{}}
+    ];
+
+    let state="idle";
+    let sceneIndex=0;
+    let checkpointY=0;
+    let checkpointLimitY=0;
+    let autoFrame=0;
+    let autoTargetY=0;
+    let touchStartY=null;
+    let finalAudio=null;
+    let takeoverTimer=0;
+
+    root.className="finale-scenes";
+    root.setAttribute("aria-live","polite");
+
+    const scenes=sceneData.map((scene,index)=>{
+      const element=document.createElement("article");
+      element.className="finale-scene";
+      element.dataset.scene=String(index+1);
+      element.setAttribute("aria-labelledby","finale-scene-"+String(index+1)+"-title");
+      root.appendChild(element);
+      return element;
+    });
+
+    function titleId(index){
+      return "finale-scene-"+String(index+1)+"-title";
+    }
+
+    function setSceneVisibility(activeIndex){
+      scenes.forEach((scene,index)=>{
+        scene.setAttribute("aria-hidden",String(index!==activeIndex));
+      });
+    }
+
+    function createButton(label){
+      const button=document.createElement("button");
+      button.type="button";
+      button.className="finale-scene__continue";
+      button.textContent=label||"Continuar";
+      button.addEventListener("click",()=>advanceFromCheckpoint(button));
+      return button;
+    }
+
+    function renderTextScene(scene,index,data){
+      const wrap=document.createElement("div");
+      wrap.className="finale-scene__content finale-scene__content--text";
+      const eyebrow=document.createElement("span");
+      eyebrow.className="finale-scene__eyebrow";
+      eyebrow.textContent="CENA "+String(index+1);
+      const title=document.createElement("h2");
+      title.id=titleId(index);
+      title.className="finale-scene__title";
+      title.textContent=data.title||"[TÍTULO DA CENA 1]";
+      const message=document.createElement("p");
+      message.className="finale-scene__message";
+      message.textContent=data.message||"[TEXTO DA CENA 1]";
+      const button=createButton(data.actionLabel||"Continuar");
+      wrap.append(eyebrow,title,message,button);
+      scene.append(wrap);
+    }
+
+    function renderPhotoScene(scene,index,data){
+      const wrap=document.createElement("div");
+      wrap.className="finale-scene__content finale-scene__content--photo";
+      const eyebrow=document.createElement("span");
+      eyebrow.className="finale-scene__eyebrow";
+      eyebrow.textContent="CENA "+String(index+1);
+      const title=document.createElement("h2");
+      title.id=titleId(index);
+      title.className="finale-scene__title finale-scene__title--sr";
+      title.textContent="Cena "+String(index+1)+" — fotografia";
+      const frame=document.createElement("figure");
+      frame.className="finale-photo-frame";
+      if(data.image){
+        const image=document.createElement("img");
+        image.src=data.image;
+        image.alt=data.alt||"Fotografia da celebração";
+        image.loading="lazy";
+        image.decoding="async";
+        image.addEventListener("error",()=>{
+          frame.replaceChildren();
+          frame.classList.add("is-placeholder");
+          const placeholder=document.createElement("span");
+          placeholder.className="finale-photo-frame__placeholder";
+          placeholder.textContent="FOTO / PLACEHOLDER";
+          frame.append(placeholder);
+        });
+        frame.append(image);
+      }else{
+        frame.classList.add("is-placeholder");
+        const placeholder=document.createElement("span");
+        placeholder.className="finale-photo-frame__placeholder";
+        placeholder.textContent="FOTO / PLACEHOLDER";
+        frame.append(placeholder);
+      }
+      const button=createButton("Continuar");
+      wrap.append(eyebrow,title,frame,button);
+      scene.append(wrap);
+    }
+
+    function renderMessageScene(scene,index,data){
+      const wrap=document.createElement("div");
+      wrap.className="finale-scene__content finale-scene__content--text";
+      const eyebrow=document.createElement("span");
+      eyebrow.className="finale-scene__eyebrow";
+      eyebrow.textContent="CENA "+String(index+1);
+      const title=document.createElement("h2");
+      title.id=titleId(index);
+      title.className="finale-scene__title";
+      title.textContent=data.title||"[TÍTULO DA MENSAGEM FINAL]";
+      const message=document.createElement("p");
+      message.className="finale-scene__message";
+      message.textContent=data.message||"[MENSAGEM FINAL]";
+      const button=createButton(data.actionLabel||"Continuar");
+      wrap.append(eyebrow,title,message,button);
+      scene.append(wrap);
+    }
+
+    function renderTakeoverScene(scene,index,data){
+      const wrap=document.createElement("div");
+      wrap.className="finale-scene__content finale-scene__content--takeover";
+      const title=document.createElement("h2");
+      title.id=titleId(index);
+      title.className="finale-scene__title";
+      title.textContent=data.takeoverMessage||"Confiscamos sua música para dar ênfase nesse momento final.";
+      const status=document.createElement("p");
+      status.className="finale-scene__status";
+      wrap.append(title,status);
+      scene.append(wrap);
+    }
+
+    function renderCelebrationScene(scene,index,data){
+      const wrap=document.createElement("div");
+      wrap.className="finale-scene__content finale-scene__content--celebration";
+      const symbol=document.createElement("span");
+      symbol.className="finale-celebration__symbol";
+      symbol.setAttribute("aria-hidden","true");
+      symbol.textContent="♡";
+      const title=document.createElement("h2");
+      title.id=titleId(index);
+      title.className="finale-scene__title";
+      title.textContent=data.birthdayLabel||"Feliz aniversário ❤️";
+      const confetti=document.createElement("div");
+      confetti.className="finale-celebration__confetti";
+      confetti.setAttribute("aria-hidden","true");
+      const pieces=[
+        ["♥","-38%","-25","-7","-15","-18","0"],
+        ["✦","-29%","-14","-12","-20","20","70"],
+        ["·","-20%","2","-16","-24","-32","140"],
+        ["♥","-11%","-28","-10","-18","34","210"],
+        ["✦","0%","-38","-4","-23","-12","280"],
+        ["·","12%","-27","8","-21","28","350"],
+        ["♥","23%","-10","12","-18","-26","60"],
+        ["✦","34%","6","15","-24","18","130"],
+        ["·","40%","22","8","-19","-34","200"],
+        ["♥","30%","35","18","-17","12","270"],
+        ["✦","16%","30","-15","-22","-20","340"],
+        ["·","-2%","34","-20","-16","30","40"],
+        ["♥","-17%","28","-13","-23","-28","110"],
+        ["✦","-31%","18","-9","-20","22","180"],
+        ["·","-42%","3","-18","-18","-16","250"],
+        ["♥","-35%","-20","14","-24","34","320"],
+        ["✦","-24%","-36","-11","-19","-30","30"],
+        ["·","8%","-48","17","-21","16","100"],
+        ["♥","27%","-32","-14","-23","-24","170"],
+        ["✦","43%","-12","10","-20","28","240"],
+        ["·","37%","30","-8","-18","-32","310"],
+        ["♥","-44%","31","16","-22","20","80"]
+      ];
+      pieces.forEach(([symbol,startX,startY,driftX,driftY,rotate,delay],index)=>{
+        const piece=document.createElement("span");
+        piece.textContent=symbol;
+        piece.style.setProperty("--finale-piece",String(index));
+        piece.style.setProperty("--finale-start-x",startX);
+        piece.style.setProperty("--finale-start-y",startY+"%");
+        piece.style.setProperty("--finale-drift-x",driftX);
+        piece.style.setProperty("--finale-drift-y",driftY);
+        piece.style.setProperty("--finale-rotate",rotate+"deg");
+        piece.style.setProperty("--finale-delay",delay+"ms");
+        confetti.append(piece);
+      });
+      const note=document.createElement("p");
+      note.className="finale-scene__message finale-scene__message--celebration";
+      note.textContent="";
+      wrap.append(confetti,symbol,title,note);
+      scene.append(wrap);
+    }
+
+    renderTextScene(scenes[0],0,sceneData[0].data);
+    renderPhotoScene(scenes[1],1,sceneData[1].data);
+    renderPhotoScene(scenes[2],2,sceneData[2].data);
+    renderPhotoScene(scenes[3],3,sceneData[3].data);
+    renderMessageScene(scenes[4],4,sceneData[4].data);
+    renderTakeoverScene(scenes[5],5,sceneData[5].data);
+    renderCelebrationScene(scenes[6],6,sceneData[6].data);
+    setSceneVisibility(0);
+
+    function isReduced(){
+      return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    }
+
+    function sceneTop(index){
+      return Math.max(0,Math.round(scenes[index].getBoundingClientRect().top+window.scrollY));
+    }
+
+    function calculateCheckpointLimit(index){
+      const button=scenes[index]?.querySelector(".finale-scene__continue");
+      if(!button)return checkpointY;
+
+      const margin=24;
+      const rect=button.getBoundingClientRect();
+      const viewportBottom=window.innerHeight-margin;
+      const limit=window.scrollY+rect.bottom-viewportBottom;
+
+      return Math.max(checkpointY,Math.round(limit));
+    }
+
+    function clampToCheckpointLimit(){
+      if(state!=="checkpoint")return;
+      if(window.scrollY>checkpointLimitY+1){
+        window.scrollTo(0,checkpointLimitY);
+      }
+    }
+
+    function recalculateCheckpointLimit(){
+      if(state!=="checkpoint")return;
+      checkpointLimitY=calculateCheckpointLimit(sceneIndex);
+      clampToCheckpointLimit();
+    }
+
+    function setCheckpoint(index){
+      sceneIndex=index;
+      checkpointY=sceneTop(index);
+      setSceneVisibility(index);
+      state=index===6?"finished":"checkpoint";
+      checkpointLimitY=state==="checkpoint"?calculateCheckpointLimit(index):checkpointY;
+
+      const button=scenes[index].querySelector(".finale-scene__continue");
+      if(button){
+        button.disabled=false;
+        button.classList.remove("is-fading");
+        requestAnimationFrame(()=>{
+          checkpointLimitY=calculateCheckpointLimit(index);
+          clampToCheckpointLimit();
+          button.focus({preventScroll:true});
+        });
+      }
+    }
+
+    function cancelAutoScroll(){
+      if(autoFrame){
+        cancelAnimationFrame(autoFrame);
+        autoFrame=0;
+      }
+    }
+
+    function setCinematicScrollMode(active){
+      document.documentElement.classList.toggle("finale-is-auto",active);
+    }
+
+    function scrollToTarget(index,after){
+      if(autoFrame)cancelAnimationFrame(autoFrame);
+      autoTargetY=sceneTop(index);
+      state="auto";
+      setCinematicScrollMode(true);
+      const startY=window.scrollY;
+      const distance=autoTargetY-startY;
+      const speed=240;
+      const duration=isReduced()?40:Math.max(900,(Math.abs(distance)/speed)*1000);
+      const startTime=performance.now();
+      function step(now){
+        if(state!=="auto")return;
+        const progress=Math.min(1,(now-startTime)/duration);
+        window.scrollTo(0,startY+(distance*progress));
+        if(progress<1){
+          autoFrame=requestAnimationFrame(step);
+          return;
+        }
+        autoFrame=0;
+        window.scrollTo(0,autoTargetY);
+        setCinematicScrollMode(false);
+        if(typeof after==="function")after();
+      }
+      autoFrame=requestAnimationFrame(step);
+    }
+
+    function fadeButton(button){
+      button.disabled=true;
+      button.classList.add("is-fading");
+    }
+
+    function advanceFromCheckpoint(button){
+      if(state!=="checkpoint"||sceneIndex>4||button.disabled)return;
+      fadeButton(button);
+      window.setTimeout(()=>{
+        if(state!=="checkpoint")return;
+        const nextIndex=sceneIndex+1;
+        if(nextIndex===5){
+          beginTakeover();
+          return;
+        }
+        scrollToTarget(nextIndex,()=>setCheckpoint(nextIndex));
+      },isReduced()?0:220);
+    }
+
+    function pauseCurrentPlayer(){
+      if(window.musicPlayer&&typeof window.musicPlayer.pause==="function")window.musicPlayer.pause();
+    }
+
+    function beginTakeover(){
+      state="takeover";
+      sceneIndex=5;
+      setCinematicScrollMode(true);
+      if(autoFrame)cancelAnimationFrame(autoFrame);
+      pauseCurrentPlayer();
+      prepareFinalMusic();
+      setSceneVisibility(5);
+      checkpointY=sceneTop(5);
+      window.scrollTo(0,checkpointY);
+      const scene=scenes[5];
+      scene.classList.add("is-active");
+      window.clearTimeout(takeoverTimer);
+      takeoverTimer=window.setTimeout(()=>{
+        scene.classList.remove("is-active");
+        scrollToTarget(6,finishCelebration);
+      },isReduced()?120:3600);
+    }
+
+    function prepareFinalMusic(){
+      const src=sceneData[6].data.finalMusic&&sceneData[6].data.finalMusic.src;
+      if(!src)return;
+      if(!finalAudio){
+        finalAudio=new Audio();
+        finalAudio.preload="auto";
+      }
+      finalAudio.pause();
+      finalAudio.currentTime=0;
+      finalAudio.src=src;
+      finalAudio.volume=1;
+      finalAudio.muted=true;
+      const playPromise=finalAudio.play();
+      if(playPromise&&playPromise.catch)playPromise.catch(()=>{});
+    }
+
+    function startFinalMusic(){
+      if(!finalAudio)return;
+      finalAudio.currentTime=0;
+      finalAudio.muted=false;
+      const playPromise=finalAudio.play();
+      if(playPromise&&playPromise.catch)playPromise.catch(()=>{});
+    }
+
+    function finishCelebration(){
+      if(state!=="auto")return;
+      setCinematicScrollMode(false);
+      setCheckpoint(6);
+      state="finished";
+      startFinalMusic();
+      scenes[6].classList.add("is-celebrating");
+      root.classList.add("is-finished");
+      window.setTimeout(()=>{
+        root.classList.add("is-settled");
+        enableNormalScroll();
+      },isReduced()?0:900);
+    }
+
+    function enableNormalScroll(){
+      if(autoFrame)cancelAnimationFrame(autoFrame);
+      setCinematicScrollMode(false);
+      state="finished";
+      document.documentElement.classList.remove("finale-is-active");
+    }
+
+    function guardScroll(){
+      if(state==="checkpoint"){
+        clampToCheckpointLimit();
+      }
+    }
+
+    function blockScrollInput(event){
+      if(event.cancelable)event.preventDefault();
+    }
+
+    function handleWheel(event){
+      if(state==="auto"||state==="takeover"){
+        blockScrollInput(event);
+        return;
+      }
+
+      if(state!=="checkpoint"||event.deltaY<=0)return;
+
+      const projected=window.scrollY+event.deltaY;
+      if(projected>checkpointLimitY){
+        blockScrollInput(event);
+        window.scrollTo(0,checkpointLimitY);
+      }
+    }
+
+    function getKeyboardScrollDelta(event){
+      if(event.key==="ArrowDown")return 40;
+      if(event.key==="PageDown")return Math.max(1,Math.round(window.innerHeight*.9));
+      if(event.key==="End")return Number.POSITIVE_INFINITY;
+      if((event.key===" "||event.key==="Spacebar")&&!event.shiftKey){
+        return Math.max(1,Math.round(window.innerHeight*.9));
+      }
+      return 0;
+    }
+
+    function handleKeydown(event){
+      if(state==="auto"||state==="takeover"){
+        const blocked=["ArrowUp","ArrowDown","PageUp","PageDown"," ","Spacebar","Home","End"];
+        if(blocked.includes(event.key))blockScrollInput(event);
+        return;
+      }
+
+      if(state!=="checkpoint")return;
+
+      if(event.key==="ArrowUp"||event.key==="PageUp"||event.key==="Home"||
+         ((event.key===" "||event.key==="Spacebar")&&event.shiftKey)){
+        return;
+      }
+
+      const delta=getKeyboardScrollDelta(event);
+      if(delta<=0)return;
+
+      const projected=window.scrollY+delta;
+      if(projected>checkpointLimitY){
+        blockScrollInput(event);
+        window.scrollTo(0,checkpointLimitY);
+      }
+    }
+
+    function handleTouchStart(event){
+      if(event.touches&&event.touches[0])touchStartY=event.touches[0].clientY;
+    }
+
+    function handleTouchMove(event){
+      if(!event.touches||!event.touches[0]||touchStartY===null)return;
+
+      if(state==="auto"||state==="takeover"){
+        blockScrollInput(event);
+        return;
+      }
+
+      if(state!=="checkpoint")return;
+
+      const delta=touchStartY-event.touches[0].clientY;
+      if(delta<=0)return;
+
+      const projected=window.scrollY+delta;
+      if(projected>checkpointLimitY){
+        blockScrollInput(event);
+        window.scrollTo(0,checkpointLimitY);
+      }
+    }
+
+    function handleTouchEnd(){
+      touchStartY=null;
+    }
+
+    function handleFinaleLinks(event){
+      if(state!=="auto"&&state!=="takeover"&&state!=="checkpoint")return;
+      const link=event.target.closest("a[href]");
+      if(link&&link.closest(".site-nav"))event.preventDefault();
+    }
+
+    function openFinale(){
+      if(state!=="idle")return;
+
+      state="checkpoint";
+      section.hidden=false;
+      section.setAttribute("aria-hidden","false");
+      document.documentElement.classList.add("finale-is-active");
+      setSceneVisibility(0);
+      section.classList.add("is-entering");
+
+      window.requestAnimationFrame(()=>{
+        if(state!=="checkpoint")return;
+
+        checkpointY=sceneTop(0);
+        checkpointLimitY=checkpointY;
+        window.scrollTo({top:checkpointY,left:0,behavior:"instant"});
+
+        window.requestAnimationFrame(()=>{
+          if(state!=="checkpoint")return;
+
+          checkpointY=sceneTop(0);
+          checkpointLimitY=calculateCheckpointLimit(0);
+
+          const button=scenes[0].querySelector(".finale-scene__continue");
+          if(button){
+            button.disabled=false;
+            button.classList.remove("is-fading");
+            button.focus({preventScroll:true});
+          }
+
+          const reduced=isReduced();
+          if(reduced){
+            section.classList.remove("is-entering");
+            return;
+          }
+
+          window.setTimeout(()=>{
+            if(state==="checkpoint")section.classList.remove("is-entering");
+          },180);
+        });
+      });
+    }
+
+    document.addEventListener("wheel",handleWheel,{passive:false});
+    document.addEventListener("keydown",handleKeydown);
+    document.addEventListener("touchstart",handleTouchStart,{passive:true});
+    document.addEventListener("touchmove",handleTouchMove,{passive:false});
+    document.addEventListener("touchend",handleTouchEnd,{passive:true});
+    document.addEventListener("click",handleFinaleLinks);
+    window.addEventListener("scroll",guardScroll,{passive:true});
+    window.addEventListener("resize",recalculateCheckpointLimit,{passive:true});
+    window.addEventListener("orientationchange",()=>{
+      window.setTimeout(recalculateCheckpointLimit,0);
+    },{passive:true});
+
+    window.addEventListener("beforeunload",()=>{
+      if(autoFrame)cancelAnimationFrame(autoFrame);
+      setCinematicScrollMode(false);
+      window.clearTimeout(takeoverTimer);
+      if(finalAudio)finalAudio.pause();
+    },{once:true});
+
+    return openFinale;
   }
 
   function init(){
@@ -645,7 +1211,8 @@
     initTimeCapsule();
     const openLetterScene=initLetterExperience();
     initSurprise(openLetterScene);
-    initSecretMessage();
+    const openFinale=initFinale();
+    initSecretMessage(openFinale);
   }
 
   if(document.readyState==="loading"){

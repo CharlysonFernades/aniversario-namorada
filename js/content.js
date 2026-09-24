@@ -35,7 +35,7 @@ window.siteContent={
     title:"AQUI ESTÁ ESCONDIDO UM SEGREDO...",
     intro:"É uma coisa que você vai querer saber...",
     actionLabel:"REVELAR SEGREDO",
-    message:"Você é a dona do sorriso mais lindo desse planeta, é a mulher mais maravilhosa, mais forte que eu já conheci, eu quero viver um futuro lindo com você. EU TE AMO MEU AMOR. e aqui o segredo: Eu gosto de sentir o cheiro dos seus peidos..."
+    message:"Você é a dona do sorriso mais lindo desse planeta, é a mulher mais maravilhosa, mais forte que eu já conheci, eu quero viver um futuro lindo com você. EU TE AMO MEU AMOR. e aqui o segredo: Eu gosto de sentir o cheiro dos seus peidos...(brincadeira, olha pra trás aí.)"
   },
   gift:{
     title:"Uma carta para você",
@@ -47,6 +47,39 @@ window.siteContent={
     title:"Cápsula do Tempo",
     intro:"AQUI EU PREPAREI ALGO QUE EU QUERO COMPARTILHAR COM VOCÊ, SOBRE O NOSSO FUTURO.",
     message:"Meu amor, sabe o que eu penso sobre nós? Penso que você  será a mãe dos meus filhos, a mulher que edificará o nosso lar, a mulher que será empoderada, poderá malhar, treinar, dançar e fazer qualquer coisa que você queira fazer às 14h da tarde... Eu quero que você seja a mulher da minha vida, em menos de 5 anos estaremos casados... Talvez olhando para trás depois de tantas dificuldades e pensando: VENCEMOS! Eu te amo meu bebẽ."
+  },
+  finale:{
+    scene1:{
+      title:"E AQUI É ONDE ENCERRA A SUA SURPRESA.",
+      message:"Espero de verdade que você tenha gostado, eu fiz com todo o meu coração...",
+      actionLabel:"Continuar"
+    },
+    scene2:{
+      image:"assets/fotos/final01.jpeg",
+      alt:"Uma foto sua criança"
+    },
+    scene3:{
+      image:"assets/fotos/foto14.webp",
+      alt:"Uma foto atual sua"
+    },
+    scene4:{
+      image:"assets/fotos/final03.png",
+      alt:"Seu ensaio fotografico"
+    },
+    scene5:{
+      title:"Agradecimentos!",
+      message:"Seja bem vinda á vida adulta, meu bebê, espero de coração que Deus lhe abençoe hoje e sempre, todos os dias da sua vida. Que venha muita paz, muita saúde, muito tudo pra você. Sua linda, maravilhosa! EU TE AMO!",
+      actionLabel:"Continuar"
+    },
+    scene6:{
+      takeoverMessage:"Confiscamos sua música para dar ênfase nesse momento final."
+    },
+    scene7:{
+      birthdayLabel:"Feliz aniversário , minha princesa. ❤️",
+      finalMusic:{
+        src:"assets/musicas/felizaniversario.mp3"
+      }
+    }
   },
   musicas:[
     {titulo:"Mirrors",artista:"Justim Timberlake",arquivo:"assets/musicas/musica01.mp3",capa:"assets/fotos/musicas/musica01.png",altCapa:"Capa da Música 01"},

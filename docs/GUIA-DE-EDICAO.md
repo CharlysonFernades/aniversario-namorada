@@ -391,3 +391,74 @@ A apresentação visual fica isolada em `css/style.css` pelos seletores da 4.5. 
 ### Limites da 4.5
 
 A Mensagem Secreta não cria senha, puzzle, caça ao tesouro, temporizador, sequência de cliques, modal ou nova página. Ela também não implementa a Etapa 5; a integração futura pode ser feita posteriormente sem exigir que a 4.5 controle o encerramento da experiência.
+
+
+## Integração 4.5 → Etapa 5 — Entrada do Encerramento
+
+A Etapa 5 não fica exposta no fluxo normal da página. Ela é liberada somente pela Mensagem Secreta.
+
+### Como a entrada funciona
+
+1. A Mensagem Secreta começa em `locked`.
+2. Ao revelar a mensagem, o botão **IR PARA ENCERRAMENTO** aparece.
+3. O botão é um `<button>` real e chama a ação retornada por `initFinale()`.
+4. A seção `#encerramento` permanece com `hidden` até essa ação.
+5. Ao abrir, a Cena 1 é posicionada como um `checkpoint`.
+6. O auto-scroll só começa quando o usuário pressiona **Continuar**.
+
+A Etapa 5 não usa `IntersectionObserver` para iniciar. Não é necessário editar HTML ou criar uma nova página/URL.
+
+### Navegação dos checkpoints
+
+Nas Cenas 1–5, o scroll funciona em modo de leitura:
+- subir é livre;
+- descer é permitido até o limite inferior calculado dinamicamente pelo botão **Continuar**;
+- ultrapassar esse limite é bloqueado somente no excesso;
+- resize e mudança de orientação recalculam o limite.
+
+Durante o auto-scroll e o takeover, as entradas de rolagem são bloqueadas e a animação controla a posição.
+
+## Etapa 5 — Encerramento Cinematográfico
+
+A Etapa 5 fica no final da página e apresenta sete cenas: texto, três fotografias, mensagem final, aviso da música e celebração.
+
+### Onde editar as Cenas 1–5
+
+Abra `js/content.js` e localize `finale`.
+
+- `finale.scene1.title`: título da Cena 1.
+- `finale.scene1.message`: texto da Cena 1.
+- `finale.scene1.actionLabel`: texto do botão da Cena 1.
+- `finale.scene2.image` e `finale.scene2.alt`: arquivo e descrição da foto da Cena 2.
+- `finale.scene3.image` e `finale.scene3.alt`: arquivo e descrição da foto da Cena 3.
+- `finale.scene4.image` e `finale.scene4.alt`: arquivo e descrição da foto da Cena 4.
+- `finale.scene5.title`: título da mensagem final.
+- `finale.scene5.message`: mensagem final.
+- `finale.scene5.actionLabel`: texto do botão da Cena 5.
+
+As Cenas 2, 3 e 4 começam com `image:""`, portanto exibem um placeholder técnico. Para trocar uma foto, coloque o arquivo em `assets/fotos/` e substitua somente o valor de `image` pelo caminho relativo. Preencha também o `alt` com uma descrição objetiva da imagem. Não é necessário alterar `interactions.js`, `style.css` ou `index.html`.
+
+### Onde editar o aviso da Cena 6
+
+O texto está em `finale.scene6.takeoverMessage` e já contém exatamente o aviso definido para esta etapa.
+
+### Como trocar a música final
+
+A música da Cena 7 fica separada da playlist normal do mini-player em `js/content.js → finale.scene7.finalMusic.src`.
+
+Para trocar a música final:
+
+1. coloque o arquivo em `assets/musicas/`;
+2. localize `finale.scene7.finalMusic.src` em `js/content.js`;
+3. substitua somente o caminho pelo nome/caminho do arquivo escolhido;
+4. mantenha a estrutura restante intacta.
+
+A música final não deve ser adicionada a `musicas`, porque a Cena 7 usa uma instância de áudio própria e exclusiva. Não é necessário alterar `music-player.js`, `interactions.js`, `style.css` ou `index.html` para trocar a faixa.
+
+### Comportamento do encerramento
+
+Durante o auto-scroll, wheel/trackpad, touch de rolagem e teclas de avanço são bloqueados. Em um checkpoint, a leitura pode ser feita para cima, mas a progressão para baixo depende do botão `Continuar`. Depois da celebração, a rolagem normal é restaurada.
+
+Com `prefers-reduced-motion: reduce`, o auto-scroll é reduzido ao mínimo e as cenas continuam acessíveis sem depender de animações.
+
+A Etapa 5 não altera os timings congelados da Etapa 2 e não cria nenhuma Etapa 6.

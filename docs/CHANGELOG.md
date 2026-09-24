@@ -1,3 +1,70 @@
+## [1.3.6] — 2026-09-24
+
+### Refinamento visual — Celebração final
+- Aumentada de forma controlada a quantidade de partículas da Cena 7, de 14 para 22 elementos.
+- Ampliada a distribuição ao redor da mensagem, com posições iniciais mais abertas e deslocamentos responsivos.
+- Reforçados tamanho, contraste e presença dos símbolos sem cobrir o texto principal.
+- Adicionado um pequeno burst inicial com expansão/dispersão e desaparecimento gradual.
+- Alongada a duração visual dos confetes para permitir que a celebração seja percebida sem criar animação permanente.
+- Reforçado discretamente o coração central, mantendo-o limitado e finito.
+- Mantido o disparo exclusivamente em is-celebrating, acionado por finishCelebration() somente na chegada real à Cena 7.
+- prefers-reduced-motion permanece preservado, sem depender do movimento para transmitir a celebração.
+- Nenhuma alteração feita na máquina de scroll, checkpoints, touch, wheel, teclado, auto-scroll, música ou conteúdo pessoal.
+
+### Validação
+- Auditoria confirmou que renderCelebrationScene() continua apenas criando os elementos; o disparo permanece em finishCelebration().
+- Revisão estática confirmou 22 partículas, duração finita, ausência de loop e uso de distribuição responsiva.
+- CSS de desktop/mobile e reduced-motion revisado para evitar overflow e preservar a leitura da mensagem.
+- Validação visual final desktop/mobile deve ser realizada pelo responsável no GitHub Pages/dispositivo.
+
+## [1.3.5] — 2026-09-24
+
+### Correção — Momento dos efeitos da celebração final
+- As animações de coração e confetes da Cena 7 deixaram de iniciar quando a Cena 7 é criada no DOM.
+- Os efeitos agora permanecem parados durante o carregamento e são ativados somente em `finishCelebration()`, no início real da celebração.
+- A música final continua sendo iniciada antes do acionamento da classe visual, mantendo a sincronização desejada entre música, mensagem e efeitos.
+- O disparo permanece único: `finishCelebration()` só prossegue quando o estado ainda é `auto`, e a animação CSS é finita, sem loop.
+- `prefers-reduced-motion` permanece preservado; a celebração continua funcional sem depender do movimento.
+- Máquina de scroll, checkpoints, velocidade, touch, wheel, teclado, entrada da Etapa 5, Cena 5 → 6, Cena 6 → 7, música original e demais etapas permanecem fora do escopo.
+
+### Validação
+- Auditoria confirmou que `renderCelebrationScene()` apenas cria os elementos e não inicia mais as animações.
+- `finishCelebration()` é o ponto explícito de ativação dos efeitos.
+- Nenhum listener ou timer novo foi criado para o disparo visual.
+- Validação estática confirmou animações finitas e preservação do reduced-motion.
+- Teste visual final desktop/mobile deve ser realizado pelo responsável no GitHub Pages/dispositivo.
+
+## [1.3.4] — 2026-09-23
+
+### Correção — Interação mobile do auto-scroll cinematográfico
+- Criado um modo temporário de scroll cinematográfico ativo apenas durante state="auto" e state="takeover".
+- Durante o movimento automático, `scroll-behavior` passa temporariamente para `auto`, evitando que o `requestAnimationFrame` concorra com o `smooth` global.
+- Durante `auto`/`takeover`, `touch-action:none` é aplicado ao elemento raiz e o `touchmove` existente continua sendo o único listener responsável pelo bloqueio de gesto.
+- O modo cinematográfico é removido ao terminar o auto-scroll, ao finalizar a celebração, ao restaurar o scroll normal ou no `beforeunload`.
+- Velocidade de 240 px/s, checkpoints, `checkpointLimitY`, teclado, wheel, entrada da Etapa 5, takeover, música e conteúdo não foram alterados.
+- Nenhum listener adicional de `touchmove`, `wheel` ou `scroll` foi criado.
+
+### Validação
+- Auditoria confirmou que o SHA anteriormente relatado `b1a8a8b5381866f0fd8222e441c1f52eab067586` não existe no histórico pesquisável deste repositório.
+- Correção aplicada diretamente sobre `3cc6de3ebff2650c8fcf85954824e4261e817539`, que é o HEAD real da branch.
+- Validação estática confirma a preservação do speed 240, da máquina de checkpoints e dos listeners existentes.
+- Validação visual real em dispositivo mobile/desktop ainda depende da execução no navegador/GitHub Pages.
+
+## [1.3.3] — 2026-09-23
+
+### Correção — Entrada do encerramento cinematográfico
+- A entrada pelo botão **IR PARA ENCERRAMENTO** agora usa uma transição visual curta antes de revelar a Cena 1.
+- O reposicionamento inicial é instantâneo e acontece enquanto a seção ainda está visualmente em transição, evitando a percepção de salto brusco.
+- O checkpoint da Cena 1 recebe checkpointY e checkpointLimitY antes do reposicionamento, evitando que guardScroll() corrija a posição para o topo durante a entrada.
+- A entrada permanece em state="checkpoint" e sceneIndex=0; nenhum auto-scroll ou takeover é iniciado.
+- O foco do botão **Continuar** usa preventScroll depois que a Cena 1 está posicionada.
+- Reduced motion remove a transição visual sem alterar o fluxo funcional.
+- A máquina de checkpoints, auto-scroll, takeover, Cena 5 → 6, Cena 6 → 7 e demais etapas permanecem fora do escopo desta correção.
+
+### Validação
+- Revisão estática confirmou que a entrada não chama scrollToTarget(), não altera state para auto/takeover e preserva a máquina de scroll existente.
+- Teste funcional real em navegador desktop/mobile permanece necessário para validar a entrada no ambiente publicado.
+
 ## [1.1.3] — 2026-09-23
 
 ### Correção — Escopo do `inert` na cena da carta
@@ -13,6 +80,48 @@
 - A cena continua fora do conjunto de elementos inertes.
 - Os filhos de `main` que são irmãos da cena continuam sendo bloqueados.
 - Teste funcional real em navegador desktop/mobile permanece necessário para confirmar scroll, cliques, abertura, fechamento e reentrada no ambiente publicado.
+
+## [1.3.2] — 2026-09-23
+
+### Refinamento final da navegação cinematográfica
+- Checkpoints das Cenas 1–5 agora permitem leitura livre para cima e para baixo até um limite inferior calculado dinamicamente pela posição real do botão **Continuar** e pelo viewport.
+- O excesso de scroll descendente é bloqueado sem transformar todo o checkpoint em uma área sem rolagem.
+- O limite é recalculado ao entrar em checkpoint, durante resize e após mudança de orientação.
+- O auto-scroll passou a usar progressão linear com velocidade constante, removendo o easing que produzia aceleração/desaceleração perceptível.
+- `guardScroll()` deixou de corrigir a posição durante `auto`/takeover, evitando disputa com o `requestAnimationFrame`.
+- Wheel/trackpad, touch e teclas de rolagem continuam bloqueados durante `auto` e takeover; no checkpoint, apenas o excesso além do limite é impedido.
+- Corrigida a condição de `advanceFromCheckpoint()` para permitir **Cena 5 → Cena 6 / takeover**.
+- Mantidos a entrada pela Mensagem Secreta, a Cena 6, a música final, reduced motion e as experiências aprovadas anteriores.
+
+## [1.3.1] — 2026-09-23
+
+### Correção de integração — Etapa 4.5 → Etapa 5
+- A Mensagem Secreta agora exibe **IR PARA ENCERRAMENTO** somente depois de `revealed` e usa a ação retornada por `initFinale()` para iniciar a experiência.
+- O encerramento cinematográfico permanece oculto no fluxo normal da página até a liberação explícita.
+- Removido o gatilho por `IntersectionObserver`; a entrada na Etapa 5 deixou de depender da visibilidade de uma seção de aproximadamente 700svh.
+- A Cena 1 agora é aberta diretamente em estado `checkpoint`, com leitura livre para cima e sem auto-scroll até o clique em **Continuar**.
+- A máquina de auto-scroll, bloqueios de avanço e transições das Cenas 2–7 foram preservados.
+- Nenhuma alteração foi feita na Carta, na correção de `setBackgroundInert()`, nas experiências 4.1–4.5 aprovadas, no player, nas Memórias, na História ou nos timings congelados da Etapa 2.
+
+## [1.3.0] — 2026-09-23
+
+### Etapa 5 — Encerramento Cinematográfico
+- Criada uma experiência final com sete cenas: texto, três fotografias, mensagem final, aviso da música e celebração.
+- Adicionada a estrutura `finale` em `js/content.js`, com placeholders para textos, fotos e música final.
+- Implementado controle de progressão e checkpoints em `js/interactions.js`, com bloqueio específico das interações de rolagem durante o auto-scroll e bloqueio de avanço manual para baixo nos checkpoints.
+- Cenas 2–4 usam placeholders de foto e aceitam caminhos editáveis sem alteração de JavaScript, CSS ou HTML.
+- A Cena 6 pausa a faixa atual do mini-player e prepara uma instância de áudio separada para a música final, mantendo-a inaudível durante o aviso e liberando o som na Cena 7.
+- Criada celebração visual discreta, sem animações infinitas, e restaurado o comportamento normal de scroll ao finalizar.
+- Adicionado suporte a `prefers-reduced-motion`.
+- Documentado no guia como editar fotos, textos e música final.
+- Não foram alterados `js/animations.js`, Memórias, Likes, Cápsula, Surpresa, Carta, Mensagem Secreta ou os timings congelados da Etapa 2.
+- A Etapa 6 não foi iniciada.
+
+### Validação estrutural
+- Nova branch criada diretamente da `main` atualizada.
+- Revisão estática da integração com o player, sistema de fotos, Carta fullscreen e correção existente de `setBackgroundInert()`.
+- Não há suíte npm no projeto; `npm test` não é aplicável.
+- Validação visual/funcional real em desktop e mobile permanece pendente do teste do usuário.
 
 ## [1.2.0] — 2026-09-23
 
