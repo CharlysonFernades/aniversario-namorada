@@ -1,3 +1,24 @@
+## [1.5.0] — 2026-09-24
+
+### Etapa 7 — Identidade Artística e Decoração Final
+- Adicionados cinco assets SVG leves e independentes em assets/desenhos/, separados dos assets pessoais.
+- Criadas duas capivaras line-art para uso como marca-d'água periférica.
+- Criada uma dupla original azul/rosa, sem reprodução direta de personagem protegido.
+- Criados dois ornamentos line-art com ramos, folhas, corações e brilhos.
+- Integrada a decoração no Hero, História, Memórias, experiências 4.1–4.5 e Encerramento sem alterar as mecânicas existentes.
+- Capivaras e ornamentos usam baixa opacidade, posicionamento periférico e pointer-events:none.
+- Elementos puramente decorativos são aria-hidden, não recebem foco e usam alt vazio.
+- Criadas regras específicas de mobile para reduzir/remover decorações secundárias e evitar overflow ou interferência com o conteúdo.
+- Preservados os timings congelados de reveal, Memórias, Carta, Mensagem Secreta, player e toda a máquina do Encerramento Cinematográfico.
+- Atualizado o guia de edição com a localização e função de cada asset decorativo.
+
+### Validação
+- Assets SVG mantidos pequenos, vetoriais e sem dependências externas.
+- Estrutura de HTML/CSS revisada para confirmar que a decoração fica atrás do conteúdo e não bloqueia interação.
+- Sintaxe estrutural de SVG, JavaScript e CSS será validada após a integração.
+- Servidor local/browser real dependem da disponibilidade de execução local neste ambiente; não foi feita alteração em mecânicas para viabilizar as artes.
+- Nenhum álbum ou conteúdo pessoal foi adicionado.
+
 ## [1.4.0] — 2026-09-24
 
 ### Etapa 6 — Polimento Visual Global
