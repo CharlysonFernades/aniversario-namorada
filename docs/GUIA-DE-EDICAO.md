@@ -462,3 +462,20 @@ Durante o auto-scroll, wheel/trackpad, touch de rolagem e teclas de avanço são
 Com `prefers-reduced-motion: reduce`, o auto-scroll é reduzido ao mínimo e as cenas continuam acessíveis sem depender de animações.
 
 A Etapa 5 não altera os timings congelados da Etapa 2 e não cria nenhuma Etapa 6.
+
+
+## Etapa 7 — Identidade artística e decoração
+Os elementos decorativos da Etapa 7 ficam separados dos assets pessoais em assets/desenhos/.
+
+### Assets decorativos
+- assets/desenhos/capivara-01.svg: capivara line-art usada no Hero e como marca-d'água das Memórias/Mensagem Secreta.
+- assets/desenhos/capivara-02.svg: capivara line-art secundária usada na História, Cápsula do Tempo e início do Encerramento.
+- assets/desenhos/dupla-azul-rosa.svg: dupla original azul/rosa usada no Hero, Surpresa e parte final do Encerramento.
+- assets/desenhos/ornamento-01.svg: ramo floral com corações/brilhos usado como ornamento do Hero e da experiência 4.1.
+- assets/desenhos/ornamento-02.svg: ramo floral secundário usado na História e na Carta.
+
+### Integração
+As imagens decorativas são inseridas por elementos .art-decoration em index.html e estilizadas exclusivamente em css/style.css. Todas possuem aria-hidden=true, alt vazio, pointer-events:none e não recebem foco.
+
+### Edição futura
+Para trocar uma ilustração decorativa, substitua o arquivo SVG mantendo o mesmo nome/caminho. A posição, escala e opacidade por seção ficam em css/style.css. Não é necessário alterar js/content.js, pois esses assets não representam conteúdo pessoal.

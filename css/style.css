@@ -1584,3 +1584,26 @@ a:focus-visible{
     min-height:var(--control-height);
   }
 }
+
+
+/* Etapa 7: identidade artística e decoração integrada. */
+.section > .section__inner{position:relative;z-index:1}
+.finale-scenes{position:relative;z-index:1}
+.art-decoration{position:absolute;z-index:0;pointer-events:none;user-select:none;line-height:0}
+.art-decoration img{display:block;width:100%;height:auto;max-width:none}
+.art-decoration--hero-capivara{top:14%;right:2%;width:min(21vw,240px);opacity:.14;transform:rotate(4deg)}
+.art-decoration--hero-ornament{top:9%;left:-1%;width:min(27vw,300px);opacity:.2;transform:rotate(-5deg)}
+.art-decoration--hero-duo{right:7%;bottom:3%;width:min(25vw,310px);opacity:.94;filter:drop-shadow(0 14px 28px rgba(0,0,0,.22))}
+.art-decoration--story-capivara{right:3%;bottom:5%;width:min(24vw,270px);opacity:.115;transform:rotate(-4deg)}
+.art-decoration--story-ornament{top:8%;left:-4%;width:min(24vw,260px);opacity:.14;transform:rotate(8deg)}
+.art-decoration--memories{right:0;bottom:5%;width:min(20vw,220px);opacity:.09;transform:rotate(-6deg)}
+.art-decoration--experience{width:min(19vw,220px)}
+.likes-decoration{top:9%;right:-2%;opacity:.11;transform:rotate(10deg)}
+.capsule-decoration{left:-1%;bottom:7%;opacity:.09;transform:rotate(5deg)}
+.surprise-decoration{right:-1%;bottom:6%;opacity:.18}
+.letter-decoration{top:8%;left:-2%;opacity:.1;transform:rotate(-8deg)}
+.secret-decoration{right:1%;top:12%;opacity:.095;transform:rotate(6deg)}
+.art-decoration--finale-start{top:7%;left:-1%;width:min(22vw,250px);opacity:.1;transform:rotate(-4deg)}
+.art-decoration--finale-end{top:89%;right:1%;width:min(26vw,300px);opacity:.2}
+@media(max-width:760px){.art-decoration--hero-capivara{top:13%;right:-4%;width:135px;opacity:.1}.art-decoration--hero-ornament{top:8%;left:-9%;width:170px;opacity:.12}.art-decoration--hero-duo{right:1%;bottom:1%;width:170px;opacity:.78}.art-decoration--story-capivara{right:-8%;bottom:2%;width:150px;opacity:.08}.art-decoration--story-ornament{top:6%;left:-13%;width:165px;opacity:.1}.art-decoration--memories{display:none}.art-decoration--experience{width:145px}.likes-decoration,.letter-decoration{display:none}.capsule-decoration{left:-9%;bottom:3%;opacity:.065}.surprise-decoration{right:-9%;bottom:4%;opacity:.1}.secret-decoration{right:-8%;top:10%;opacity:.07}.art-decoration--finale-start{top:7%;left:-10%;width:150px;opacity:.065}.art-decoration--finale-end{top:91%;right:-8%;width:175px;opacity:.12}}
+@media(prefers-reduced-motion:reduce){.art-decoration{animation:none;transition:none}}
