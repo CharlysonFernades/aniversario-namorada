@@ -1,3 +1,19 @@
+## [1.3.4] — 2026-09-23
+
+### Correção — Interação mobile do auto-scroll cinematográfico
+- Criado um modo temporário de scroll cinematográfico ativo apenas durante state="auto" e state="takeover".
+- Durante o movimento automático, `scroll-behavior` passa temporariamente para `auto`, evitando que o `requestAnimationFrame` concorra com o `smooth` global.
+- Durante `auto`/`takeover`, `touch-action:none` é aplicado ao elemento raiz e o `touchmove` existente continua sendo o único listener responsável pelo bloqueio de gesto.
+- O modo cinematográfico é removido ao terminar o auto-scroll, ao finalizar a celebração, ao restaurar o scroll normal ou no `beforeunload`.
+- Velocidade de 240 px/s, checkpoints, `checkpointLimitY`, teclado, wheel, entrada da Etapa 5, takeover, música e conteúdo não foram alterados.
+- Nenhum listener adicional de `touchmove`, `wheel` ou `scroll` foi criado.
+
+### Validação
+- Auditoria confirmou que o SHA anteriormente relatado `b1a8a8b5381866f0fd8222e441c1f52eab067586` não existe no histórico pesquisável deste repositório.
+- Correção aplicada diretamente sobre `3cc6de3ebff2650c8fcf85954824e4261e817539`, que é o HEAD real da branch.
+- Validação estática confirma a preservação do speed 240, da máquina de checkpoints e dos listeners existentes.
+- Validação visual real em dispositivo mobile/desktop ainda depende da execução no navegador/GitHub Pages.
+
 ## [1.3.3] — 2026-09-23
 
 ### Correção — Entrada do encerramento cinematográfico

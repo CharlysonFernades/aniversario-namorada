@@ -901,10 +901,15 @@
       }
     }
 
+    function setCinematicScrollMode(active){
+      document.documentElement.classList.toggle("finale-is-auto",active);
+    }
+
     function scrollToTarget(index,after){
       if(autoFrame)cancelAnimationFrame(autoFrame);
       autoTargetY=sceneTop(index);
       state="auto";
+      setCinematicScrollMode(true);
       const startY=window.scrollY;
       const distance=autoTargetY-startY;
       const speed=240;
@@ -920,6 +925,7 @@
         }
         autoFrame=0;
         window.scrollTo(0,autoTargetY);
+        setCinematicScrollMode(false);
         if(typeof after==="function")after();
       }
       autoFrame=requestAnimationFrame(step);
@@ -951,6 +957,7 @@
     function beginTakeover(){
       state="takeover";
       sceneIndex=5;
+      setCinematicScrollMode(true);
       if(autoFrame)cancelAnimationFrame(autoFrame);
       pauseCurrentPlayer();
       prepareFinalMusic();
@@ -991,6 +998,7 @@
     }
 
     function finishCelebration(){
+      setCinematicScrollMode(false);
       setCheckpoint(6);
       state="finished";
       startFinalMusic();
@@ -1003,6 +1011,7 @@
 
     function enableNormalScroll(){
       if(autoFrame)cancelAnimationFrame(autoFrame);
+      setCinematicScrollMode(false);
       state="finished";
       document.documentElement.classList.remove("finale-is-active");
     }
@@ -1157,6 +1166,7 @@
 
     window.addEventListener("beforeunload",()=>{
       if(autoFrame)cancelAnimationFrame(autoFrame);
+      setCinematicScrollMode(false);
       window.clearTimeout(takeoverTimer);
       if(finalAudio)finalAudio.pause();
     },{once:true});

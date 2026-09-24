@@ -1486,6 +1486,10 @@
   opacity:0;
   animation:finale-confetti 4.8s ease-out calc(var(--finale-piece) * 90ms) both;
 }
+.finale-is-auto{
+  scroll-behavior:auto !important;
+  touch-action:none;
+}
 .finale-is-active{overscroll-behavior-y:none}
 @keyframes finale-heart-breathe{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.045);opacity:1}}
 @keyframes finale-confetti{
