@@ -50,32 +50,32 @@ window.siteContent={
   },
   finale:{
     scene1:{
-      title:"[TÍTULO DA CENA 1]",
-      message:"[TEXTO DA CENA 1]",
+      title:"E AQUI É ONDE ENCERRA A SUA SURPRESA.",
+      message:"Espero de verdade que você tenha gostado, eu fiz com todo o meu coração...",
       actionLabel:"Continuar"
     },
     scene2:{
-      image:"",
-      alt:"[DESCRIÇÃO DA FOTO DA CENA 2]"
+      image:"assets/fotos/final01.jpeg",
+      alt:"Uma foto sua criança"
     },
     scene3:{
-      image:"",
-      alt:"[DESCRIÇÃO DA FOTO DA CENA 3]"
+      image:"assets/fotos/foto14.webp",
+      alt:"Uma foto atual sua"
     },
     scene4:{
-      image:"",
-      alt:"[DESCRIÇÃO DA FOTO DA CENA 4]"
+      image:"assets/fotos/final03.png",
+      alt:"Seu ensaio fotografico"
     },
     scene5:{
-      title:"[TÍTULO DA MENSAGEM FINAL]",
-      message:"[MENSAGEM FINAL]",
+      title:"Agradecimentos!",
+      message:"Seja bem vinda á vida adulta, meu bebê, espero de coração que Deus lhe abençoe hoje e sempre, todos os dias da sua vida. Que venha muita paz, muita saúde, muito tudo pra você. Sua linda, maravilhosa! EU TE AMO!",
       actionLabel:"Continuar"
     },
     scene6:{
       takeoverMessage:"Confiscamos sua música para dar ênfase nesse momento final."
     },
     scene7:{
-      birthdayLabel:"Feliz aniversário ❤️",
+      birthdayLabel:"Feliz aniversário , minha princesa. ❤️",
       finalMusic:{
         src:"assets/musicas/[COLOQUE-AQUI-O-ARQUIVO].mp3"
       }
