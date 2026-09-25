@@ -22,6 +22,12 @@
 
   const body=document.body;
   const siteShell=document.querySelector(".site-shell");
+  const originalBodyStyles={
+    position:body.style.position,
+    top:body.style.top,
+    width:body.style.width,
+    overflow:body.style.overflow
+  };
 
   const modal=document.createElement("div");
   modal.className="album-modal";
@@ -77,6 +83,8 @@
   const lightbox=document.createElement("div");
   lightbox.className="album-lightbox";
   lightbox.hidden=true;
+  lightbox.setAttribute("role","dialog");
+  lightbox.setAttribute("aria-modal","true");
   lightbox.setAttribute("aria-label","Foto ampliada");
 
   const lightboxBackdrop=document.createElement("div");
@@ -145,10 +153,10 @@
   }
 
   function unlockPage(){
-    body.style.position="";
-    body.style.top="";
-    body.style.width="";
-    body.style.overflow="";
+    body.style.position=originalBodyStyles.position;
+    body.style.top=originalBodyStyles.top;
+    body.style.width=originalBodyStyles.width;
+    body.style.overflow=originalBodyStyles.overflow;
     if(siteShell){
       siteShell.inert=false;
       siteShell.removeAttribute("aria-hidden");

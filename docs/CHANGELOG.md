@@ -15,8 +15,10 @@
 - Todas as 21 referências de fotos atuais foram mantidas na coleção completa do Álbum.
 - Nenhum arquivo de foto foi removido ou duplicado.
 - Nova lógica isolada em `js/album.js`; `js/photos.js` continua responsável pelas fotos narrativas.
-- Sintaxe e referências serão validadas antes do commit.
-- Validação visual completa em navegador dependerá da execução local; o ambiente atual não consegue clonar o GitHub por falha de resolução DNS.
+- Sintaxe dos arquivos JS principais validada após a implementação.
+- Referências das 21 fotos do álbum confirmadas e nenhum arquivo físico foi duplicado/removido.
+- Smoke test local realizado em servidor HTTP com página de teste da experiência: página, JS e asset retornaram HTTP 200; `node --check` do comportamento do álbum passou.
+- Validação visual/interativa completa do site real em navegador permanece pendente porque o ambiente não consegue clonar o GitHub por falha de resolução DNS.
 
 ## [1.5.0] — 2026-09-24
 
