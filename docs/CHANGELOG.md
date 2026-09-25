@@ -1,3 +1,23 @@
+## [1.6.0] — 2026-09-25
+
+### Etapa 8 — Álbum de Fotos
+- Criada uma coleção única de 21 fotos em `js/content.js`, reutilizada pelo Álbum e pela narrativa de Memórias sem duplicar arquivos físicos.
+- Reduzida a narrativa de Memórias para 8 momentos existentes e distintos, preservando os dados pessoais já cadastrados e a mecânica do carrossel.
+- Adicionado convite narrativo imediatamente depois das Memórias com o CTA `VER ÁLBUM COMPLETO`.
+- Criada a experiência própria do Álbum na mesma página, com overlay, bloqueio do fundo e restauração exata do scroll.
+- Adicionado grid responsivo de aproximadamente 3 colunas no desktop e 2 no mobile, preservando a proporção das fotos.
+- Adicionado lightbox com título, legenda, contador, fechar, anterior/próxima, teclado, Escape e swipe mobile.
+- Aplicado lazy loading às miniaturas e carregamento ampliado somente após a interação.
+- Mantida a arquitetura do player e das experiências posteriores; o player permanece montado e seu estado não é alterado durante o overlay.
+- Preservados Memórias, Carta, Mensagem Secreta, Encerramento e timings congelados.
+
+### Validação
+- Todas as 21 referências de fotos atuais foram mantidas na coleção completa do Álbum.
+- Nenhum arquivo de foto foi removido ou duplicado.
+- Nova lógica isolada em `js/album.js`; `js/photos.js` continua responsável pelas fotos narrativas.
+- Sintaxe e referências serão validadas antes do commit.
+- Validação visual completa em navegador dependerá da execução local; o ambiente atual não consegue clonar o GitHub por falha de resolução DNS.
+
 ## [1.5.0] — 2026-09-24
 
 ### Etapa 7 — Identidade Artística e Decoração Final
