@@ -479,3 +479,27 @@ As imagens decorativas são inseridas por elementos .art-decoration em index.htm
 
 ### Edição futura
 Para trocar uma ilustração decorativa, substitua o arquivo SVG mantendo o mesmo nome/caminho. A posição, escala e opacidade por seção ficam em css/style.css. Não é necessário alterar js/content.js, pois esses assets não representam conteúdo pessoal.
+
+
+## ÁLBUM DE FOTOS — Etapa 8
+
+O Álbum é uma experiência separada da narrativa de Memórias e fica acessível imediatamente depois dela.
+
+### Onde cadastrar uma foto
+As fotos do Álbum ficam em `js/content.js`, na coleção `photos.album`.
+
+Cada item usa `image`, `alt`, `title` e `caption`.
+
+As 21 fotos atuais foram reutilizadas sem duplicar arquivos físicos. A mesma foto pode aparecer no Álbum e na narrativa de Memórias.
+
+### Trocar, remover ou editar
+Edite a coleção `photoLibrary` em `js/content.js`. Altere `image`, `alt`, `title` ou `caption` no item correspondente. Para remover uma foto do Álbum, remova o item da coleção. Não é necessário editar o HTML.
+
+### Memórias x Álbum
+- **Memórias:** seleção narrativa menor, definida por `memorySelectionIndexes`.
+- **Álbum:** coleção completa das 21 fotos mantidas em `photos.album`.
+
+Uma mesma foto pode existir nos dois lugares sem duplicar o arquivo em `assets/fotos/`.
+
+### Conteúdo editável
+Os textos do convite ficam em `album.intro` e `album.ctaLabel`. O título da experiência usa `album.title`.
