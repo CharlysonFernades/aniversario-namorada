@@ -1,3 +1,53 @@
+## [1.6.2] — 2026-09-25
+
+### Correção visual do CTA do Álbum
+- A lógica JavaScript existente continua responsável por definir o estado `hidden` do convite do Álbum conforme a memória ativa.
+- Adicionada a regra CSS `.album-invite[hidden]{display:none}` para que o estado nativo `hidden` seja respeitado visualmente mesmo com o `display:grid` do estado normal.
+- Nenhuma outra mecânica do carrossel, do Álbum ou de outras experiências foi alterada.
+
+### Validação
+- Regra CSS inserida especificamente no bloco de estilo do convite do Álbum.
+- `js/photos.js` não foi alterado nesta correção.
+- Não foi executada validação visual em navegador neste ambiente.
+
+## [1.6.1] — 2026-09-25
+
+### Correção da transição Memórias → Álbum
+- O CTA `VER ÁLBUM COMPLETO` agora começa oculto enquanto as Memórias iniciais estão sendo exibidas.
+- O convite passa a aparecer somente quando a última memória da narrativa estiver ativa.
+- Ao voltar para uma memória anterior, o CTA é ocultado novamente.
+- A mesma lógica funciona tanto pelos botões anterior/próxima quanto pelo swipe mobile, porque a visibilidade usa o `current` já existente no carrossel.
+- O Álbum, a coleção de 21 fotos, a seleção narrativa das Memórias e o `album.js` não foram alterados.
+
+### Validação
+- Sintaxe de `js/photos.js` validada após a alteração.
+- Revisão confirmou uma única referência ao convite e nenhuma criação de novo estado para a memória ativa.
+- Fluxos inicial, avanço, retorno e avanço novamente foram verificados estaticamente.
+- Caso-limite de apenas uma memória mantém o CTA oculto.
+- Não há `package.json` no projeto; não existe suíte npm aplicável.
+- A validação visual completa em navegador permanece dependente da execução do projeto em ambiente local/GitHub Pages.
+## [1.6.0] — 2026-09-25
+
+### Etapa 8 — Álbum de Fotos
+- Criada uma coleção única de 21 fotos em `js/content.js`, reutilizada pelo Álbum e pela narrativa de Memórias sem duplicar arquivos físicos.
+- Reduzida a narrativa de Memórias para 8 momentos existentes e distintos, preservando os dados pessoais já cadastrados e a mecânica do carrossel.
+- Adicionado convite narrativo imediatamente depois das Memórias com o CTA `VER ÁLBUM COMPLETO`.
+- Criada a experiência própria do Álbum na mesma página, com overlay, bloqueio do fundo e restauração exata do scroll.
+- Adicionado grid responsivo de aproximadamente 3 colunas no desktop e 2 no mobile, preservando a proporção das fotos.
+- Adicionado lightbox com título, legenda, contador, fechar, anterior/próxima, teclado, Escape e swipe mobile.
+- Aplicado lazy loading às miniaturas e carregamento ampliado somente após a interação.
+- Mantida a arquitetura do player e das experiências posteriores; o player permanece montado e seu estado não é alterado durante o overlay.
+- Preservados Memórias, Carta, Mensagem Secreta, Encerramento e timings congelados.
+
+### Validação
+- Todas as 21 referências de fotos atuais foram mantidas na coleção completa do Álbum.
+- Nenhum arquivo de foto foi removido ou duplicado.
+- Nova lógica isolada em `js/album.js`; `js/photos.js` continua responsável pelas fotos narrativas.
+- Sintaxe dos arquivos JS principais validada após a implementação.
+- Referências das 21 fotos do álbum confirmadas e nenhum arquivo físico foi duplicado/removido.
+- Smoke test local realizado em servidor HTTP com página de teste da experiência: página, JS e asset retornaram HTTP 200; `node --check` do comportamento do álbum passou.
+- Validação visual/interativa completa do site real em navegador permanece pendente porque o ambiente não consegue clonar o GitHub por falha de resolução DNS.
+
 ## [1.5.0] — 2026-09-24
 
 ### Etapa 7 — Identidade Artística e Decoração Final

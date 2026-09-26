@@ -479,3 +479,51 @@ As imagens decorativas são inseridas por elementos .art-decoration em index.htm
 
 ### Edição futura
 Para trocar uma ilustração decorativa, substitua o arquivo SVG mantendo o mesmo nome/caminho. A posição, escala e opacidade por seção ficam em css/style.css. Não é necessário alterar js/content.js, pois esses assets não representam conteúdo pessoal.
+
+
+## ÁLBUM DE FOTOS — Etapa 8
+
+O Álbum é uma experiência separada da narrativa de Memórias e fica acessível imediatamente depois dela.
+
+### Onde cadastrar uma foto
+As fotos do Álbum ficam em `js/content.js`, na coleção `photos.album`.
+
+Cada item usa `image`, `alt`, `title` e `caption`.
+
+As 21 fotos atuais foram reutilizadas sem duplicar arquivos físicos. A mesma foto pode aparecer no Álbum e na narrativa de Memórias.
+
+### Trocar, remover ou editar
+Edite a coleção `photoLibrary` em `js/content.js`. Altere `image`, `alt`, `title` ou `caption` no item correspondente. Para remover uma foto do Álbum, remova o item da coleção. Não é necessário editar o HTML.
+
+### Memórias x Álbum
+- **Memórias:** seleção narrativa menor, definida por `memorySelectionIndexes`.
+- **Álbum:** coleção completa das 21 fotos mantidas em `photos.album`.
+
+Uma mesma foto pode existir nos dois lugares sem duplicar o arquivo em `assets/fotos/`.
+
+### Conteúdo editável
+Os textos do convite ficam em `album.intro` e `album.ctaLabel`. O título da experiência usa `album.title`.
+
+
+### Visibilidade do convite do Álbum nas Memórias
+
+O convite `[data-album-invite]` reutiliza o mesmo `current` do carrossel de Memórias.
+
+Uma constante pode guardar uma referência para um elemento existente no DOM:
+
+`const albumInvite = document.querySelector("[data-album-invite]");`
+
+Nesse caso, `albumInvite` guarda a referência ao elemento do convite. Usar `const` significa que essa variável não recebe outro valor por reatribuição; isso não significa que tudo relacionado ao objeto referenciado seja necessariamente imutável.
+
+Outra constante pode guardar o resultado de uma condição:
+
+`const isLastMemory = memoryItems.length > 1 && current === memoryItems.length - 1;`
+
+- `current` representa a posição atual do carrossel.
+- Arrays JavaScript começam no índice `0`.
+- `memoryItems.length - 1` representa o índice da última memória.
+- A comparação produz um valor booleano: `true` ou `false`.
+- Esse resultado pode controlar a interface, neste caso exibindo o convite somente na última memória.
+- O trecho `memoryItems.length > 1` mantém o convite oculto no caso-limite de existir apenas uma memória.
+
+A atualização acontece dentro de `updateControls()`, que já é executada na inicialização e após mudanças feitas pelos botões ou pelo swipe. Assim, voltar da última memória para uma anterior também oculta o convite novamente.
