@@ -503,3 +503,27 @@ Uma mesma foto pode existir nos dois lugares sem duplicar o arquivo em `assets/f
 
 ### Conteúdo editável
 Os textos do convite ficam em `album.intro` e `album.ctaLabel`. O título da experiência usa `album.title`.
+
+
+### Visibilidade do convite do Álbum nas Memórias
+
+O convite `[data-album-invite]` reutiliza o mesmo `current` do carrossel de Memórias.
+
+Uma constante pode guardar uma referência para um elemento existente no DOM:
+
+`const albumInvite = document.querySelector("[data-album-invite]");`
+
+Nesse caso, `albumInvite` guarda a referência ao elemento do convite. Usar `const` significa que essa variável não recebe outro valor por reatribuição; isso não significa que tudo relacionado ao objeto referenciado seja necessariamente imutável.
+
+Outra constante pode guardar o resultado de uma condição:
+
+`const isLastMemory = memoryItems.length > 1 && current === memoryItems.length - 1;`
+
+- `current` representa a posição atual do carrossel.
+- Arrays JavaScript começam no índice `0`.
+- `memoryItems.length - 1` representa o índice da última memória.
+- A comparação produz um valor booleano: `true` ou `false`.
+- Esse resultado pode controlar a interface, neste caso exibindo o convite somente na última memória.
+- O trecho `memoryItems.length > 1` mantém o convite oculto no caso-limite de existir apenas uma memória.
+
+A atualização acontece dentro de `updateControls()`, que já é executada na inicialização e após mudanças feitas pelos botões ou pelo swipe. Assim, voltar da última memória para uma anterior também oculta o convite novamente.

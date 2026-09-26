@@ -111,6 +111,7 @@
 
     let current=0;
     let transitionToken=0;
+    const albumInvite=document.querySelector("[data-album-invite]");
 
     const viewport=document.createElement("div");
     viewport.className="memory-carousel__viewport";
@@ -182,6 +183,10 @@
       previous.disabled=current===0;
       next.disabled=current===memoryItems.length-1;
       status.textContent=String(current+1)+" / "+String(memoryItems.length);
+
+      const isLastMemory=memoryItems.length>1&&current===memoryItems.length-1;
+      if(albumInvite)albumInvite.hidden=!isLastMemory;
+
       updatePreviews();
     }
 

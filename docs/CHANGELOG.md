@@ -1,3 +1,19 @@
+## [1.6.1] — 2026-09-25
+
+### Correção da transição Memórias → Álbum
+- O CTA `VER ÁLBUM COMPLETO` agora começa oculto enquanto as Memórias iniciais estão sendo exibidas.
+- O convite passa a aparecer somente quando a última memória da narrativa estiver ativa.
+- Ao voltar para uma memória anterior, o CTA é ocultado novamente.
+- A mesma lógica funciona tanto pelos botões anterior/próxima quanto pelo swipe mobile, porque a visibilidade usa o `current` já existente no carrossel.
+- O Álbum, a coleção de 21 fotos, a seleção narrativa das Memórias e o `album.js` não foram alterados.
+
+### Validação
+- Sintaxe de `js/photos.js` validada após a alteração.
+- Revisão confirmou uma única referência ao convite e nenhuma criação de novo estado para a memória ativa.
+- Fluxos inicial, avanço, retorno e avanço novamente foram verificados estaticamente.
+- Caso-limite de apenas uma memória mantém o CTA oculto.
+- Não há `package.json` no projeto; não existe suíte npm aplicável.
+- A validação visual completa em navegador permanece dependente da execução do projeto em ambiente local/GitHub Pages.
 ## [1.6.0] — 2026-09-25
 
 ### Etapa 8 — Álbum de Fotos
