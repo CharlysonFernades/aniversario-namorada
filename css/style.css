@@ -1609,6 +1609,9 @@ a:focus-visible{
 @media(prefers-reduced-motion:reduce){.art-decoration{animation:none;transition:none}}
 
 /* Etapa 8: Álbum de Fotos. */
+.album-invite[hidden]{
+  display:none;
+}
 .album-invite{
   display:grid;
   justify-items:center;

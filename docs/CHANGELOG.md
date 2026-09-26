@@ -1,3 +1,15 @@
+## [1.6.2] — 2026-09-25
+
+### Correção visual do CTA do Álbum
+- A lógica JavaScript existente continua responsável por definir o estado `hidden` do convite do Álbum conforme a memória ativa.
+- Adicionada a regra CSS `.album-invite[hidden]{display:none}` para que o estado nativo `hidden` seja respeitado visualmente mesmo com o `display:grid` do estado normal.
+- Nenhuma outra mecânica do carrossel, do Álbum ou de outras experiências foi alterada.
+
+### Validação
+- Regra CSS inserida especificamente no bloco de estilo do convite do Álbum.
+- `js/photos.js` não foi alterado nesta correção.
+- Não foi executada validação visual em navegador neste ambiente.
+
 ## [1.6.1] — 2026-09-25
 
 ### Correção da transição Memórias → Álbum
